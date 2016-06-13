@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="sqlGetAllMovies" class="java.lang.String">
+        <constructor-arg value="select name_rus, name_eng, year, rating, group_concat(g.genre separator ', ') as genreList
+                                    from movie m
+                                    join genre_movie gm
+                                    on m.id = gm.id_movie
+                                    join genre g
+                                    on gm.id_genre = g.id
+                                    group by 1, 2, 3, 4"/>
+    </bean>
+
+    <bean id="sqlGetMoviesById" class="java.lang.String">
+        <constructor-arg value="select name_rus, name_eng, description, year, rating, group_concat(g.genre separator ', ') as genreList, group_concat(distinct cm.country separator ', ') as countryList
+                                    from movie m
+                                    join genre_movie gm
+                                    on m.id = gm.id_movie
+                                    join genre g
+                                    on gm.id_genre = g.id
+                                    join country_movie cm
+                                    on m.id = cm.movie_id
+                                    where m.id = ?
+                                    group by 1, 2, 3, 4, 5"/>
+    </bean>
+
+    <bean id="sqlGetReviewById" class="java.lang.String">
+        <constructor-arg value="select description
+                                from review
+                                where movie_id = ?"/>
+    </bean>
+
+</beans>
