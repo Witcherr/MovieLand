@@ -17,17 +17,17 @@ public class ConvertJsonTest {
         Movie movie1 = new Movie();
         ConvertJson convertJson = new ConvertJson();
         movie1.setTitleRussian("Ага");
-        movie1.setTittleEnglish("Aga");
+        movie1.setTitleEnglish("Aga");
         movie1.setYear(2016);
         movie1.setRating(7.4);
-        movie1.setGenre(Arrays.asList("Первый", "Второй"));
+        movie1.setGenreList(Arrays.asList("Первый", "Второй"));
 
         Movie movie2 = new Movie();
         movie2.setTitleRussian("Тест");
-        movie2.setTittleEnglish("Test");
+        movie2.setTitleEnglish("Test");
         movie2.setYear(2010);
         movie2.setRating(72.4);
-        movie2.setGenre(Arrays.asList("Второй", "Первый"));
+        movie2.setGenreList(Arrays.asList("Второй", "Первый"));
         List<Movie> movies = new ArrayList<>();
         movies.add(movie1);
         movies.add(movie2);
@@ -40,10 +40,10 @@ public class ConvertJsonTest {
         Movie movie = new Movie();
         ConvertJson convertJson = new ConvertJson();
         movie.setTitleRussian("Ага");
-        movie.setTittleEnglish("Aga");
+        movie.setTitleEnglish("Aga");
         movie.setYear(2016);
         movie.setRating(7.4);
-        movie.setGenre(Arrays.asList("Второй", "Первый", "Детектив"));
+        movie.setGenreList(Arrays.asList("Второй", "Первый", "Детектив"));
         movie.setDescription("Деттективная история...");
         movie.setCountryList( Arrays.asList("Бельгия", "Франция"));
         movie.setReviewList(Arrays.asList("Отличный фильм", "Супер", "Классный фильм, рекомендую!" ));

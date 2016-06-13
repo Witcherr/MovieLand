@@ -3,12 +3,10 @@ package com.potopalskyi.movieland.util;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.potopalskyi.movieland.entity.Movie;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class ConvertJson {
@@ -16,10 +14,10 @@ public class ConvertJson {
     public JsonObject toJsonObject(Movie movie){
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("titleRussian", movie.getTitleRussian());
-        jsonObject.addProperty("tittleEnglish", movie.getTittleEnglish());
+        jsonObject.addProperty("tittleEnglish", movie.getTitleEnglish());
         jsonObject.addProperty("year", movie.getYear());
         jsonObject.addProperty("rating", movie.getRating());
-        jsonObject.addProperty("genre", String.valueOf(movie.getGenre()));
+        jsonObject.addProperty("genre", String.valueOf(movie.getGenreList()));
         return jsonObject;
     }
 
@@ -27,10 +25,10 @@ public class ConvertJson {
         Gson gson = new Gson();
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("titleRussian", movie.getTitleRussian());
-        jsonObject.addProperty("tittleEnglish", movie.getTittleEnglish());
+        jsonObject.addProperty("tittleEnglish", movie.getTitleEnglish());
         jsonObject.addProperty("year", movie.getYear());
         jsonObject.addProperty("country",  String.valueOf(movie.getCountryList()));
-        jsonObject.addProperty("genre", String.valueOf(movie.getGenre()));
+        jsonObject.addProperty("genre", String.valueOf(movie.getGenreList()));
         jsonObject.addProperty("description", movie.getDescription());
         jsonObject.addProperty("reviews", String.valueOf(movie.getReviewList()));
         return gson.toJson(jsonObject);

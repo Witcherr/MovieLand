@@ -27,11 +27,11 @@ public class MovieDeatailedRowMapperTest {
         MovieDeatailedRowMapper mapper = new MovieDeatailedRowMapper();
         Movie movie = mapper.mapRow(resultSet, 0);
         assertEquals("Super", movie.getTitleRussian());
-        assertEquals("Test", movie.getTittleEnglish());
+        assertEquals("Test", movie.getTitleEnglish());
         assertEquals(2016, movie.getYear());
         assertEquals(9.2, movie.getRating(), 0.001);
         assertEquals("Супер фильм от создателей...", movie.getDescription());
-        assertEquals(movie.getGenre(), Arrays.asList("Action", "AA"));
+        assertEquals(movie.getGenreList(), Arrays.asList("Action", "AA"));
         assertEquals(Arrays.asList("Бельгия", "Франция"), movie.getCountryList());
     }
 }

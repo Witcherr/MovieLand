@@ -16,10 +16,10 @@ import java.util.List;
 public class MovieLandController {
 
     @Autowired
-    MovieLandService movieLandService;
+    private MovieLandService movieLandService;
 
     @Autowired
-    ConvertJson convertJson;
+    private ConvertJson convertJson;
 
     @RequestMapping(value ="/movies", produces = "text/plain;charset=UTF-8")
     @ResponseBody

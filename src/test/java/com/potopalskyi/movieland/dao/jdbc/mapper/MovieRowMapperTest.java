@@ -26,9 +26,9 @@ public class MovieRowMapperTest {
         MovieRowMapper mapper = new MovieRowMapper();
         Movie movie = mapper.mapRow(resultSet, 0);
         assertEquals("Super", movie.getTitleRussian());
-        assertEquals("Test", movie.getTittleEnglish());
+        assertEquals("Test", movie.getTitleEnglish());
         assertEquals(2016, movie.getYear());
         assertEquals(9.2, movie.getRating(), 0.001);
-        assertEquals(Arrays.asList("Action", "AA"), movie.getGenre());
+        assertEquals(Arrays.asList("Action", "AA"), movie.getGenreList());
     }
 }

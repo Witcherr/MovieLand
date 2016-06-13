@@ -13,11 +13,11 @@ public class MovieRowMapper implements RowMapper<Movie> {
     public Movie mapRow(ResultSet resultSet, int i) throws SQLException {
         Movie movie = new Movie();
         movie.setTitleRussian(resultSet.getString("name_rus"));
-        movie.setTittleEnglish(resultSet.getString("name_eng"));
+        movie.setTitleEnglish(resultSet.getString("name_eng"));
         movie.setYear(resultSet.getInt("year"));
         movie.setRating(resultSet.getDouble("rating"));
         String genres = resultSet.getString("genreList");
-        movie.setGenre(Arrays.asList(genres.split(",")));
+        movie.setGenreList(Arrays.asList(genres.split(",")));
         return movie;
     }
 }
