@@ -11,7 +11,7 @@ public class Movie {
     private String description;
     private List<Genre> genreList;
     private List<Review> reviewList;
-    private List<String> countryList;
+    private List<Country> countryList;
 
     public int getId() {
         return id;
@@ -77,11 +77,11 @@ public class Movie {
         this.reviewList = reviewList;
     }
 
-    public List<String> getCountryList() {
+    public List<Country> getCountryList() {
         return countryList;
     }
 
-    public void setCountryList(List<String> countryList) {
+    public void setCountryList(List<Country> countryList) {
         this.countryList = countryList;
     }
 
