@@ -1,7 +1,7 @@
 package com.potopalskyi.movieland.dao.jdbc;
 
 import com.potopalskyi.movieland.dao.MovieDAO;
-import com.potopalskyi.movieland.dao.jdbc.mapper.MovieDeatailedRowMapper;
+import com.potopalskyi.movieland.dao.jdbc.mapper.MovieDetailedRowMapper;
 import com.potopalskyi.movieland.dao.jdbc.mapper.MovieRowMapper;
 import com.potopalskyi.movieland.entity.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class MovieDAOImpl implements MovieDAO {
 
     @Override
     public Movie getMovieById(int id) {
-        return jdbcTemplate.queryForObject(getMoviesByIdSQL, new Object[]{id}, new MovieDeatailedRowMapper());
+        return jdbcTemplate.queryForObject(getMoviesByIdSQL, new Object[]{id}, new MovieDetailedRowMapper());
     }
 
     @Override

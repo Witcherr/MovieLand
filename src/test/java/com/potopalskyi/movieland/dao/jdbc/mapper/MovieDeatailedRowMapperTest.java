@@ -9,6 +9,8 @@ import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -18,13 +20,13 @@ public class MovieDeatailedRowMapperTest {
 
         ResultSet resultSet = mock(ResultSet.class);
         //
-        when(resultSet.getInt(any())).thenReturn(2016);
-        when(resultSet.getString(any())).thenReturn("Super").
+        when(resultSet.getInt(anyString())).thenReturn(2016);
+        when(resultSet.getString(anyString())).thenReturn("Super").
                 thenReturn("Test").thenReturn("Супер фильм от создателей...").thenReturn("Action,AA").
                 thenReturn("Бельгия,Франция");
-        when(resultSet.getDouble(any())).thenReturn(9.2);
+        when(resultSet.getDouble(anyString())).thenReturn(9.2);
 
-        MovieDeatailedRowMapper mapper = new MovieDeatailedRowMapper();
+        MovieDetailedRowMapper mapper = new MovieDetailedRowMapper();
         Movie movie = mapper.mapRow(resultSet, 0);
         assertEquals("Super", movie.getTitleRussian());
         assertEquals("Test", movie.getTitleEnglish());

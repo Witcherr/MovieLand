@@ -17,10 +17,6 @@
         <constructor-arg ref="dataSource"/>
     </bean>
 
-    <bean id="namedJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
-        <constructor-arg ref="dataSource"/>
-    </bean>
-
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>

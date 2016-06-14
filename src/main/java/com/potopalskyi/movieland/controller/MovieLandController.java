@@ -1,7 +1,7 @@
 package com.potopalskyi.movieland.controller;
 
 import com.potopalskyi.movieland.entity.Movie;
-import com.potopalskyi.movieland.service.MovieLandService;
+import com.potopalskyi.movieland.service.MovieService;
 import com.potopalskyi.movieland.util.ConvertJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,7 @@ import java.util.List;
 public class MovieLandController {
 
     @Autowired
-    private MovieLandService movieLandService;
+    private MovieService movieLandService;
 
     @Autowired
     private ConvertJson convertJson;

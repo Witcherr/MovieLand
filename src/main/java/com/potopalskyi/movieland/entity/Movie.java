@@ -9,8 +9,8 @@ public class Movie {
     private int year;
     private double rating;
     private String description;
-    private List<String> genreList;
-    private List<String> reviewList;
+    private List<Genre> genreList;
+    private List<Review> reviewList;
     private List<String> countryList;
 
     public int getId() {
@@ -37,7 +37,7 @@ public class Movie {
         return rating;
     }
 
-    public List<String> getGenreList() {
+    public List<Genre> getGenreList() {
         return genreList;
     }
 
@@ -57,7 +57,7 @@ public class Movie {
         this.rating = rating;
     }
 
-    public void setGenreList(List<String> genreList) {
+    public void setGenreList(List<Genre> genreList) {
         this.genreList = genreList;
     }
 
@@ -69,11 +69,11 @@ public class Movie {
         this.description = description;
     }
 
-    public List<String> getReviewList() {
+    public List<Review> getReviewList() {
         return reviewList;
     }
 
-    public void setReviewList(List<String> reviewList) {
+    public void setReviewList(List<Review> reviewList) {
         this.reviewList = reviewList;
     }
 

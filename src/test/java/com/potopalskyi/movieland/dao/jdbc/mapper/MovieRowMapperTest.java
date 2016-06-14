@@ -9,6 +9,7 @@ import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -18,10 +19,10 @@ public class MovieRowMapperTest {
     public void testMapRowWithProperMovie() throws SQLException {
         ResultSet resultSet = mock(ResultSet.class);
 
-        when(resultSet.getInt(any())).thenReturn(2016);
-        when(resultSet.getString(any())).thenReturn("Super").
+        when(resultSet.getInt(anyString())).thenReturn(2016);
+        when(resultSet.getString(anyString())).thenReturn("Super").
                 thenReturn("Test").thenReturn("Action,AA");
-        when(resultSet.getDouble(any())).thenReturn(9.2);
+        when(resultSet.getDouble(anyString())).thenReturn(9.2);
 
         MovieRowMapper mapper = new MovieRowMapper();
         Movie movie = mapper.mapRow(resultSet, 0);
