@@ -16,7 +16,7 @@ import java.util.List;
 public class MovieLandController {
 
     @Autowired
-    private MovieService movieLandService;
+    private MovieService movieService;
 
     @Autowired
     private ConvertJson convertJson;
@@ -24,14 +24,14 @@ public class MovieLandController {
     @RequestMapping(value ="/movies", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String getAllMovies(){
-        List<Movie> movies = movieLandService.getAllMovies();
+        List<Movie> movies = movieService.getAllMovies();
         return convertJson.toJson(movies);
     }
 
     @RequestMapping(value = "/movie/{movieId}", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String getMovieById(@PathVariable("movieId") int movieId){
-        Movie movie = movieLandService.getMovieById(movieId);
+        Movie movie = movieService.getMovieById(movieId);
         return convertJson.toJsonDetailed(movie);
     }
 }

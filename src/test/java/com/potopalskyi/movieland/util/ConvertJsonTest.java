@@ -1,5 +1,6 @@
 package com.potopalskyi.movieland.util;
 
+import com.potopalskyi.movieland.entity.Genre;
 import com.potopalskyi.movieland.entity.Movie;
 import org.junit.Test;
 
@@ -20,7 +21,8 @@ public class ConvertJsonTest {
         movie1.setTitleEnglish("Aga");
         movie1.setYear(2016);
         movie1.setRating(7.4);
-        //movie1.setGenreList(Arrays.asList("Первый", "Второй"));
+
+        movie1.setGenreList(Arrays.asList(new Genre(1, "Первый"), new Genre(2, "Второй")));
 
         Movie movie2 = new Movie();
         movie2.setTitleRussian("Тест");
@@ -28,9 +30,11 @@ public class ConvertJsonTest {
         movie2.setYear(2010);
         movie2.setRating(72.4);
         //movie2.setGenreList(Arrays.asList("Второй", "Первый"));
+        movie2.setGenreList(Arrays.asList(new Genre(1, "Первый"), new Genre(2, "Второй")));
         List<Movie> movies = new ArrayList<>();
         movies.add(movie1);
         movies.add(movie2);
+        System.out.println(convertJson.toJson(movies));
         assertEquals(expectedJson, convertJson.toJson(movies));
     }
 
@@ -45,7 +49,7 @@ public class ConvertJsonTest {
         movie.setRating(7.4);
         //movie.setGenreList(Arrays.asList("Второй", "Первый", "Детектив"));
         movie.setDescription("Деттективная история...");
-        movie.setCountryList( Arrays.asList("Бельгия", "Франция"));
+        //movie.setCountryList( Arrays.asList("Бельгия", "Франция"));
         //movie.setReviewList(Arrays.asList("Отличный фильм", "Супер", "Классный фильм, рекомендую!" ));
         assertEquals(expectedJson, convertJson.toJsonDetailed(movie));
     }

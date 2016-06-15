@@ -17,7 +17,7 @@ public class ConvertJson {
         jsonObject.addProperty("tittleEnglish", movie.getTitleEnglish());
         jsonObject.addProperty("year", movie.getYear());
         jsonObject.addProperty("rating", movie.getRating());
-        jsonObject.addProperty("genre", String.valueOf(movie.getGenreList()));
+        jsonObject.addProperty("genre", /*String.valueOf(movie.getGenreList()*/ movie.getGenreList().toString());
         return jsonObject;
     }
 

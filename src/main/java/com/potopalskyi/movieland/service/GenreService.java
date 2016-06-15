@@ -3,6 +3,8 @@ package com.potopalskyi.movieland.service;
 import com.potopalskyi.movieland.entity.Genre;
 import com.potopalskyi.movieland.entity.Movie;
 
+import java.util.List;
+
 public interface GenreService {
-    public Genre getByMovie(Movie movie);
+    public List<Genre> getByMovie(Movie movie);
 }

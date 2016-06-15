@@ -1,7 +1,9 @@
 package com.potopalskyi.movieland.service.impl;
 
 import com.potopalskyi.movieland.dao.MovieDAO;
+import com.potopalskyi.movieland.entity.Genre;
 import com.potopalskyi.movieland.entity.Movie;
+import com.potopalskyi.movieland.service.GenreService;
 import com.potopalskyi.movieland.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +16,16 @@ public class MovieServiceImpl implements MovieService {
     @Autowired
     MovieDAO movieDAO;
 
+    @Autowired
+    GenreService genreService;
+
     @Override
     public List<Movie> getAllMovies() {
-        return movieDAO.getAllMovies();
+        List<Movie> movies = movieDAO.getAllMovies();
+        for(Movie movie: movies){
+            movie.setGenreList(genreService.getByMovie(movie));
+        }
+        return movies;
     }
 
     @Override

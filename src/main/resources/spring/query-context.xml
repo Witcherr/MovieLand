@@ -6,13 +6,8 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <bean id="getAllMoviesSQL" class="java.lang.String">
-        <constructor-arg value="select name_rus, name_eng, year, rating, group_concat(g.genre separator ', ') as genreList
-                                    from movie m
-                                    join genre_movie gm
-                                    on m.id = gm.id_movie
-                                    join genre g
-                                    on gm.id_genre = g.id
-                                    group by 1, 2, 3, 4"/>
+        <constructor-arg value="select id, name_rus, name_eng, year, rating
+                                from movie m"/>
     </bean>
 
     <bean id="getMoviesByIdSQL" class="java.lang.String">
@@ -32,6 +27,14 @@
         <constructor-arg value="select description
                                 from review
                                 where movie_id = ?"/>
+    </bean>
+
+    <bean id="getGenreByMovieSQL" class="java.lang.String">
+        <constructor-arg value="select g.id, g.genre
+                                from genre g
+                                join genre_movie gm
+                                on g.id = gm.id_genre
+                                where gm.id_movie = ?"/>
     </bean>
 
 </beans>
