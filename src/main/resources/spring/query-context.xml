@@ -23,18 +23,26 @@
                                     group by 1, 2, 3, 4, 5"/>
     </bean>
 
-    <bean id="getReviewByIdSQL" class="java.lang.String">
-        <constructor-arg value="select description
-                                from review
-                                where movie_id = ?"/>
-    </bean>
-
-    <bean id="getGenreByMovieSQL" class="java.lang.String">
+    <bean id="getGenreByIdSQL" class="java.lang.String">
         <constructor-arg value="select g.id, g.genre
                                 from genre g
                                 join genre_movie gm
                                 on g.id = gm.id_genre
                                 where gm.id_movie = ?"/>
+    </bean>
+
+    <bean id="getCountryByIdSQL" class="java.lang.String">
+        <constructor-arg value="select c.id, c.name
+                                from country c
+                                join country_movie cm
+                                on c.id = cm.country_id
+                                where cm.movie_id = ?"/>
+    </bean>
+
+    <bean id="getReviewByMovieIdSQL" class="java.lang.String">
+        <constructor-arg value="select description
+                                from review
+                                where movie_id = ?"/>
     </bean>
 
 </beans>

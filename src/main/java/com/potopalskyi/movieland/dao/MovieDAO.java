@@ -9,6 +9,4 @@ public interface MovieDAO {
     List<Movie> getAllMovies();
 
     Movie getMovieById(int id);
-
-    List<String> getReviewById(int id);
 }

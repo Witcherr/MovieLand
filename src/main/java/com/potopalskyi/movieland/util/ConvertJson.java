@@ -1,7 +1,12 @@
 package com.potopalskyi.movieland.util;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.potopalskyi.movieland.controller.dto.ConvertToDTO;
+import com.potopalskyi.movieland.controller.dto.MovieDTO;
+import com.potopalskyi.movieland.entity.Genre;
 import com.potopalskyi.movieland.entity.Movie;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +16,10 @@ import java.util.List;
 @Service
 public class ConvertJson {
 
-    public JsonObject toJsonObject(Movie movie){
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("titleRussian", movie.getTitleRussian());
-        jsonObject.addProperty("tittleEnglish", movie.getTitleEnglish());
-        jsonObject.addProperty("year", movie.getYear());
-        jsonObject.addProperty("rating", movie.getRating());
-        jsonObject.addProperty("genre", /*String.valueOf(movie.getGenreList()*/ movie.getGenreList().toString());
-        return jsonObject;
+    public JsonElement toJsonElement(Movie movie){
+        Gson gson = new Gson();
+        MovieDTO movieDTO = ConvertToDTO.convertMovieToDTO(movie);
+        return gson.toJsonTree(movieDTO);
     }
 
     public String toJsonDetailed(Movie movie) {
@@ -36,9 +37,9 @@ public class ConvertJson {
 
     public String toJson(List<Movie> movies) {
         Gson gson = new Gson();
-        List<JsonObject> list = new ArrayList<>();
+        List<JsonElement> list = new ArrayList<>();
         for(Movie movie: movies){
-            list.add(toJsonObject(movie));
+            list.add(toJsonElement(movie));
         }
         return gson.toJson(list);
     }

@@ -6,5 +6,5 @@ import com.potopalskyi.movieland.entity.Movie;
 import java.util.List;
 
 public interface GenreService {
-    public List<Genre> getByMovie(Movie movie);
+    public List<Genre> getGenreById(int id);
 }

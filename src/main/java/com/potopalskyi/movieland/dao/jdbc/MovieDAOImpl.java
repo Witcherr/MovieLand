@@ -22,9 +22,6 @@ public class MovieDAOImpl implements MovieDAO {
     @Autowired
     private String getMoviesByIdSQL;
 
-    @Autowired
-    private String getReviewByIdSQL;
-
     @Override
     public List<Movie> getAllMovies() {
         return jdbcTemplate.query(getAllMoviesSQL, new MovieRowMapper());
@@ -35,8 +32,4 @@ public class MovieDAOImpl implements MovieDAO {
         return jdbcTemplate.queryForObject(getMoviesByIdSQL, new Object[]{id}, new MovieDetailedRowMapper());
     }
 
-    @Override
-    public List<String> getReviewById(int id) {
-        return jdbcTemplate.queryForList(getReviewByIdSQL, new Object[]{id}, String.class);
-    }
 }

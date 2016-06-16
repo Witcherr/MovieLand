@@ -14,7 +14,7 @@ public class ConvertJsonTest {
 
     @Test
     public void toJsonTest(){
-        String expectedJson = "[{\"titleRussian\":\"Ага\",\"tittleEnglish\":\"Aga\",\"year\":2016,\"rating\":7.4,\"genre\":\"[Первый, Второй]\"},{\"titleRussian\":\"Тест\",\"tittleEnglish\":\"Test\",\"year\":2010,\"rating\":72.4,\"genre\":\"[Второй, Первый]\"}]";
+        String expectedJson = "[{\"titleRussian\":\"Ага\",\"titleEnglish\":\"Aga\",\"year\":2016,\"rating\":7.4,\"genre\":\"[Первый, Второй]\"},{\"titleRussian\":\"Тест\",\"titleEnglish\":\"Test\",\"year\":2010,\"rating\":72.4,\"genre\":\"[Второй, Первый]\"}]";
         Movie movie1 = new Movie();
         ConvertJson convertJson = new ConvertJson();
         movie1.setTitleRussian("Ага");
@@ -30,7 +30,7 @@ public class ConvertJsonTest {
         movie2.setYear(2010);
         movie2.setRating(72.4);
         //movie2.setGenreList(Arrays.asList("Второй", "Первый"));
-        movie2.setGenreList(Arrays.asList(new Genre(1, "Первый"), new Genre(2, "Второй")));
+        movie2.setGenreList(Arrays.asList(new Genre(1, "Второй"), new Genre(2, "Первый")));
         List<Movie> movies = new ArrayList<>();
         movies.add(movie1);
         movies.add(movie2);
