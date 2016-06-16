@@ -1,0 +1,50 @@
+package com.potopalskyi.movieland.controller.dto;
+
+import com.potopalskyi.movieland.entity.Country;
+import com.potopalskyi.movieland.entity.Genre;
+import com.potopalskyi.movieland.entity.Movie;
+import com.potopalskyi.movieland.entity.Review;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ConvertToDTO {
+    public static MovieDTO convertToMovieDTO(Movie movie){
+        MovieDTO movieDTO = new MovieDTO();
+        List<String> genres = new ArrayList<>();
+        movieDTO.setTitleRussian(movie.getTitleRussian());
+        movieDTO.setTitleEnglish(movie.getTitleEnglish());
+        movieDTO.setYear(movie.getYear());
+        movieDTO.setRating(movie.getRating());
+        for(Genre genre: movie.getGenreList()){
+            genres.add(genre.getName());
+        }
+        movieDTO.setGenre(genres);
+        return movieDTO;
+    }
+
+    public static MovieDetailedDTO convertToDetailedMovieDTO(Movie movie){
+        MovieDetailedDTO movieDetailedDTO = new MovieDetailedDTO();
+        List<String> tempList = new ArrayList<>();
+        movieDetailedDTO.setTitleRussian(movie.getTitleRussian());
+        movieDetailedDTO.setTitleEnglish(movie.getTitleEnglish());
+        movieDetailedDTO.setYear(movie.getYear());
+        movieDetailedDTO.setDescription(movie.getDescription());
+        movieDetailedDTO.setRating(movie.getRating());
+        for(Country country: movie.getCountryList()){
+            tempList.add(country.getName());
+        }
+        movieDetailedDTO.setCountry(tempList);
+        tempList = new ArrayList<>();
+        for(Genre genre: movie.getGenreList()){
+            tempList.add(genre.getName());
+        }
+        movieDetailedDTO.setGenre(tempList);
+        tempList = new ArrayList<>();
+        for(Review review: movie.getReviewList()){
+            tempList.add(review.getDescription());
+        }
+        movieDetailedDTO.setReview(tempList);
+        return movieDetailedDTO;
+    }
+}

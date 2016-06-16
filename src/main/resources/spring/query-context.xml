@@ -5,17 +5,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="sqlGetAllMovies" class="java.lang.String">
-        <constructor-arg value="select name_rus, name_eng, year, rating, group_concat(g.genre separator ', ') as genreList
-                                    from movie m
-                                    join genre_movie gm
-                                    on m.id = gm.id_movie
-                                    join genre g
-                                    on gm.id_genre = g.id
-                                    group by 1, 2, 3, 4"/>
+    <bean id="getAllMoviesSQL" class="java.lang.String">
+        <constructor-arg value="select id, name_rus, name_eng, year, rating
+                                from movie m"/>
     </bean>
 
-    <bean id="sqlGetMoviesById" class="java.lang.String">
+    <bean id="getMoviesByIdSQL" class="java.lang.String">
         <constructor-arg value="select name_rus, name_eng, description, year, rating, group_concat(g.genre separator ', ') as genreList, group_concat(distinct cm.country separator ', ') as countryList
                                     from movie m
                                     join genre_movie gm
@@ -28,7 +23,23 @@
                                     group by 1, 2, 3, 4, 5"/>
     </bean>
 
-    <bean id="sqlGetReviewById" class="java.lang.String">
+    <bean id="getGenreByIdSQL" class="java.lang.String">
+        <constructor-arg value="select g.id, g.genre
+                                from genre g
+                                join genre_movie gm
+                                on g.id = gm.id_genre
+                                where gm.id_movie = ?"/>
+    </bean>
+
+    <bean id="getCountryByIdSQL" class="java.lang.String">
+        <constructor-arg value="select c.id, c.name
+                                from country c
+                                join country_movie cm
+                                on c.id = cm.country_id
+                                where cm.movie_id = ?"/>
+    </bean>
+
+    <bean id="getReviewByMovieIdSQL" class="java.lang.String">
         <constructor-arg value="select description
                                 from review
                                 where movie_id = ?"/>

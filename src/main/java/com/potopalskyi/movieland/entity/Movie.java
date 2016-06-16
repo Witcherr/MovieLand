@@ -5,13 +5,13 @@ import java.util.List;
 public class Movie {
     private int id;
     private String titleRussian;
-    private String tittleEnglish;
+    private String titleEnglish;
     private int year;
     private double rating;
     private String description;
-    private List<String> genre;
-    private List<String> reviewList;
-    private List<String> countryList;
+    private List<Genre> genreList;
+    private List<Review> reviewList;
+    private List<Country> countryList;
 
     public int getId() {
         return id;
@@ -25,8 +25,8 @@ public class Movie {
         return titleRussian;
     }
 
-    public String getTittleEnglish() {
-        return tittleEnglish;
+    public String getTitleEnglish() {
+        return titleEnglish;
     }
 
     public int getYear() {
@@ -37,16 +37,16 @@ public class Movie {
         return rating;
     }
 
-    public List<String> getGenre() {
-        return genre;
+    public List<Genre> getGenreList() {
+        return genreList;
     }
 
     public void setTitleRussian(String titleRussian) {
         this.titleRussian = titleRussian;
     }
 
-    public void setTittleEnglish(String tittleEnglish) {
-        this.tittleEnglish = tittleEnglish;
+    public void setTitleEnglish(String titleEnglish) {
+        this.titleEnglish = titleEnglish;
     }
 
     public void setYear(int year) {
@@ -57,8 +57,8 @@ public class Movie {
         this.rating = rating;
     }
 
-    public void setGenre(List<String> genre) {
-        this.genre = genre;
+    public void setGenreList(List<Genre> genreList) {
+        this.genreList = genreList;
     }
 
     public String getDescription() {
@@ -69,19 +69,19 @@ public class Movie {
         this.description = description;
     }
 
-    public List<String> getReviewList() {
+    public List<Review> getReviewList() {
         return reviewList;
     }
 
-    public void setReviewList(List<String> reviewList) {
+    public void setReviewList(List<Review> reviewList) {
         this.reviewList = reviewList;
     }
 
-    public List<String> getCountryList() {
+    public List<Country> getCountryList() {
         return countryList;
     }
 
-    public void setCountryList(List<String> countryList) {
+    public void setCountryList(List<Country> countryList) {
         this.countryList = countryList;
     }
 
@@ -90,11 +90,11 @@ public class Movie {
         return "Movie{" +
                 "id=" + id +
                 ", titleRussian='" + titleRussian + '\'' +
-                ", tittleEnglish='" + tittleEnglish + '\'' +
+                ", titleEnglish='" + titleEnglish + '\'' +
                 ", year=" + year +
                 ", rating=" + rating +
                 ", description='" + description + '\'' +
-                ", genre=" + genre +
+                ", genreList=" + genreList +
                 ", reviewList=" + reviewList +
                 ", countryList=" + countryList +
                 '}';

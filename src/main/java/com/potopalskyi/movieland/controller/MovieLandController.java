@@ -1,7 +1,7 @@
 package com.potopalskyi.movieland.controller;
 
 import com.potopalskyi.movieland.entity.Movie;
-import com.potopalskyi.movieland.service.MovieLandService;
+import com.potopalskyi.movieland.service.MovieService;
 import com.potopalskyi.movieland.util.ConvertJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,22 +16,22 @@ import java.util.List;
 public class MovieLandController {
 
     @Autowired
-    MovieLandService movieLandService;
+    private MovieService movieService;
 
     @Autowired
-    ConvertJson convertJson;
+    private ConvertJson convertJson;
 
     @RequestMapping(value ="/movies", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String getAllMovies(){
-        List<Movie> movies = movieLandService.getAllMovies();
+        List<Movie> movies = movieService.getAllMovies();
         return convertJson.toJson(movies);
     }
 
     @RequestMapping(value = "/movie/{movieId}", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String getMovieById(@PathVariable("movieId") int movieId){
-        Movie movie = movieLandService.getMovieById(movieId);
+        Movie movie = movieService.getMovieById(movieId);
         return convertJson.toJsonDetailed(movie);
     }
 }

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface MovieLandService {
+public interface MovieService {
     List<Movie> getAllMovies();
 
     Movie getMovieById(int id);

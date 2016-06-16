@@ -8,7 +8,5 @@ import java.util.List;
 public interface MovieDAO {
     List<Movie> getAllMovies();
 
-    Movie getMovieById(int i);
-
-    List<String> getReviewById(int i);
+    Movie getMovieById(int id);
 }
