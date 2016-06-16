@@ -2,9 +2,11 @@ package com.potopalskyi.movieland.service.impl;
 
 import com.potopalskyi.movieland.dao.MovieDAO;
 import com.potopalskyi.movieland.entity.Movie;
+import com.potopalskyi.movieland.entity.Review;
 import com.potopalskyi.movieland.service.CountryService;
 import com.potopalskyi.movieland.service.GenreService;
 import com.potopalskyi.movieland.service.MovieService;
+import com.potopalskyi.movieland.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,9 @@ public class MovieServiceImpl implements MovieService {
     @Autowired
     CountryService countryService;
 
+    @Autowired
+    ReviewService reviewService;
+
     @Override
     public List<Movie> getAllMovies() {
         List<Movie> movies = movieDAO.getAllMovies();
@@ -34,12 +39,14 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie getMovieById(int id) {
         Movie movie = movieDAO.getMovieById(id);
-        /*List<String> reviews = movieDAO.getReviewById(id);
+        movie.setGenreList(genreService.getGenreById(id));
+        movie.setCountryList(countryService.getCountryById(id));
+        List<Review> reviews = reviewService.getReviewByMovieId(id);
         if (reviews.size()>= 2){
-            //movie.setReviewList(reviews.subList(0, 2));
+            movie.setReviewList(reviews.subList(0, 2));
         } else if (reviews.size() == 1){
-            //movie.setReviewList(reviews);
-        }*/
+            movie.setReviewList(reviews);
+        }
         return movie;
     }
 }

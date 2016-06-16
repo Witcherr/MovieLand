@@ -3,23 +3,14 @@ package com.potopalskyi.movieland.controller.dto;
 import java.util.List;
 
 public class MovieDetailedDTO {
-    private int id;
     private String titleRussian;
     private String titleEnglish;
     private int year;
-    private double rating;
+    private List<String> country;
+    private List<String> genre;
     private String description;
-    private List<String> genreList;
-    private List<String> reviewList;
-    private List<String> countryList;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    private List<String> review;
+    private double rating;
 
     public String getTitleRussian() {
         return titleRussian;
@@ -61,27 +52,27 @@ public class MovieDetailedDTO {
         this.description = description;
     }
 
-    public List<String> getGenreList() {
-        return genreList;
+    public List<String> getGenre() {
+        return genre;
     }
 
-    public void setGenreList(List<String> genreList) {
-        this.genreList = genreList;
+    public void setGenre(List<String> genre) {
+        this.genre = genre;
     }
 
-    public List<String> getReviewList() {
-        return reviewList;
+    public List<String> getReview() {
+        return review;
     }
 
-    public void setReviewList(List<String> reviewList) {
-        this.reviewList = reviewList;
+    public void setReview(List<String> review) {
+        this.review = review;
     }
 
-    public List<String> getCountryList() {
-        return countryList;
+    public List<String> getCountry() {
+        return country;
     }
 
-    public void setCountryList(List<String> countryList) {
-        this.countryList = countryList;
+    public void setCountry(List<String> country) {
+        this.country = country;
     }
 }

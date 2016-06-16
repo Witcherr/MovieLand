@@ -1,12 +1,11 @@
 package com.potopalskyi.movieland.util;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.potopalskyi.movieland.controller.dto.ConvertToDTO;
 import com.potopalskyi.movieland.controller.dto.MovieDTO;
-import com.potopalskyi.movieland.entity.Genre;
+import com.potopalskyi.movieland.controller.dto.MovieDetailedDTO;
 import com.potopalskyi.movieland.entity.Movie;
 import org.springframework.stereotype.Service;
 
@@ -18,21 +17,14 @@ public class ConvertJson {
 
     public JsonElement toJsonElement(Movie movie){
         Gson gson = new Gson();
-        MovieDTO movieDTO = ConvertToDTO.convertMovieToDTO(movie);
+        MovieDTO movieDTO = ConvertToDTO.convertToMovieDTO(movie);
         return gson.toJsonTree(movieDTO);
     }
 
     public String toJsonDetailed(Movie movie) {
         Gson gson = new Gson();
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("titleRussian", movie.getTitleRussian());
-        jsonObject.addProperty("tittleEnglish", movie.getTitleEnglish());
-        jsonObject.addProperty("year", movie.getYear());
-        jsonObject.addProperty("country",  String.valueOf(movie.getCountryList()));
-        jsonObject.addProperty("genre", String.valueOf(movie.getGenreList()));
-        jsonObject.addProperty("description", movie.getDescription());
-        jsonObject.addProperty("reviews", String.valueOf(movie.getReviewList()));
-        return gson.toJson(jsonObject);
+        MovieDetailedDTO movieDetailedDTO = ConvertToDTO.convertToDetailedMovieDTO(movie);
+        return gson.toJson(movieDetailedDTO);
     }
 
     public String toJson(List<Movie> movies) {

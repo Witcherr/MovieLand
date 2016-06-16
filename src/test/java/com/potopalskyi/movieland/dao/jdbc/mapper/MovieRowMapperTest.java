@@ -16,12 +16,11 @@ import static org.mockito.Mockito.when;
 public class MovieRowMapperTest {
 
     @Test
-    public void testMapRowWithProperMovie() throws SQLException {
+    public void mapRowWithProperMovieTest() throws SQLException {
         ResultSet resultSet = mock(ResultSet.class);
-
         when(resultSet.getInt(anyString())).thenReturn(2016);
         when(resultSet.getString(anyString())).thenReturn("Super").
-                thenReturn("Test").thenReturn("Action,AA");
+                thenReturn("Test");
         when(resultSet.getDouble(anyString())).thenReturn(9.2);
 
         MovieRowMapper mapper = new MovieRowMapper();
@@ -30,6 +29,5 @@ public class MovieRowMapperTest {
         assertEquals("Test", movie.getTitleEnglish());
         assertEquals(2016, movie.getYear());
         assertEquals(9.2, movie.getRating(), 0.001);
-        assertEquals(Arrays.asList("Action", "AA"), movie.getGenreList());
     }
 }

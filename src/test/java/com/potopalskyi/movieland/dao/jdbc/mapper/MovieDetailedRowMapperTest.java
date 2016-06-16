@@ -14,16 +14,13 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class MovieDeatailedRowMapperTest {
+public class MovieDetailedRowMapperTest {
     @Test
-    public void testMapRowWithProperMovie() throws SQLException {
-
+    public void mapRowWithProperMovieTest() throws SQLException {
         ResultSet resultSet = mock(ResultSet.class);
-        //
         when(resultSet.getInt(anyString())).thenReturn(2016);
         when(resultSet.getString(anyString())).thenReturn("Super").
-                thenReturn("Test").thenReturn("Супер фильм от создателей...").thenReturn("Action,AA").
-                thenReturn("Бельгия,Франция");
+                thenReturn("Test").thenReturn("Супер фильм от создателей...");
         when(resultSet.getDouble(anyString())).thenReturn(9.2);
 
         MovieDetailedRowMapper mapper = new MovieDetailedRowMapper();
@@ -33,7 +30,5 @@ public class MovieDeatailedRowMapperTest {
         assertEquals(2016, movie.getYear());
         assertEquals(9.2, movie.getRating(), 0.001);
         assertEquals("Супер фильм от создателей...", movie.getDescription());
-        assertEquals(movie.getGenreList(), Arrays.asList("Action", "AA"));
-        assertEquals(Arrays.asList("Бельгия", "Франция"), movie.getCountryList());
     }
 }
