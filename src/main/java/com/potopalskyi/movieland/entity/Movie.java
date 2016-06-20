@@ -8,6 +8,7 @@ public class Movie {
     private String titleEnglish;
     private int year;
     private double rating;
+    private double price;
     private String description;
     private List<Genre> genreList;
     private List<Review> reviewList;
@@ -85,6 +86,14 @@ public class Movie {
         this.countryList = countryList;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +
@@ -93,6 +102,7 @@ public class Movie {
                 ", titleEnglish='" + titleEnglish + '\'' +
                 ", year=" + year +
                 ", rating=" + rating +
+                ", price=" + price +
                 ", description='" + description + '\'' +
                 ", genreList=" + genreList +
                 ", reviewList=" + reviewList +

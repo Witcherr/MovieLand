@@ -4,6 +4,8 @@ import com.potopalskyi.movieland.dao.MovieDAO;
 import com.potopalskyi.movieland.dao.jdbc.mapper.MovieDetailedRowMapper;
 import com.potopalskyi.movieland.dao.jdbc.mapper.MovieRowMapper;
 import com.potopalskyi.movieland.entity.Movie;
+import com.potopalskyi.movieland.entity.MovieSearchParam;
+import com.potopalskyi.movieland.util.GeneratorSQL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -22,9 +24,17 @@ public class MovieDAOImpl implements MovieDAO {
     @Autowired
     private String getMoviesByIdSQL;
 
+    @Autowired
+    private GeneratorSQL generatorSQL;
+
     @Override
     public List<Movie> getAllMovies() {
         return jdbcTemplate.query(getAllMoviesSQL, new MovieRowMapper());
+    }
+
+    @Override
+    public List<Movie> getMoviesBySearch(MovieSearchParam movieSearchParam) {
+        return jdbcTemplate.query(generatorSQL.generateSearchMovies(movieSearchParam), new MovieRowMapper());
     }
 
     @Override

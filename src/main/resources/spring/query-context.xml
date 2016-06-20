@@ -6,7 +6,7 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <bean id="getAllMoviesSQL" class="java.lang.String">
-        <constructor-arg value="select id, name_rus, name_eng, year, rating
+        <constructor-arg value="select id, name_rus, name_eng, year, rating, price
                                 from movie m"/>
     </bean>
 
