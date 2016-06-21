@@ -1,12 +1,12 @@
 package com.potopalskyi.movieland.entity.enums;
 
-public enum Ordering {
+public enum SortType {
 
     ASC("asc"), DESC("desc");
 
     private String sortId;
 
-    Ordering(String sortId){
+    SortType(String sortId){
         this.sortId = sortId;
     }
 

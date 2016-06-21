@@ -17,8 +17,11 @@ public class ReviewDAOImpl implements ReviewDAO{
     @Autowired
     private String getReviewByMovieIdSQL;
 
+    @Autowired
+    private ReviewRowMapper reviewRowMapper;
+
     @Override
     public List<Review> getReviewByMovieId(int id) {
-        return jdbcTemplate.query(getReviewByMovieIdSQL, new Object[]{id}, new ReviewRowMapper());
+        return jdbcTemplate.query(getReviewByMovieIdSQL, new Object[]{id}, reviewRowMapper);
     }
 }

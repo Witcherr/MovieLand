@@ -22,27 +22,28 @@ public class MovieController {
     @Autowired
     private ConvertJson convertJson;
 
-    @RequestMapping(value = "/movies", produces = "text/plain;charset=UTF-8")
+    @RequestMapping(value = "/movies", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String getAllMovies(@RequestParam(value = "rating", required = false) String ratingOrder, @RequestParam(value = "price", required = false) String priceOrder) {
+    public ResponseEntity<String> getAllMovies(@RequestParam(value = "rating", required = false) String ratingOrder,
+                               @RequestParam(value = "price", required = false) String priceOrder) {
         List<Movie> movies = movieService.getAllMovies(ratingOrder, priceOrder);
-        return convertJson.toJson(movies);
+        return new ResponseEntity<>(convertJson.toJson(movies), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/movie/{movieId}", produces = "text/plain;charset=UTF-8")
+    @RequestMapping(value = "/movie/{movieId}", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String getMovieById(@PathVariable("movieId") int movieId) {
+    public ResponseEntity<String> getMovieById(@PathVariable("movieId") int movieId) {
         Movie movie = movieService.getMovieById(movieId);
-        return convertJson.toJsonDetailed(movie);
+        return new ResponseEntity<>(convertJson.toJsonDetailed(movie), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/search", produces = "text/plain;charset=UTF-8", method = RequestMethod.POST)
+    @RequestMapping(value = "/movies/search", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<String> getMoviesBySearch(@RequestBody String json) {
         MovieSearchParam movieSearchParam = convertJson.toMovieSearchParam(json);
         List<Movie> movies = movieService.getMoviesBySearch(movieSearchParam);
         if (movies == null) {
-            return new ResponseEntity<>("There were not found films", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("There were not found films", HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(convertJson.toJson(movies), HttpStatus.OK);
     }

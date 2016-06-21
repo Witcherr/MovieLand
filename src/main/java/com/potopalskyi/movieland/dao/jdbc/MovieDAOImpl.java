@@ -27,19 +27,25 @@ public class MovieDAOImpl implements MovieDAO {
     @Autowired
     private GeneratorSQL generatorSQL;
 
+    @Autowired
+    private MovieRowMapper movieRowMapper;
+
+    @Autowired
+    private MovieDetailedRowMapper movieDetailedRowMapper;
+
     @Override
     public List<Movie> getAllMovies() {
-        return jdbcTemplate.query(getAllMoviesSQL, new MovieRowMapper());
+        return jdbcTemplate.query(getAllMoviesSQL, movieRowMapper);
     }
 
     @Override
     public List<Movie> getMoviesBySearch(MovieSearchParam movieSearchParam) {
-        return jdbcTemplate.query(generatorSQL.generateSearchMovies(movieSearchParam), new MovieRowMapper());
+        return jdbcTemplate.query(generatorSQL.generateSearchMovies(movieSearchParam), movieRowMapper);
     }
 
     @Override
     public Movie getMovieById(int id) {
-        return jdbcTemplate.queryForObject(getMoviesByIdSQL, new Object[]{id}, new MovieDetailedRowMapper());
+        return jdbcTemplate.queryForObject(getMoviesByIdSQL, new Object[]{id}, movieDetailedRowMapper);
     }
 
 }

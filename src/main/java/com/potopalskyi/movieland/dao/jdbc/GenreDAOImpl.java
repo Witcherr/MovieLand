@@ -18,8 +18,11 @@ public class GenreDAOImpl implements GenreDAO{
     @Autowired
     private String getGenreByIdSQL;
 
+    @Autowired
+    private GenreRowMapper genreRowMapper;
+
     @Override
     public List<Genre> getGenreById(int id) {
-        return jdbcTemplate.query(getGenreByIdSQL, new Object[] {id}, new GenreRowMapper());
+        return jdbcTemplate.query(getGenreByIdSQL, new Object[] {id}, genreRowMapper);
     }
 }

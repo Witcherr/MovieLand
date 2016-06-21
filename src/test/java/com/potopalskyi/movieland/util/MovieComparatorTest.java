@@ -12,12 +12,12 @@ import static org.junit.Assert.assertEquals;
 
 public class MovieComparatorTest {
 
-    private static List<Movie> movies;
-    private static Movie movie1;
-    private static Movie movie2;
-    private static Movie movie3;
-    private static Movie movie4;
-    private static Movie movie5;
+    static List<Movie> movies;
+    static Movie movie1;
+    static Movie movie2;
+    static Movie movie3;
+    static Movie movie4;
+    static Movie movie5;
 
     @BeforeClass
     public static void setUpBeforeClass() {
