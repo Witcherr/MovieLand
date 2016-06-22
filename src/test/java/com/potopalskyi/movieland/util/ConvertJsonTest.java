@@ -6,7 +6,6 @@ import com.potopalskyi.movieland.entity.Movie;
 import com.potopalskyi.movieland.entity.Review;
 import org.junit.Test;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

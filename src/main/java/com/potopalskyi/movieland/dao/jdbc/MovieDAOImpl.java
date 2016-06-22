@@ -6,14 +6,19 @@ import com.potopalskyi.movieland.dao.jdbc.mapper.MovieRowMapper;
 import com.potopalskyi.movieland.entity.Movie;
 import com.potopalskyi.movieland.entity.MovieSearchParam;
 import com.potopalskyi.movieland.util.GeneratorSQL;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class MovieDAOImpl implements MovieDAO {
+    Logger logger = LoggerFactory.getLogger(MovieDAOImpl.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -35,17 +40,31 @@ public class MovieDAOImpl implements MovieDAO {
 
     @Override
     public List<Movie> getAllMovies() {
-        return jdbcTemplate.query(getAllMoviesSQL, movieRowMapper);
+        try {
+            return jdbcTemplate.query(getAllMoviesSQL, movieRowMapper);
+        }catch (EmptyResultDataAccessException e){
+            logger.warn("Database of movies is empty");
+            return new ArrayList<>();
+        }
     }
 
     @Override
     public List<Movie> getMoviesBySearch(MovieSearchParam movieSearchParam) {
-        return jdbcTemplate.query(generatorSQL.generateSearchMovies(movieSearchParam), movieRowMapper);
+        try {
+            return jdbcTemplate.query(generatorSQL.generateSearchMovies(movieSearchParam), movieRowMapper);
+        }catch (EmptyResultDataAccessException e){
+            logger.warn("There are no movies with params " + movieSearchParam);
+            return new ArrayList<>();
+        }
     }
 
     @Override
     public Movie getMovieById(int id) {
-        return jdbcTemplate.queryForObject(getMoviesByIdSQL, new Object[]{id}, movieDetailedRowMapper);
+        try {
+            return jdbcTemplate.queryForObject(getMoviesByIdSQL, new Object[]{id}, movieDetailedRowMapper);
+        }catch (EmptyResultDataAccessException e){
+            logger.warn("The movie with id = " + id + " doesn't exist");
+            return new Movie();
+        }
     }
-
 }

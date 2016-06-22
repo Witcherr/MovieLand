@@ -1,6 +1,7 @@
 package com.potopalskyi.movieland.util;
 
 import com.potopalskyi.movieland.entity.Movie;
+import com.potopalskyi.movieland.entity.MovieSortParam;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,35 +13,25 @@ import static org.junit.Assert.assertEquals;
 
 public class MovieComparatorTest {
 
-    static List<Movie> movies;
-    static Movie movie1;
-    static Movie movie2;
-    static Movie movie3;
-    static Movie movie4;
-    static Movie movie5;
-
-    @BeforeClass
-    public static void setUpBeforeClass() {
-        movie1 = new Movie();
-        movie1.setRating(8.0);
-        movie1.setPrice(20.0);
-        movie2 = new Movie();
-        movie2.setRating(6.0);
-        movie2.setPrice(30.0);
-        movie3 = new Movie();
-        movie3.setRating(8.5);
-        movie3.setPrice(15.0);
-        movie4 = new Movie();
-        movie4.setRating(8.0);
-        movie4.setPrice(40.0);
-        movie5 = new Movie();
-        movie5.setRating(7.5);
-        movie5.setPrice(30.0);
-    }
+     List<Movie> movies = new ArrayList<>();
+     Movie movie1 = new Movie();
+     Movie movie2 = new Movie();
+     Movie movie3 = new Movie();
+     Movie movie4 = new Movie();
+     Movie movie5 = new Movie();
 
     @Before
     public void setUp() {
-        movies = new ArrayList<>();
+        movie1.setRating(8.0);
+        movie1.setPrice(20.0);
+        movie2.setRating(6.0);
+        movie2.setPrice(30.0);
+        movie3.setRating(8.5);
+        movie3.setPrice(15.0);
+        movie4.setRating(8.0);
+        movie4.setPrice(40.0);
+        movie5.setRating(7.5);
+        movie5.setPrice(30.0);
         movies.add(movie1);
         movies.add(movie2);
         movies.add(movie3);
@@ -50,7 +41,7 @@ public class MovieComparatorTest {
 
     @Test
     public void testSortRatingAscPriceAsc() {
-        movies.sort(new MovieComparator("asc", "asc"));
+        movies.sort(new MovieComparator(new MovieSortParam("asc", "asc")));
         assertEquals(movie2, movies.get(0));
         assertEquals(movie5, movies.get(1));
         assertEquals(movie1, movies.get(2));
@@ -60,7 +51,7 @@ public class MovieComparatorTest {
 
     @Test
     public void testSortRatingAscPriceDesc() {
-        movies.sort(new MovieComparator("asc", "desc"));
+        movies.sort(new MovieComparator(new MovieSortParam("asc", "desc")));
         assertEquals(movie2, movies.get(0));
         assertEquals(movie5, movies.get(1));
         assertEquals(movie4, movies.get(2));
@@ -70,7 +61,7 @@ public class MovieComparatorTest {
 
     @Test
     public void testSortRatingDescPriceAsc() {
-        movies.sort(new MovieComparator("desc", "asc"));
+        movies.sort(new MovieComparator(new MovieSortParam("desc", "asc")));
         assertEquals(movie3, movies.get(0));
         assertEquals(movie1, movies.get(1));
         assertEquals(movie4, movies.get(2));
@@ -80,7 +71,7 @@ public class MovieComparatorTest {
 
     @Test
     public void testSortRatingDescPriceDesc() {
-        movies.sort(new MovieComparator("desc", "desc"));
+        movies.sort(new MovieComparator(new MovieSortParam("desc", "desc")));
         assertEquals(movie3, movies.get(0));
         assertEquals(movie4, movies.get(1));
         assertEquals(movie1, movies.get(2));
@@ -90,7 +81,7 @@ public class MovieComparatorTest {
 
     @Test
     public void testSortRatingAscPriceNull() {
-        movies.sort(new MovieComparator("asc", null));
+        movies.sort(new MovieComparator(new MovieSortParam("asc", null)));
         assertEquals(movie2, movies.get(0));
         assertEquals(movie5, movies.get(1));
         assertEquals(movie1, movies.get(2));
@@ -100,7 +91,7 @@ public class MovieComparatorTest {
 
     @Test
     public void testSortRatingDescPriceNull() {
-        movies.sort(new MovieComparator("desc", null));
+        movies.sort(new MovieComparator(new MovieSortParam("desc", null)));
         assertEquals(movie3, movies.get(0));
         assertEquals(movie1, movies.get(1));
         assertEquals(movie4, movies.get(2));
@@ -110,7 +101,7 @@ public class MovieComparatorTest {
 
     @Test
     public void testSortRatingNullPriceAsc() {
-        movies.sort(new MovieComparator(null, "asc"));
+        movies.sort(new MovieComparator(new MovieSortParam(null, "asc")));
         assertEquals(movie3, movies.get(0));
         assertEquals(movie1, movies.get(1));
         assertEquals(movie2, movies.get(2));
@@ -120,7 +111,7 @@ public class MovieComparatorTest {
 
     @Test
     public void testSortRatingNullPriceDesc() {
-        movies.sort(new MovieComparator(null, "desc"));
+        movies.sort(new MovieComparator(new MovieSortParam(null, "desc")));
         assertEquals(movie4, movies.get(0));
         assertEquals(movie2, movies.get(1));
         assertEquals(movie5, movies.get(2));

@@ -11,7 +11,7 @@
     </bean>
 
     <bean id="getMoviesByIdSQL" class="java.lang.String">
-        <constructor-arg value="select name_rus, name_eng, description, year, rating, group_concat(distinct g.genre separator ', ') as genreList, group_concat(distinct c.name separator ', ') as countryList
+        <constructor-arg value="select m.id as id, name_rus, name_eng, description, year, rating, group_concat(distinct g.genre separator ', ') as genreList, group_concat(distinct c.name separator ', ') as countryList
                                     from movie m
                                     join genre_movie gm
                                     on m.id = gm.id_movie
@@ -22,7 +22,7 @@
                                     join country c
                                     on c.id = cm.country_id
                                     where m.id = ?
-                                    group by 1, 2, 3, 4, 5"/>
+                                    group by 1, 2, 3, 4, 5, 6"/>
     </bean>
 
     <bean id="getGenreByIdSQL" class="java.lang.String">

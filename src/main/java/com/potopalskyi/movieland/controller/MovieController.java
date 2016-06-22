@@ -2,8 +2,11 @@ package com.potopalskyi.movieland.controller;
 
 import com.potopalskyi.movieland.entity.Movie;
 import com.potopalskyi.movieland.entity.MovieSearchParam;
+import com.potopalskyi.movieland.entity.MovieSortParam;
 import com.potopalskyi.movieland.service.MovieService;
 import com.potopalskyi.movieland.util.ConvertJson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,8 @@ import java.util.List;
 @RequestMapping("/v1")
 public class MovieController {
 
+    private Logger logger = LoggerFactory.getLogger(MovieController.class);
+
     @Autowired
     private MovieService movieService;
 
@@ -24,26 +29,35 @@ public class MovieController {
 
     @RequestMapping(value = "/movies", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseEntity<String> getAllMovies(@RequestParam(value = "rating", required = false) String ratingOrder,
-                               @RequestParam(value = "price", required = false) String priceOrder) {
-        List<Movie> movies = movieService.getAllMovies(ratingOrder, priceOrder);
+    public ResponseEntity<String> getAllMovies(@RequestParam(value = "rating", required = false) String ratingSortType,
+                               @RequestParam(value = "price", required = false) String priceSortType) {
+        logger.info("Start process of getting all movies");
+        MovieSortParam movieSortParam = new MovieSortParam(ratingSortType, priceSortType);
+        List<Movie> movies = movieService.getAllMovies(movieSortParam);
         return new ResponseEntity<>(convertJson.toJson(movies), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/movie/{movieId}", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ResponseEntity<String> getMovieById(@PathVariable("movieId") int movieId) {
+        logger.info("Start process of getting movie with id = " + movieId);
         Movie movie = movieService.getMovieById(movieId);
+        if(movie.isEmpty()){
+            logger.warn("The movie with id = " + movieId + " doesn't exist");
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT );
+        }
         return new ResponseEntity<>(convertJson.toJsonDetailed(movie), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/movies/search", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<String> getMoviesBySearch(@RequestBody String json) {
+        logger.info("Start process of getting movies with search params " + json);
         MovieSearchParam movieSearchParam = convertJson.toMovieSearchParam(json);
         List<Movie> movies = movieService.getMoviesBySearch(movieSearchParam);
-        if (movies == null) {
-            return new ResponseEntity<>("There were not found films", HttpStatus.NO_CONTENT);
+        if (movies.size() == 0) {
+            logger.warn("There are no movies with params " + json);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(convertJson.toJson(movies), HttpStatus.OK);
     }

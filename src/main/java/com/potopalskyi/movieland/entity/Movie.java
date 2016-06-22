@@ -94,6 +94,9 @@ public class Movie {
         this.price = price;
     }
 
+    public boolean isEmpty(){
+        return (id <= 0);
+    }
     @Override
     public String toString() {
         return "Movie{" +
