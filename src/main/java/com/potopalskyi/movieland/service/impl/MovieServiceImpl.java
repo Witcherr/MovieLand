@@ -34,7 +34,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> getAllMovies(MovieSortParam movieSortParam) {
         List<Movie> movies = movieDAO.getAllMovies();
-        if(movies.size()!= 0) {
+        if(movies != null) {
             Collections.sort(movies, new MovieComparator(movieSortParam));
             for (Movie movie : movies) {
                 movie.setGenreList(genreService.getGenreById(movie.getId()));
@@ -46,7 +46,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> getMoviesBySearch(MovieSearchParam movieSearchParam) {
         List<Movie> movies = movieDAO.getMoviesBySearch(movieSearchParam);
-        if (movies.size() != 0) {
+        if (movies != null) {
             for (Movie movie : movies) {
                 movie.setGenreList(genreService.getGenreById(movie.getId()));
             }
@@ -57,7 +57,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie getMovieById(int id) {
         Movie movie = movieDAO.getMovieById(id);
-        if (!movie.isEmpty()) {
+        if (movie != null) {
             movie.setGenreList(genreService.getGenreById(id));
             movie.setCountryList(countryService.getCountryById(id));
             List<Review> reviews = reviewService.getReviewByMovieId(id);

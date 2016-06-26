@@ -1,7 +1,7 @@
 package com.potopalskyi.movieland.util;
 
-import com.potopalskyi.movieland.controller.dto.MovieDTO;
-import com.potopalskyi.movieland.controller.dto.MovieDetailedDTO;
+import com.potopalskyi.movieland.entity.dto.MovieDTO;
+import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
 import com.potopalskyi.movieland.entity.Country;
 import com.potopalskyi.movieland.entity.Genre;
 import com.potopalskyi.movieland.entity.Movie;

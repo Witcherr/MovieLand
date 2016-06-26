@@ -16,7 +16,7 @@ public class ConvertJsonTest {
 
     @Test
     public void toJsonTest() {
-        String expectedJson = "[{\"titleRussian\":\"Ага\",\"titleEnglish\":\"Aga\",\"year\":2016,\"rating\":7.4,\"genre\":[\"Второй\",\"Первый\"]},{\"titleRussian\":\"Тест\",\"titleEnglish\":\"Test\",\"year\":2010,\"rating\":72.4,\"genre\":[\"Второй\",\"Первый\"]}]";
+        String expectedJson = "[{\"titleRussian\":\"Ага\",\"titleEnglish\":\"Aga\",\"year\":2016,\"rating\":7.4,\"price\":0.0,\"genre\":[\"Второй\",\"Первый\"]},{\"titleRussian\":\"Тест\",\"titleEnglish\":\"Test\",\"year\":2010,\"rating\":72.4,\"price\":0.0,\"genre\":[\"Второй\",\"Первый\"]}]";
         Movie movie1 = new Movie();
         ConvertJson convertJson = new ConvertJson();
         movie1.setTitleRussian("Ага");

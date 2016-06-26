@@ -5,6 +5,7 @@ import com.potopalskyi.movieland.dao.jdbc.mapper.MovieDetailedRowMapper;
 import com.potopalskyi.movieland.dao.jdbc.mapper.MovieRowMapper;
 import com.potopalskyi.movieland.entity.Movie;
 import com.potopalskyi.movieland.entity.MovieSearchParam;
+import com.potopalskyi.movieland.entity.exception.NoDataFoundException;
 import com.potopalskyi.movieland.util.GeneratorSQL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,31 +41,34 @@ public class MovieDAOImpl implements MovieDAO {
 
     @Override
     public List<Movie> getAllMovies() {
+        logger.info("Start query for all movies");
         try {
             return jdbcTemplate.query(getAllMoviesSQL, movieRowMapper);
         }catch (EmptyResultDataAccessException e){
             logger.warn("Database of movies is empty");
-            return new ArrayList<>();
+            throw new NoDataFoundException();
         }
     }
 
     @Override
     public List<Movie> getMoviesBySearch(MovieSearchParam movieSearchParam) {
+        logger.info("Start query for getting movies with search params " + movieSearchParam);
         try {
             return jdbcTemplate.query(generatorSQL.generateSearchMovies(movieSearchParam), movieRowMapper);
         }catch (EmptyResultDataAccessException e){
             logger.warn("There are no movies with params " + movieSearchParam);
-            return new ArrayList<>();
+            throw new NoDataFoundException();
         }
     }
 
     @Override
     public Movie getMovieById(int id) {
+        logger.info("Start query for getting movie with id = " + id);
         try {
             return jdbcTemplate.queryForObject(getMoviesByIdSQL, new Object[]{id}, movieDetailedRowMapper);
         }catch (EmptyResultDataAccessException e){
             logger.warn("The movie with id = " + id + " doesn't exist");
-            return new Movie();
+            throw new NoDataFoundException();
         }
     }
 }

@@ -3,6 +3,7 @@ package com.potopalskyi.movieland.controller;
 import com.potopalskyi.movieland.entity.Movie;
 import com.potopalskyi.movieland.entity.MovieSearchParam;
 import com.potopalskyi.movieland.entity.MovieSortParam;
+import com.potopalskyi.movieland.entity.exception.NoDataFoundException;
 import com.potopalskyi.movieland.service.MovieService;
 import com.potopalskyi.movieland.util.ConvertJson;
 import org.slf4j.Logger;
@@ -30,7 +31,7 @@ public class MovieController {
     @RequestMapping(value = "/movies", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ResponseEntity<String> getAllMovies(@RequestParam(value = "rating", required = false) String ratingSortType,
-                               @RequestParam(value = "price", required = false) String priceSortType) {
+                                               @RequestParam(value = "price", required = false) String priceSortType) {
         logger.info("Start process of getting all movies");
         MovieSortParam movieSortParam = new MovieSortParam(ratingSortType, priceSortType);
         List<Movie> movies = movieService.getAllMovies(movieSortParam);
@@ -41,10 +42,12 @@ public class MovieController {
     @ResponseBody
     public ResponseEntity<String> getMovieById(@PathVariable("movieId") int movieId) {
         logger.info("Start process of getting movie with id = " + movieId);
-        Movie movie = movieService.getMovieById(movieId);
-        if(movie.isEmpty()){
-            logger.warn("The movie with id = " + movieId + " doesn't exist");
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT );
+        Movie movie;
+        try {
+            movie = movieService.getMovieById(movieId);
+        } catch (NoDataFoundException e) {
+            logger.warn("The movie with id = " + movieId + " wasn't found");
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(convertJson.toJsonDetailed(movie), HttpStatus.OK);
     }
@@ -54,8 +57,10 @@ public class MovieController {
     public ResponseEntity<String> getMoviesBySearch(@RequestBody String json) {
         logger.info("Start process of getting movies with search params " + json);
         MovieSearchParam movieSearchParam = convertJson.toMovieSearchParam(json);
-        List<Movie> movies = movieService.getMoviesBySearch(movieSearchParam);
-        if (movies.size() == 0) {
+        List<Movie> movies;
+        try {
+            movies = movieService.getMoviesBySearch(movieSearchParam);
+        } catch (NoDataFoundException e) {
             logger.warn("There are no movies with params " + json);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

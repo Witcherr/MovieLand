@@ -2,8 +2,8 @@ package com.potopalskyi.movieland.util;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.potopalskyi.movieland.controller.dto.MovieDTO;
-import com.potopalskyi.movieland.controller.dto.MovieDetailedDTO;
+import com.potopalskyi.movieland.entity.dto.MovieDTO;
+import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
 import com.potopalskyi.movieland.entity.Movie;
 import com.potopalskyi.movieland.entity.MovieSearchParam;
 import org.springframework.stereotype.Service;

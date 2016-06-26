@@ -1,16 +1,14 @@
-package com.potopalskyi.movieland.controller.dto;
+package com.potopalskyi.movieland.entity.dto;
 
 import java.util.List;
 
-public class MovieDetailedDTO {
+public class MovieDTO {
     private String titleRussian;
     private String titleEnglish;
     private int year;
-    private List<String> country;
-    private List<String> genre;
-    private String description;
-    private List<String> review;
     private double rating;
+    private double price;
+    private List<String> genre;
 
     public String getTitleRussian() {
         return titleRussian;
@@ -44,12 +42,12 @@ public class MovieDetailedDTO {
         this.rating = rating;
     }
 
-    public String getDescription() {
-        return description;
+    public double getPrice() {
+        return price;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public List<String> getGenre() {
@@ -60,19 +58,4 @@ public class MovieDetailedDTO {
         this.genre = genre;
     }
 
-    public List<String> getReview() {
-        return review;
-    }
-
-    public void setReview(List<String> review) {
-        this.review = review;
-    }
-
-    public List<String> getCountry() {
-        return country;
-    }
-
-    public void setCountry(List<String> country) {
-        this.country = country;
-    }
 }
