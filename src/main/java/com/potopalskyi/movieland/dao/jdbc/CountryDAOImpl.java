@@ -18,8 +18,11 @@ public class CountryDAOImpl implements CountryDAO{
     @Autowired
     private String getCountryByIdSQL;
 
+    @Autowired
+    private CountryRowMapper countryRowMapper;
+
     @Override
     public List<Country> getCountryById(int id) {
-        return jdbcTemplate.query(getCountryByIdSQL, new Object[] {id}, new CountryRowMapper());
+        return jdbcTemplate.query(getCountryByIdSQL, new Object[] {id}, countryRowMapper);
     }
 }

@@ -1,4 +1,4 @@
-package com.potopalskyi.movieland.controller.dto;
+package com.potopalskyi.movieland.entity.dto;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ public class MovieDTO {
     private String titleEnglish;
     private int year;
     private double rating;
+    private double price;
     private List<String> genre;
 
     public String getTitleRussian() {
@@ -39,6 +40,14 @@ public class MovieDTO {
 
     public void setRating(double rating) {
         this.rating = rating;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public List<String> getGenre() {

@@ -1,5 +1,7 @@
-package com.potopalskyi.movieland.controller.dto;
+package com.potopalskyi.movieland.util;
 
+import com.potopalskyi.movieland.entity.dto.MovieDTO;
+import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
 import com.potopalskyi.movieland.entity.Country;
 import com.potopalskyi.movieland.entity.Genre;
 import com.potopalskyi.movieland.entity.Movie;
@@ -16,6 +18,7 @@ public class ConvertToDTO {
         movieDTO.setTitleEnglish(movie.getTitleEnglish());
         movieDTO.setYear(movie.getYear());
         movieDTO.setRating(movie.getRating());
+        movieDTO.setPrice(movie.getPrice());
         for(Genre genre: movie.getGenreList()){
             genres.add(genre.getName());
         }

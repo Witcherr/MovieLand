@@ -1,4 +1,4 @@
-package com.potopalskyi.movieland.controller.dto;
+package com.potopalskyi.movieland.entity.dto;
 
 import java.util.List;
 

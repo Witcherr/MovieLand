@@ -2,10 +2,12 @@ package com.potopalskyi.movieland.dao.jdbc.mapper;
 
 import com.potopalskyi.movieland.entity.Genre;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Repository
 public class GenreRowMapper implements RowMapper<Genre> {
 
     @Override
