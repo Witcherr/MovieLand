@@ -1,5 +1,6 @@
 package com.potopalskyi.movieland.service.impl;
 
+import com.potopalskyi.movieland.caching.GenreCache;
 import com.potopalskyi.movieland.dao.MovieDAO;
 import com.potopalskyi.movieland.entity.Movie;
 import com.potopalskyi.movieland.entity.MovieSearchParam;
@@ -31,13 +32,16 @@ public class MovieServiceImpl implements MovieService {
     @Autowired
     ReviewService reviewService;
 
+    @Autowired
+    GenreCache genreCache;
+
     @Override
     public List<Movie> getAllMovies(MovieSortParam movieSortParam) {
         List<Movie> movies = movieDAO.getAllMovies();
         if(movies != null) {
             Collections.sort(movies, new MovieComparator(movieSortParam));
             for (Movie movie : movies) {
-                movie.setGenreList(genreService.getGenreById(movie.getId()));
+                movie.setGenreList(genreCache.getGenreById(movie.getId()));
             }
         }
         return movies;
@@ -68,5 +72,10 @@ public class MovieServiceImpl implements MovieService {
             }
         }
         return movie;
+    }
+
+    @Override
+    public List<Integer> getAllMoviesId() {
+        return movieDAO.getAllMoviesId();
     }
 }

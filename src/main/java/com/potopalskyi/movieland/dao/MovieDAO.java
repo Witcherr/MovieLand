@@ -12,4 +12,6 @@ public interface MovieDAO {
     List<Movie> getMoviesBySearch(MovieSearchParam movieSearchParam);
 
     Movie getMovieById(int id);
+
+    List<Integer> getAllMoviesId();
 }

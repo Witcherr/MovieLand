@@ -47,4 +47,9 @@
                                 where movie_id = ?"/>
     </bean>
 
+    <bean id="getAllMoviesIdeIdSQL" class="java.lang.String">
+        <constructor-arg value="select id
+                                from movie"/>
+    </bean>
+
 </beans>

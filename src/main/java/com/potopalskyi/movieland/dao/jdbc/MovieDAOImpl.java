@@ -2,6 +2,7 @@ package com.potopalskyi.movieland.dao.jdbc;
 
 import com.potopalskyi.movieland.dao.MovieDAO;
 import com.potopalskyi.movieland.dao.jdbc.mapper.MovieDetailedRowMapper;
+import com.potopalskyi.movieland.dao.jdbc.mapper.MovieIdRowMapper;
 import com.potopalskyi.movieland.dao.jdbc.mapper.MovieRowMapper;
 import com.potopalskyi.movieland.entity.Movie;
 import com.potopalskyi.movieland.entity.MovieSearchParam;
@@ -31,6 +32,9 @@ public class MovieDAOImpl implements MovieDAO {
     private String getMoviesByIdSQL;
 
     @Autowired
+    private String getAllMoviesIdeIdSQL;
+
+    @Autowired
     private GeneratorSQL generatorSQL;
 
     @Autowired
@@ -38,6 +42,9 @@ public class MovieDAOImpl implements MovieDAO {
 
     @Autowired
     private MovieDetailedRowMapper movieDetailedRowMapper;
+
+    @Autowired
+    private MovieIdRowMapper movieIdRowMapper;
 
     @Override
     public List<Movie> getAllMovies() {
@@ -68,6 +75,17 @@ public class MovieDAOImpl implements MovieDAO {
             return jdbcTemplate.queryForObject(getMoviesByIdSQL, new Object[]{id}, movieDetailedRowMapper);
         }catch (EmptyResultDataAccessException e){
             logger.warn("The movie with id = " + id + " doesn't exist");
+            throw new NoDataFoundException();
+        }
+    }
+
+    @Override
+    public List<Integer> getAllMoviesId() {
+        logger.info("Start getting id for all movies");
+        try{
+            return jdbcTemplate.query(getAllMoviesIdeIdSQL, movieIdRowMapper);
+        }catch (EmptyResultDataAccessException e){
+            logger.warn("Database of movies is empty");
             throw new NoDataFoundException();
         }
     }
