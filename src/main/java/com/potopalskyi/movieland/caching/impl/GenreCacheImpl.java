@@ -28,40 +28,48 @@ public class GenreCacheImpl implements GenreCache {
     private List<GenreCacheDTO> genreCacheList = new CopyOnWriteArrayList<>();
 
     @Override
-    public List<Genre> getGenreById(int movieId) {
+    public List<Genre> getGenreByMovieId(int movieId) {
         boolean flag = false;
         List<Genre> genre = new ArrayList<>();
+        logger.info("Start getting genre from cache");
         for (int i = 0; i < genreCacheList.size(); i++) {
             if (movieId == genreCacheList.get(i).getMovieId()) {
                 genre = genreCacheList.get(i).getGenre();
                 flag = true;
+                logger.info("Genre for movieId = " + movieId + " was got from cache");
                 break;
             }
         }
-        //if (!flag) {
-        //    genre =
-        //}
-        //movie.setGenreList(genreService.getGenreById(movie.getId()))
+        if (!flag) {
+            logger.info("Genre for movieId = " + movieId + " was not found in cache. Try to add information to cache from database");
+            genre = addNewElementToCache(movieId);
+        }
         return genre;
     }
 
     @Scheduled(fixedRate = 4 * 60 * 60 * 1000)
     @Override
     public void fillCache() {
-        logger.debug("Start filling of cache");
+        logger.debug("Start filling of cache for genre");
         List<Integer> movieIdList = movieService.getAllMoviesId();
+        genreCacheList.clear();
         for (int i = 0; i < movieIdList.size(); i++) {
             genreCacheList.add(new GenreCacheDTO());
             genreCacheList.get(i).setMovieId(movieIdList.get(i));
-        }
-        for (int i = 0; i < genreCacheList.size(); i++) {
             genreCacheList.get(i).setGenre(genreService.getGenreById(genreCacheList.get(i).getMovieId()));
         }
-        logger.debug("End filling of cache");
+        logger.debug("End filling of cache for genre");
     }
 
     @Override
-    public void updateCache(int movieId) {
-
+    public List<Genre> addNewElementToCache(int movieId) {
+        genreCacheList.add(new GenreCacheDTO());
+        genreCacheList.get(genreCacheList.size() - 1).setMovieId(movieId);
+        List<Genre> genres = genreService.getGenreById(movieId);
+        genreCacheList.get(genreCacheList.size() - 1).setGenre(genres);
+        if (genres != null){
+            logger.info("Genre was got from database and added to cache");
+        }
+        return genres;
     }
 }

@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface GenreCache {
 
-    List<Genre> getGenreById(int movieId);
+    List<Genre> getGenreByMovieId(int movieId);
 
     void fillCache();
 
-    void updateCache(int movieId);
+    List<Genre> addNewElementToCache(int movieId);
 }
