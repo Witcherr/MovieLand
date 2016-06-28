@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://java.sun.com/xml/ns/javaee"
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -15,4 +15,16 @@
 
     <mvc:annotation-driven/>
 
+    <!--<mvc:interceptors>-->
+        <!--<bean class="com.potopalskyi.movieland.interceptor.AuthorizationInterceptor"/>-->
+    <!--</mvc:interceptors>-->
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/v1/movies" />
+            <!--<mvc:mapping path="/v1/movies/search" />-->
+            <!--<mvc:mapping path="/v1/movies/login" />-->
+            <bean class="com.potopalskyi.movieland.interceptor.AuthorizationInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>

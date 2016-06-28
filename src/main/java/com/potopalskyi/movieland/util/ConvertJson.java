@@ -2,6 +2,7 @@ package com.potopalskyi.movieland.util;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.potopalskyi.movieland.entity.UserCredential;
 import com.potopalskyi.movieland.entity.dto.MovieDTO;
 import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
 import com.potopalskyi.movieland.entity.Movie;
@@ -35,5 +36,9 @@ public class ConvertJson {
 
     public MovieSearchParam toMovieSearchParam(String json){
         return gson.fromJson(json, MovieSearchParam.class);
+    }
+
+    public UserCredential toUserCredential(String json){
+        return gson.fromJson(json, UserCredential.class);
     }
 }

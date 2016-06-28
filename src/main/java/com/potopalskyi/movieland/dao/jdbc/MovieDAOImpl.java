@@ -20,7 +20,7 @@ import java.util.List;
 
 @Repository
 public class MovieDAOImpl implements MovieDAO {
-    Logger logger = LoggerFactory.getLogger(MovieDAOImpl.class);
+    private Logger logger = LoggerFactory.getLogger(MovieDAOImpl.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
