@@ -2,7 +2,7 @@ package com.potopalskyi.movieland.controller;
 
 import com.potopalskyi.movieland.entity.Movie;
 import com.potopalskyi.movieland.entity.MovieSearchParam;
-import com.potopalskyi.movieland.entity.MovieSortParam;
+import com.potopalskyi.movieland.entity.MovieSortAndLimitParam;
 import com.potopalskyi.movieland.entity.exception.NoDataFoundException;
 import com.potopalskyi.movieland.service.MovieService;
 import com.potopalskyi.movieland.util.ConvertJson;
@@ -31,10 +31,11 @@ public class MovieController {
     @RequestMapping(value = "/movies", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ResponseEntity<String> getAllMovies(@RequestParam(value = "rating", required = false) String ratingSortType,
-                                               @RequestParam(value = "price", required = false) String priceSortType) {
+                                               @RequestParam(value = "price", required = false) String priceSortType,
+                                               @RequestParam(value = "page", defaultValue = "1" ) String page) {
         logger.info("Start process of getting all movies");
-        MovieSortParam movieSortParam = new MovieSortParam(ratingSortType, priceSortType);
-        List<Movie> movies = movieService.getAllMovies(movieSortParam);
+        MovieSortAndLimitParam movieSortAndLimitParam = new MovieSortAndLimitParam(ratingSortType, priceSortType, page);
+        List<Movie> movies = movieService.getAllMovies(movieSortAndLimitParam);
         return new ResponseEntity<>(convertJson.toJson(movies), HttpStatus.OK);
     }
 

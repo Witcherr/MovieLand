@@ -5,11 +5,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="getAllMoviesSQL" class="java.lang.String">
-        <constructor-arg value="select id, name_rus, name_eng, year, rating, price
-                                from movie m"/>
-    </bean>
-
     <bean id="getMoviesByIdSQL" class="java.lang.String">
         <constructor-arg value="select m.id as id, name_rus, name_eng, description, year, rating, group_concat(distinct g.genre separator ', ') as genreList, group_concat(distinct c.name separator ', ') as countryList
                                     from movie m

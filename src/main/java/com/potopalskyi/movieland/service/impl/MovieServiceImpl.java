@@ -5,16 +5,13 @@ import com.potopalskyi.movieland.caching.GenreCache;
 import com.potopalskyi.movieland.dao.MovieDAO;
 import com.potopalskyi.movieland.entity.Movie;
 import com.potopalskyi.movieland.entity.MovieSearchParam;
-import com.potopalskyi.movieland.entity.MovieSortParam;
+import com.potopalskyi.movieland.entity.MovieSortAndLimitParam;
 import com.potopalskyi.movieland.entity.Review;
-import com.potopalskyi.movieland.service.CountryService;
 import com.potopalskyi.movieland.service.MovieService;
 import com.potopalskyi.movieland.service.ReviewService;
-import com.potopalskyi.movieland.util.MovieComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -33,10 +30,9 @@ public class MovieServiceImpl implements MovieService {
     GenreCache genreCache;
 
     @Override
-    public List<Movie> getAllMovies(MovieSortParam movieSortParam) {
-        List<Movie> movies = movieDAO.getAllMovies();
+    public List<Movie> getAllMovies(MovieSortAndLimitParam movieSortAndLimitParam) {
+        List<Movie> movies = movieDAO.getAllMovies(movieSortAndLimitParam);
         if(movies != null) {
-            Collections.sort(movies, new MovieComparator(movieSortParam));
             for (Movie movie : movies) {
                 movie.setGenreList(genreCache.getGenreByMovieId(movie.getId()));
             }
