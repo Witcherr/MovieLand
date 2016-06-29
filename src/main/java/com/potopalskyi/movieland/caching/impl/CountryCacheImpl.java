@@ -22,10 +22,10 @@ public class CountryCacheImpl implements CountryCache{
     private List<CountryCacheDTO> countryCacheList = new CopyOnWriteArrayList<>();
 
     @Autowired
-    MovieService movieService;
+    private MovieService movieService;
 
     @Autowired
-    CountryService countryService;
+    private CountryService countryService;
 
     @Override
     public List<Country> getCountryByMovieId(int movieId) {

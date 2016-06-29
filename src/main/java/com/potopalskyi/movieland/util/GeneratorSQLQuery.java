@@ -18,24 +18,24 @@ public class GeneratorSQLQuery {
     private static final String GENRE_FIELD = "genre";
     private static final String YEAR_FIELD = "year";
     private static final String COUNTRY_FIELD = "name";
-    private static final String RATING_FIELD = "rating";
-    private static final String PRICE_FIELD = "price";
+    private static final String RATING_FIELD = "rating ";
+    private static final String PRICE_FIELD = "price ";
     private static final String FREE_SPACE = " ";
     private static final String COMMA_SEPARATOR = ",";
-    private static final String INITIAL_SEARCH_SQL = "select m.id as id, name_rus, name_eng, year, rating, price\n" +
-            "from movie m\n" +
-            "join genre_movie gm\n" +
-            "on m.id = gm.id_movie\n" +
-            "join genre g\n" +
-            "on gm.id_genre = g.id\n" +
-            "join country_movie cm\n" +
-            "on m.id = cm.movie_id\n" +
-            "join country c\n" +
-            "on c.id = cm.country_id\n" +
-            "where 1 = 1\n";
+    private static final String INITIAL_SEARCH_SQL = "select m.id as id, name_rus, name_eng, year, rating, price " +
+            "from movie m " +
+            "join genre_movie gm " +
+            "on m.id = gm.id_movie " +
+            "join genre g " +
+            "on gm.id_genre = g.id " +
+            "join country_movie cm " +
+            "on m.id = cm.movie_id " +
+            "join country c " +
+            "on c.id = cm.country_id " +
+            "where 1 = 1 ";
     private static final String CLOSE_SEARCH_SQL = "group by 1, 2, 3, 4, 5";
-    private static final String INITIAL_ALL_MOVIES_SQL = "select id, name_rus, name_eng, year, rating, price\n" +
-            "                                from movie m\n";
+    private static final String INITIAL_ALL_MOVIES_SQL = "select id, name_rus, name_eng, year, rating, price " +
+            "                                from movie m ";
 
 
     public String generateSearchMoviesQuery(MovieSearchParam movieSearchParam){
@@ -51,21 +51,35 @@ public class GeneratorSQLQuery {
 
     public String generateAllMoviesWithParamQuery(MovieSortAndLimitParam movieSortAndLimitParam){
         StringBuilder sb = new StringBuilder(INITIAL_ALL_MOVIES_SQL);
-        if(movieSortAndLimitParam.getRatingSortType() != null && movieSortAndLimitParam.getPriceSortType() != null){
+        /*if(movieSortAndLimitParam.getRatingSortType() != null && movieSortAndLimitParam.getPriceSortType() != null){
             sb.append(ORDER_BY + RATING_FIELD + FREE_SPACE + movieSortAndLimitParam.getRatingSortType() + COMMA_SEPARATOR +
-                    PRICE_FIELD + FREE_SPACE + movieSortAndLimitParam.getPriceSortType() + "\n");
+                    PRICE_FIELD + FREE_SPACE + movieSortAndLimitParam.getPriceSortType() + " ");
         } else if(movieSortAndLimitParam.getRatingSortType() != null){
-            sb.append(ORDER_BY + RATING_FIELD + FREE_SPACE + movieSortAndLimitParam.getRatingSortType() +"\n");
+            sb.append(ORDER_BY + RATING_FIELD + FREE_SPACE + movieSortAndLimitParam.getRatingSortType() + " ");
         } else if(movieSortAndLimitParam.getPriceSortType() != null){
-            sb.append(ORDER_BY + PRICE_FIELD + FREE_SPACE + movieSortAndLimitParam.getPriceSortType() + "\n");
+            sb.append(ORDER_BY + PRICE_FIELD + FREE_SPACE + movieSortAndLimitParam.getPriceSortType() + " ");
+        }*/
+        String ratingValue = movieSortAndLimitParam.getRatingSortType();
+        String priceValue = movieSortAndLimitParam.getPriceSortType();
+
+        if(ratingValue != null || priceValue != null){
+            sb.append(ORDER_BY);
+            if(ratingValue!= null){
+                sb.append(RATING_FIELD).append(ratingValue).append(COMMA_SEPARATOR);
+            }
+            if(priceValue!=null){
+                sb.append(PRICE_FIELD).append(priceValue).append(COMMA_SEPARATOR);
+            }
+            sb.deleteCharAt(sb.lastIndexOf(COMMA_SEPARATOR));
+            sb.append(FREE_SPACE);
         }
-        sb.append(LIMIT + LIMIT_FOR_PAGE*(Integer.parseInt(movieSortAndLimitParam.getPage()) - 1) + COMMA_SEPARATOR + LIMIT_FOR_PAGE);
+        sb.append(LIMIT).append(LIMIT_FOR_PAGE * (Integer.parseInt(movieSortAndLimitParam.getPage()) - 1)).append(COMMA_SEPARATOR).append(LIMIT_FOR_PAGE);
         return sb.toString();
     }
 
     private String addCondition(String field, String value){
         if(value != null){
-            return AND + field + LIKE + PERCENT_RIGHT + value + PERCENT_LEFT + "\n";
+            return AND + field + LIKE + PERCENT_RIGHT + value + PERCENT_LEFT + " ";
         }
         return "";
     }

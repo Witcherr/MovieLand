@@ -12,19 +12,19 @@ public class GeneratorSQLQueryTest {
 
     @Test
     public void generateSearchMoviesTest(){
-        String expectedString = "select m.id as id, name_rus, name_eng, year, rating, price\n" +
-                "from movie m\n" +
-                "join genre_movie gm\n" +
-                "on m.id = gm.id_movie\n" +
-                "join genre g\n" +
-                "on gm.id_genre = g.id\n" +
-                "join country_movie cm\n" +
-                "on m.id = cm.movie_id\n" +
-                "join country c\n" +
-                "on c.id = cm.country_id\n" +
-                "where 1 = 1\n" +
-                "and name_eng like  \"%TestMovie%\" \n" +
-                "and name like  \"%Франция%\" \n" +
+        String expectedString = "select m.id as id, name_rus, name_eng, year, rating, price " +
+                "from movie m " +
+                "join genre_movie gm " +
+                "on m.id = gm.id_movie " +
+                "join genre g " +
+                "on gm.id_genre = g.id " +
+                "join country_movie cm " +
+                "on m.id = cm.movie_id " +
+                "join country c " +
+                "on c.id = cm.country_id " +
+                "where 1 = 1 " +
+                "and name_eng like  \"%TestMovie%\"  " +
+                "and name like  \"%Франция%\"  " +
                 "group by 1, 2, 3, 4, 5";
         MovieSearchParam movieSearchParam = new MovieSearchParam();
         movieSearchParam.setTitleEnglish("TestMovie");
@@ -34,16 +34,16 @@ public class GeneratorSQLQueryTest {
 
     @Test
     public void generateAllMoviesWithParamQueryTest(){
-        String expected1 = "select id, name_rus, name_eng, year, rating, price\n" +
-                "                                from movie m\n" +
-                "order by rating asc,price asc\n" +
+        String expected1 = "select id, name_rus, name_eng, year, rating, price " +
+                "                                from movie m " +
+                "order by rating asc,price asc " +
                 "limit 5,5";
-        String expected2 = "select id, name_rus, name_eng, year, rating, price\n" +
-                "                                from movie m\n" +
+        String expected2 = "select id, name_rus, name_eng, year, rating, price " +
+                "                                from movie m " +
                 "limit 0,5";
-        String expected3 = "select id, name_rus, name_eng, year, rating, price\n" +
-                "                                from movie m\n" +
-                "order by rating desc\n" +
+        String expected3 = "select id, name_rus, name_eng, year, rating, price " +
+                "                                from movie m " +
+                "order by rating desc " +
                 "limit 45,5";
         MovieSortAndLimitParam movieSortAndLimitParam1 = new MovieSortAndLimitParam("asc", "asc", "2");
         MovieSortAndLimitParam movieSortAndLimitParam2 = new MovieSortAndLimitParam(null, "ascasasd", "1");
