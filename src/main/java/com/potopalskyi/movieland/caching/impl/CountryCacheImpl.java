@@ -59,7 +59,7 @@ public class CountryCacheImpl implements CountryCache{
             countryCacheList.get(i).setMovieId(movieIdList.get(i));
             countryCacheList.get(i).setCountries(countryService.getCountryById(countryCacheList.get(i).getMovieId()));
         }
-        logger.info("Enf filling of cache for country");
+        logger.info("End filling of cache for country");
     }
 
     @Override

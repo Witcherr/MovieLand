@@ -22,16 +22,13 @@ public class AuthorizationServiceImpl implements AuthorizationService{
     @Override
     public boolean checkUserCredential(UserCredential userCredential) {
         User user = userService.getUserByName(userCredential.getName());
-        if(user != null && user.getPassword().equals(userCredential.getPassword())) {
-                return true;
-        }
-        return false;
+        return (user != null && user.getPassword().equals(userCredential.getPassword()));
     }
 
     @Override
     public String generateToken(UserCredential userCredential) {
         String token = UUID.randomUUID().toString();
-        userTokenCache.addNewElementToCache(userCredential, token);
+        userTokenCache.addNewElementToCache(userCredential.getName(), token);
         return token;
     }
 }

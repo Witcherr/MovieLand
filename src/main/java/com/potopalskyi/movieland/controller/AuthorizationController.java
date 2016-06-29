@@ -41,6 +41,6 @@ public class AuthorizationController {
         if(isCorrectUserCredential){
             return new ResponseEntity<>(authorizationService.generateToken(userCredential), HttpStatus.OK);
         }
-        return new ResponseEntity<>("Problems with logging", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Problems with login", HttpStatus.BAD_REQUEST);
     }
 }

@@ -1,7 +1,6 @@
 package com.potopalskyi.movieland.caching.impl;
 
 import com.potopalskyi.movieland.caching.UserTokenCache;
-import com.potopalskyi.movieland.entity.UserCredential;
 import com.potopalskyi.movieland.entity.dto.UserTokenDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,14 +19,14 @@ public class UserTokenCacheImpl implements UserTokenCache {
     private List<UserTokenDTO> userTokenCacheList = new CopyOnWriteArrayList<>();
 
     @Override
-    public void addNewElementToCache(UserCredential userCredential, String token) {
-        logger.debug("Start adding token into user cache for user : " + userCredential.getName());
+    public void addNewElementToCache(String login, String token) {
+        logger.debug("Start adding token into user cache for user : " + login);
         UserTokenDTO userTokenDTO = new UserTokenDTO();
-        userTokenDTO.setUserCredential(userCredential);
+        userTokenDTO.setLogin(login);
         userTokenDTO.setToken(token);
         userTokenDTO.setConnectionTime(LocalDateTime.now());
         userTokenCacheList.add(userTokenDTO);
-        logger.debug("End adding token into cache for user : " + userCredential.getName());
+        logger.debug("End adding token into cache for user : " + login);
     }
 
     @Scheduled(fixedRate = 60 * 1000)
@@ -37,7 +36,7 @@ public class UserTokenCacheImpl implements UserTokenCache {
         LocalDateTime currentTime = LocalDateTime.now();
         for(int i = 0; i< userTokenCacheList.size(); i++){
             if(currentTime.isAfter(userTokenCacheList.get(i).getConnectionTime().plusHours(2))){
-                logger.debug("Removing from user cache user :" + userTokenCacheList.get(i).getUserCredential());
+                logger.debug("Removing from user cache user :" + userTokenCacheList.get(i).getLogin());
                 userTokenCacheList.remove(i);
             }
         }

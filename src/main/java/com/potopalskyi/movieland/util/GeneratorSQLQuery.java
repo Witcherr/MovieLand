@@ -50,18 +50,9 @@ public class GeneratorSQLQuery {
     }
 
     public String generateAllMoviesWithParamQuery(MovieSortAndLimitParam movieSortAndLimitParam){
-        StringBuilder sb = new StringBuilder(INITIAL_ALL_MOVIES_SQL);
-        /*if(movieSortAndLimitParam.getRatingSortType() != null && movieSortAndLimitParam.getPriceSortType() != null){
-            sb.append(ORDER_BY + RATING_FIELD + FREE_SPACE + movieSortAndLimitParam.getRatingSortType() + COMMA_SEPARATOR +
-                    PRICE_FIELD + FREE_SPACE + movieSortAndLimitParam.getPriceSortType() + " ");
-        } else if(movieSortAndLimitParam.getRatingSortType() != null){
-            sb.append(ORDER_BY + RATING_FIELD + FREE_SPACE + movieSortAndLimitParam.getRatingSortType() + " ");
-        } else if(movieSortAndLimitParam.getPriceSortType() != null){
-            sb.append(ORDER_BY + PRICE_FIELD + FREE_SPACE + movieSortAndLimitParam.getPriceSortType() + " ");
-        }*/
         String ratingValue = movieSortAndLimitParam.getRatingSortType();
         String priceValue = movieSortAndLimitParam.getPriceSortType();
-
+        StringBuilder sb = new StringBuilder(INITIAL_ALL_MOVIES_SQL);
         if(ratingValue != null || priceValue != null){
             sb.append(ORDER_BY);
             if(ratingValue!= null){

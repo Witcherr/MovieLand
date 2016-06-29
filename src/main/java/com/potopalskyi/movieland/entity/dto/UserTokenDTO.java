@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public class UserTokenDTO {
     private String token;
-    private UserCredential userCredential;
+    private String login;
     private LocalDateTime connectionTime;
 
     public String getToken() {
@@ -25,19 +25,19 @@ public class UserTokenDTO {
         this.connectionTime = connectionTime;
     }
 
-    public UserCredential getUserCredential() {
-        return userCredential;
+    public String getLogin() {
+        return login;
     }
 
-    public void setUserCredential(UserCredential userCredential) {
-        this.userCredential = userCredential;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     @Override
     public String toString() {
         return "UserTokenDTO{" +
                 "token='" + token + '\'' +
-                ", userCredential=" + userCredential +
+                ", login='" + login + '\'' +
                 ", connectionTime=" + connectionTime +
                 '}';
     }
