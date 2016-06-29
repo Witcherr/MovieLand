@@ -13,7 +13,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
-    private Logger logger= LoggerFactory.getLogger(UserDAOImpl.class);
+
+    private final Logger logger= LoggerFactory.getLogger(getClass());
 
     @Autowired
     private JdbcTemplate jdbcTemplate;

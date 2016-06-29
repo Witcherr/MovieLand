@@ -3,7 +3,7 @@ package com.potopalskyi.movieland.controller;
 import com.potopalskyi.movieland.entity.UserCredential;
 import com.potopalskyi.movieland.entity.exception.NoDataFoundException;
 import com.potopalskyi.movieland.service.AuthorizationService;
-import com.potopalskyi.movieland.util.ConvertJson;
+import com.potopalskyi.movieland.util.ConverterJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/v1")
 public class AuthorizationController {
 
-    private Logger logger = LoggerFactory.getLogger(AuthorizationController.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private ConvertJson convertJson;
+    private ConverterJson converterJson;
 
     @Autowired
     private AuthorizationService authorizationService;
@@ -30,7 +30,7 @@ public class AuthorizationController {
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "text/plain; charset=UTF-8")
     @ResponseBody
     public ResponseEntity<String> authorizateUser(@RequestBody String json){
-        UserCredential userCredential = convertJson.toUserCredential(json);
+        UserCredential userCredential = converterJson.toUserCredential(json);
         boolean isCorrectUserCredential;
         try {
            isCorrectUserCredential = authorizationService.checkUserCredential(userCredential);

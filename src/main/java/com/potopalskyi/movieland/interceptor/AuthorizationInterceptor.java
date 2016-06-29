@@ -1,7 +1,7 @@
 package com.potopalskyi.movieland.interceptor;
 
 import com.potopalskyi.movieland.service.AuthorizationService;
-import com.potopalskyi.movieland.util.ConvertJson;
+import com.potopalskyi.movieland.util.ConverterJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -14,7 +14,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     AuthorizationService authorizationService;
 
     @Autowired
-    ConvertJson convertJson;
+    ConverterJson converterJson;
 
     @Override
     public boolean preHandle(HttpServletRequest request,

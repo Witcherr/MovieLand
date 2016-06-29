@@ -13,16 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ConvertJson {
+public class ConverterJson {
     private Gson gson = new Gson();
 
     private JsonElement toJsonElement(Movie movie){
-        MovieDTO movieDTO = ConvertToDTO.convertToMovieDTO(movie);
+        MovieDTO movieDTO = ConverterToDTO.convertToMovieDTO(movie);
         return gson.toJsonTree(movieDTO);
     }
 
     public String toJsonDetailed(Movie movie) {
-        MovieDetailedDTO movieDetailedDTO = ConvertToDTO.convertToDetailedMovieDTO(movie);
+        MovieDetailedDTO movieDetailedDTO = ConverterToDTO.convertToDetailedMovieDTO(movie);
         return gson.toJson(movieDetailedDTO);
     }
 

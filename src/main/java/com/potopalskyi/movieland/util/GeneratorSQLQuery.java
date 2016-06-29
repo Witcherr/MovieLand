@@ -79,7 +79,7 @@ public class GeneratorSQLQuery {
 
     private String addCondition(String field, String value){
         if(value != null){
-            return AND + field + LIKE + PERCENT_RIGHT + value + PERCENT_LEFT + " ";
+            return AND + field + LIKE + PERCENT_RIGHT + value + PERCENT_LEFT + FREE_SPACE;
         }
         return "";
     }

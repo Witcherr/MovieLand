@@ -17,7 +17,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 public class GenreCacheImpl implements GenreCache {
-    private Logger logger = LoggerFactory.getLogger(GenreCacheImpl.class);
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private GenreService genreService;

@@ -17,7 +17,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 public class CountryCacheImpl implements CountryCache{
-    private Logger logger = LoggerFactory.getLogger(CountryCacheImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private List<CountryCacheDTO> countryCacheList = new CopyOnWriteArrayList<>();
 

@@ -15,7 +15,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Service
 public class UserTokenCacheImpl implements UserTokenCache {
 
-    private Logger logger = LoggerFactory.getLogger(UserTokenCacheImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private List<UserTokenDTO> userTokenCacheList = new CopyOnWriteArrayList<>();
 
