@@ -5,6 +5,7 @@ import com.potopalskyi.movieland.entity.Country;
 import com.potopalskyi.movieland.entity.dto.CountryCacheDTO;
 import com.potopalskyi.movieland.service.CountryService;
 import com.potopalskyi.movieland.service.MovieService;
+import com.potopalskyi.movieland.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,23 +30,14 @@ public class CountryCacheImpl implements CountryCache{
 
     @Override
     public List<Country> getCountryByMovieId(int movieId) {
-
-        List<Country> countries = new ArrayList<>();
-        boolean flag = false;
         logger.info("Start getting country from cache");
-        for (int i = 0; i < countryCacheList.size(); i++){
-            if(movieId == countryCacheList.get(i).getMovieId()){
-                countries = countryCacheList.get(i).getCountries();
-                flag = true;
-                logger.info("Countries for movieId = " + movieId + " was found in cache");
-                break;
+        for(CountryCacheDTO countryCacheDTO: countryCacheList){
+            if(movieId == countryCacheDTO.getMovieId()){
+                return Util.cloneListCountry(countryCacheDTO.getCountries());
             }
         }
-        if(!flag){
-            logger.info("Country for movieId = " + movieId + " was not found in cache. Try to add information to cache from database");
-            countries = addNewElementToCache(movieId);
-        }
-        return countries;
+        logger.info("Country for movieId = " + movieId + " was not found in cache. Try to add information to cache from database");
+        return Util.cloneListCountry(addNewElementToCache(movieId));
     }
 
     @Scheduled(fixedRate = 4 * 60 * 60 * 1000)
@@ -55,20 +47,23 @@ public class CountryCacheImpl implements CountryCache{
         List<Integer> movieIdList = movieService.getAllMoviesId();
         countryCacheList.clear();
         for (int i = 0; i < movieIdList.size(); i++){
-            countryCacheList.add(new CountryCacheDTO());
-            countryCacheList.get(i).setMovieId(movieIdList.get(i));
-            countryCacheList.get(i).setCountries(countryService.getCountryById(countryCacheList.get(i).getMovieId()));
+            int movieId = movieIdList.get(i);
+            CountryCacheDTO countryCacheDTO = new CountryCacheDTO();
+            countryCacheDTO.setMovieId(movieId);
+            countryCacheDTO.setCountries(countryService.getCountryById(movieId));
+            countryCacheList.add(countryCacheDTO);
         }
         logger.info("End filling of cache for country");
     }
 
     @Override
     public List<Country> addNewElementToCache(int movieId) {
-        countryCacheList.add(new CountryCacheDTO());
-        countryCacheList.get(countryCacheList.size() - 1).setMovieId(movieId);
+        CountryCacheDTO countryCacheDTO = new CountryCacheDTO();
+        countryCacheDTO.setMovieId(movieId);
         List<Country> countries = countryService.getCountryById(movieId);
-        countryCacheList.get(countryCacheList.size() - 1).setCountries(countries);
-        if (countries != null){
+        countryCacheDTO.setCountries(countries);
+        if(countries != null){
+            countryCacheList.add(countryCacheDTO);
             logger.info("Country was got from database and added to cache");
         }
         return countries;

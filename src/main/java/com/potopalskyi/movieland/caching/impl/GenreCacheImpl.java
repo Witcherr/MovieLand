@@ -5,6 +5,7 @@ import com.potopalskyi.movieland.entity.Genre;
 import com.potopalskyi.movieland.entity.dto.GenreCacheDTO;
 import com.potopalskyi.movieland.service.GenreService;
 import com.potopalskyi.movieland.service.MovieService;
+import com.potopalskyi.movieland.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +31,13 @@ public class GenreCacheImpl implements GenreCache {
     @Override
     public List<Genre> getGenreByMovieId(int movieId) {
         logger.info("Start getting genre from cache");
-        for (int i = 0; i < genreCacheList.size(); i++) {
-            if (movieId == genreCacheList.get(i).getMovieId()) {
-                return genreCacheList.get(i).getGenre();
+        for (GenreCacheDTO genreCacheDTO : genreCacheList) {
+            if (movieId == genreCacheDTO.getMovieId()) {
+                return Util.cloneListGenre(genreCacheDTO.getGenre());
             }
         }
         logger.info("Genre for movieId = " + movieId + " was not found in cache. Try to add information to cache from database");
-        return addNewElementToCache(movieId);
+        return Util.cloneListGenre(addNewElementToCache(movieId));
     }
 
     @Scheduled(fixedRate = 4 * 60 * 60 * 1000)
@@ -62,6 +63,7 @@ public class GenreCacheImpl implements GenreCache {
         List<Genre> genres = genreService.getGenreById(movieId);
         genreCacheDTO.setGenre(genres);
         if (genres != null) {
+            genreCacheList.add(genreCacheDTO);
             logger.info("Genre was got from database and added to cache");
         }
         return genres;
