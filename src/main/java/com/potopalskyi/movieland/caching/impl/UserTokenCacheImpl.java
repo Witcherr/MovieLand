@@ -41,4 +41,14 @@ public class UserTokenCacheImpl implements UserTokenCache {
             }
         }
     }
+
+    @Override
+    public boolean containsToken(String token) {
+        for(UserTokenDTO userTokenDTO: userTokenCacheList){
+            if (token.equals(userTokenDTO.getToken())){
+                return true;
+            }
+        }
+        return false;
+    }
 }

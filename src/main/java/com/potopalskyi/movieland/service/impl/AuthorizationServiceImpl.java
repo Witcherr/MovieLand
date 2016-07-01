@@ -31,4 +31,9 @@ public class AuthorizationServiceImpl implements AuthorizationService{
         userTokenCache.addNewElementToCache(userCredential.getName(), token);
         return token;
     }
+
+    @Override
+    public boolean checkRightsForRequest(String token) {
+        return userTokenCache.containsToken(token);
+    }
 }

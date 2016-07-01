@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -45,14 +46,15 @@ public class GenreCacheImpl implements GenreCache {
     public void fillCache() {
         logger.debug("Start filling of cache for genre");
         List<Integer> movieIdList = movieService.getAllMoviesId();
-        genreCacheList.clear();
+        List<GenreCacheDTO> tempList = new ArrayList<>();
         for (int i = 0; i < movieIdList.size(); i++) {
             int movieId = movieIdList.get(i);
             GenreCacheDTO genreCacheDTO = new GenreCacheDTO();
             genreCacheDTO.setMovieId(movieId);
             genreCacheDTO.setGenre(genreService.getGenreById(movieId));
-            genreCacheList.add(genreCacheDTO);
+            tempList.add(genreCacheDTO);
         }
+        genreCacheList = new CopyOnWriteArrayList<>(tempList);
         logger.debug("End filling of cache for genre");
     }
 

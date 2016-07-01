@@ -7,4 +7,6 @@ public interface AuthorizationService {
     boolean checkUserCredential(UserCredential userCredential);
 
     String generateToken(UserCredential userCredential);
+
+    boolean checkRightsForRequest(String token);
 }

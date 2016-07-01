@@ -21,9 +21,12 @@
 
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/v1/movies" />
+            <!--<mvc:mapping path="/v1/movies" />-->
             <!--<mvc:mapping path="/v1/movies/search" />-->
-            <!--<mvc:mapping path="/v1/movies/login" />-->
+            <mvc:mapping path="/v1/review" />
+            <!--<mvc:mapping path="/v1/rate" />-->
+            <!--<mvc:mapping path="/v1/movie" />-->
+            <!--<mvc:mapping path="/v1/movie/**" />-->
             <bean class="com.potopalskyi.movieland.interceptor.AuthorizationInterceptor" />
         </mvc:interceptor>
     </mvc:interceptors>

@@ -67,4 +67,34 @@ public class MovieController {
         }
         return new ResponseEntity<>(converterJson.toJson(movies), HttpStatus.OK);
     }
+
+    @RequestMapping( value = "/rate", method = RequestMethod.POST)
+    @ResponseBody
+    public void addRateToMovie(){
+
+    }
+
+    @RequestMapping( value = "/movie", method = RequestMethod.POST)
+    @ResponseBody
+    public void addMovie(){
+
+    }
+
+    @RequestMapping( value = "/movie", method = RequestMethod.PUT)
+    @ResponseBody
+    public void editMovie(){
+
+    }
+
+    @RequestMapping( value = "/movie/{movieId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public void markMovie(){
+
+    }
+
+    @RequestMapping( value = "/movie/{movieId}", method = RequestMethod.POST)
+    @ResponseBody
+    public void unMarkMovie(){
+
+    }
 }

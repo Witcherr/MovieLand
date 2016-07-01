@@ -45,14 +45,15 @@ public class CountryCacheImpl implements CountryCache{
     public void fillCache() {
         logger.info("Start filling of cache for country");
         List<Integer> movieIdList = movieService.getAllMoviesId();
-        countryCacheList.clear();
+        List<CountryCacheDTO> tempList = new ArrayList<>();
         for (int i = 0; i < movieIdList.size(); i++){
             int movieId = movieIdList.get(i);
             CountryCacheDTO countryCacheDTO = new CountryCacheDTO();
             countryCacheDTO.setMovieId(movieId);
             countryCacheDTO.setCountries(countryService.getCountryById(movieId));
-            countryCacheList.add(countryCacheDTO);
+            tempList.add(countryCacheDTO);
         }
+        countryCacheList = new CopyOnWriteArrayList<>(tempList);
         logger.info("End filling of cache for country");
     }
 
