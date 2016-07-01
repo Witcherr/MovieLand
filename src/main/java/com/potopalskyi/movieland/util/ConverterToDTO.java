@@ -10,7 +10,7 @@ import com.potopalskyi.movieland.entity.Review;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConvertToDTO {
+public class ConverterToDTO {
     public static MovieDTO convertToMovieDTO(Movie movie){
         MovieDTO movieDTO = new MovieDTO();
         List<String> genres = new ArrayList<>();

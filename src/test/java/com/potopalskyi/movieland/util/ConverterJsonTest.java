@@ -12,13 +12,13 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class ConvertJsonTest {
+public class ConverterJsonTest {
 
     @Test
     public void toJsonTest() {
         String expectedJson = "[{\"titleRussian\":\"Ага\",\"titleEnglish\":\"Aga\",\"year\":2016,\"rating\":7.4,\"price\":0.0,\"genre\":[\"Второй\",\"Первый\"]},{\"titleRussian\":\"Тест\",\"titleEnglish\":\"Test\",\"year\":2010,\"rating\":72.4,\"price\":0.0,\"genre\":[\"Второй\",\"Первый\"]}]";
         Movie movie1 = new Movie();
-        ConvertJson convertJson = new ConvertJson();
+        ConverterJson converterJson = new ConverterJson();
         movie1.setTitleRussian("Ага");
         movie1.setTitleEnglish("Aga");
         movie1.setYear(2016);
@@ -39,14 +39,14 @@ public class ConvertJsonTest {
         List<Movie> movies = new ArrayList<>();
         movies.add(movie1);
         movies.add(movie2);
-        assertEquals(expectedJson, convertJson.toJson(movies));
+        assertEquals(expectedJson, converterJson.toJson(movies));
     }
 
     @Test
     public void toJsonDetailedTest(){
         String expectedJson = "{\"titleRussian\":\"Ага\",\"titleEnglish\":\"Aga\",\"year\":2016,\"country\":[\"Бельгия\",\"Франция\"],\"genre\":[\"Второй\",\"Первый\",\"Детектив\"],\"description\":\"Деттективная история...\",\"review\":[\"Отличный фильм\",\"Супер\",\"Классный фильм, рекомендую!\"],\"rating\":7.4}";
         Movie movie = new Movie();
-        ConvertJson convertJson = new ConvertJson();
+        ConverterJson converterJson = new ConverterJson();
         movie.setTitleRussian("Ага");
         movie.setTitleEnglish("Aga");
         movie.setYear(2016);
@@ -71,7 +71,6 @@ public class ConvertJsonTest {
         review2.setDescription("Супер");
         review3.setDescription("Классный фильм, рекомендую!");
         movie.setReviewList(Arrays.asList(review1, review2, review3));
-        System.out.println(convertJson.toJsonDetailed(movie));
-        assertEquals(expectedJson, convertJson.toJsonDetailed(movie));
+        assertEquals(expectedJson, converterJson.toJsonDetailed(movie));
     }
 }

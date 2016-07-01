@@ -1,19 +1,17 @@
 package com.potopalskyi.movieland.service.impl;
 
+import com.potopalskyi.movieland.caching.CountryCache;
+import com.potopalskyi.movieland.caching.GenreCache;
 import com.potopalskyi.movieland.dao.MovieDAO;
 import com.potopalskyi.movieland.entity.Movie;
 import com.potopalskyi.movieland.entity.MovieSearchParam;
-import com.potopalskyi.movieland.entity.MovieSortParam;
+import com.potopalskyi.movieland.entity.MovieSortAndLimitParam;
 import com.potopalskyi.movieland.entity.Review;
-import com.potopalskyi.movieland.service.CountryService;
-import com.potopalskyi.movieland.service.GenreService;
 import com.potopalskyi.movieland.service.MovieService;
 import com.potopalskyi.movieland.service.ReviewService;
-import com.potopalskyi.movieland.util.MovieComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -23,21 +21,20 @@ public class MovieServiceImpl implements MovieService {
     MovieDAO movieDAO;
 
     @Autowired
-    GenreService genreService;
-
-    @Autowired
-    CountryService countryService;
+    CountryCache countryCache;
 
     @Autowired
     ReviewService reviewService;
 
+    @Autowired
+    GenreCache genreCache;
+
     @Override
-    public List<Movie> getAllMovies(MovieSortParam movieSortParam) {
-        List<Movie> movies = movieDAO.getAllMovies();
+    public List<Movie> getAllMovies(MovieSortAndLimitParam movieSortAndLimitParam) {
+        List<Movie> movies = movieDAO.getAllMovies(movieSortAndLimitParam);
         if(movies != null) {
-            Collections.sort(movies, new MovieComparator(movieSortParam));
             for (Movie movie : movies) {
-                movie.setGenreList(genreService.getGenreById(movie.getId()));
+                movie.setGenreList(genreCache.getGenreByMovieId(movie.getId()));
             }
         }
         return movies;
@@ -48,7 +45,7 @@ public class MovieServiceImpl implements MovieService {
         List<Movie> movies = movieDAO.getMoviesBySearch(movieSearchParam);
         if (movies != null) {
             for (Movie movie : movies) {
-                movie.setGenreList(genreService.getGenreById(movie.getId()));
+                movie.setGenreList(genreCache.getGenreByMovieId(movie.getId()));
             }
         }
         return movies;
@@ -58,8 +55,8 @@ public class MovieServiceImpl implements MovieService {
     public Movie getMovieById(int id) {
         Movie movie = movieDAO.getMovieById(id);
         if (movie != null) {
-            movie.setGenreList(genreService.getGenreById(id));
-            movie.setCountryList(countryService.getCountryById(id));
+            movie.setGenreList(genreCache.getGenreByMovieId(movie.getId()));
+            movie.setCountryList(countryCache.getCountryByMovieId(id));
             List<Review> reviews = reviewService.getReviewByMovieId(id);
             if (reviews.size() >= 2) {
                 movie.setReviewList(reviews.subList(0, 2));
@@ -68,5 +65,10 @@ public class MovieServiceImpl implements MovieService {
             }
         }
         return movie;
+    }
+
+    @Override
+    public List<Integer> getAllMoviesId() {
+        return movieDAO.getAllMoviesId();
     }
 }
