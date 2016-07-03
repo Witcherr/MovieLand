@@ -3,6 +3,8 @@ package com.potopalskyi.movieland.controller;
 import com.potopalskyi.movieland.entity.Movie;
 import com.potopalskyi.movieland.entity.MovieSearchParam;
 import com.potopalskyi.movieland.entity.MovieSortAndLimitParam;
+import com.potopalskyi.movieland.entity.annotation.RoleTypeRequired;
+import com.potopalskyi.movieland.entity.enums.RoleType;
 import com.potopalskyi.movieland.entity.exception.NoDataFoundException;
 import com.potopalskyi.movieland.service.MovieService;
 import com.potopalskyi.movieland.util.ConverterJson;
@@ -68,30 +70,35 @@ public class MovieController {
         return new ResponseEntity<>(converterJson.toJson(movies), HttpStatus.OK);
     }
 
+    @RoleTypeRequired(role = RoleType.USER)
     @RequestMapping( value = "/rate", method = RequestMethod.POST)
     @ResponseBody
     public void addRateToMovie(){
 
     }
 
+    @RoleTypeRequired(role = RoleType.USER)
     @RequestMapping( value = "/movie", method = RequestMethod.POST)
     @ResponseBody
     public void addMovie(){
 
     }
 
+    @RoleTypeRequired(role = RoleType.USER)
     @RequestMapping( value = "/movie", method = RequestMethod.PUT)
     @ResponseBody
     public void editMovie(){
 
     }
 
+    @RoleTypeRequired(role = RoleType.ADMIN)
     @RequestMapping( value = "/movie/{movieId}", method = RequestMethod.DELETE)
     @ResponseBody
     public void markMovie(){
 
     }
 
+    @RoleTypeRequired(role = RoleType.ADMIN)
     @RequestMapping( value = "/movie/{movieId}", method = RequestMethod.POST)
     @ResponseBody
     public void unMarkMovie(){

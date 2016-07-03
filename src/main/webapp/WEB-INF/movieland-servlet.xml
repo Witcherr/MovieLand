@@ -15,19 +15,7 @@
 
     <mvc:annotation-driven/>
 
-    <!--<mvc:interceptors>-->
-        <!--<bean class="com.potopalskyi.movieland.interceptor.AuthorizationInterceptor"/>-->
-    <!--</mvc:interceptors>-->
-
     <mvc:interceptors>
-        <mvc:interceptor>
-            <!--<mvc:mapping path="/v1/movies" />-->
-            <!--<mvc:mapping path="/v1/movies/search" />-->
-            <mvc:mapping path="/v1/review" />
-            <!--<mvc:mapping path="/v1/rate" />-->
-            <!--<mvc:mapping path="/v1/movie" />-->
-            <!--<mvc:mapping path="/v1/movie/**" />-->
-            <bean class="com.potopalskyi.movieland.interceptor.AuthorizationInterceptor" />
-        </mvc:interceptor>
+        <bean class="com.potopalskyi.movieland.interceptor.AuthorizationInterceptor"/>
     </mvc:interceptors>
 </beans>

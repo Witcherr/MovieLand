@@ -1,6 +1,7 @@
 package com.potopalskyi.movieland.caching.impl;
 
 import com.potopalskyi.movieland.caching.UserTokenCache;
+import com.potopalskyi.movieland.entity.User;
 import com.potopalskyi.movieland.entity.dto.UserTokenDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,14 +20,15 @@ public class UserTokenCacheImpl implements UserTokenCache {
     private List<UserTokenDTO> userTokenCacheList = new CopyOnWriteArrayList<>();
 
     @Override
-    public void addNewElementToCache(String login, String token) {
-        logger.debug("Start adding token into user cache for user : " + login);
+    public void addNewElementToCache(User user, String token) {
+        logger.debug("Start adding token into user cache for user: {} ", user.getName());
         UserTokenDTO userTokenDTO = new UserTokenDTO();
-        userTokenDTO.setLogin(login);
+        userTokenDTO.setLogin(user.getName());
         userTokenDTO.setToken(token);
         userTokenDTO.setConnectionTime(LocalDateTime.now());
+        userTokenDTO.setRoleType(user.getRoleType());
         userTokenCacheList.add(userTokenDTO);
-        logger.debug("End adding token into cache for user : " + login);
+        logger.debug("End adding token into cache for user : {} " + user.getName());
     }
 
     @Scheduled(fixedRate = 60 * 1000)
@@ -43,12 +45,12 @@ public class UserTokenCacheImpl implements UserTokenCache {
     }
 
     @Override
-    public boolean containsToken(String token) {
+    public UserTokenDTO getUserTokenDTO(String token) {
         for(UserTokenDTO userTokenDTO: userTokenCacheList){
             if (token.equals(userTokenDTO.getToken())){
-                return true;
+                return userTokenDTO;
             }
         }
-        return false;
+        return null;
     }
 }

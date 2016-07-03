@@ -3,8 +3,9 @@ package com.potopalskyi.movieland.service.impl;
 import com.potopalskyi.movieland.caching.UserTokenCache;
 import com.potopalskyi.movieland.entity.User;
 import com.potopalskyi.movieland.entity.UserCredential;
+import com.potopalskyi.movieland.entity.annotation.RoleTypeRequired;
+import com.potopalskyi.movieland.entity.dto.UserTokenDTO;
 import com.potopalskyi.movieland.service.AuthorizationService;
-import com.potopalskyi.movieland.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,26 +15,23 @@ import java.util.UUID;
 public class AuthorizationServiceImpl implements AuthorizationService{
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private UserTokenCache userTokenCache;
 
     @Override
-    public boolean checkUserCredential(UserCredential userCredential) {
-        User user = userService.getUserByName(userCredential.getName());
+    public boolean checkUserCredential(UserCredential userCredential, User user) {
         return (user != null && user.getPassword().equals(userCredential.getPassword()));
     }
 
     @Override
-    public String generateToken(UserCredential userCredential) {
+    public String generateToken(User user) {
         String token = UUID.randomUUID().toString();
-        userTokenCache.addNewElementToCache(userCredential.getName(), token);
+        userTokenCache.addNewElementToCache(user, token);
         return token;
     }
 
     @Override
-    public boolean checkRightsForRequest(String token) {
-        return userTokenCache.containsToken(token);
+    public boolean checkRightsForRequest(String token, RoleTypeRequired roleTypeRequired) {
+        UserTokenDTO userTokenDTO = userTokenCache.getUserTokenDTO(token);
+        return userTokenDTO != null && userTokenDTO.getRoleType().equalOrHigher(roleTypeRequired.role());
     }
 }

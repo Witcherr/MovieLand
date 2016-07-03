@@ -1,10 +1,13 @@
 package com.potopalskyi.movieland.caching;
 
+import com.potopalskyi.movieland.entity.User;
+import com.potopalskyi.movieland.entity.dto.UserTokenDTO;
+
 public interface UserTokenCache {
 
-    void addNewElementToCache(String login, String token);
+    void addNewElementToCache(User user, String token);
 
     void refreshCache();
 
-    boolean containsToken(String token);
+    UserTokenDTO getUserTokenDTO(String token);
 }

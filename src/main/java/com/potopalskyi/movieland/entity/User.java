@@ -1,10 +1,13 @@
 package com.potopalskyi.movieland.entity;
 
+import com.potopalskyi.movieland.entity.enums.RoleType;
+
 public class User {
     private int id;
     private String name;
     private String email;
     private String password;
+    private RoleType roleType;
 
     public int getId() {
         return id;
@@ -38,6 +41,14 @@ public class User {
         this.password = password;
     }
 
+    public RoleType getRoleType() {
+        return roleType;
+    }
+
+    public void setRoleType(RoleType roleType) {
+        this.roleType = roleType;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -45,6 +56,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", roleType=" + roleType +
                 '}';
     }
 }
