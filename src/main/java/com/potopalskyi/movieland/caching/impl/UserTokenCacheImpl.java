@@ -27,6 +27,7 @@ public class UserTokenCacheImpl implements UserTokenCache {
         userTokenDTO.setToken(token);
         userTokenDTO.setConnectionTime(LocalDateTime.now());
         userTokenDTO.setRoleType(user.getRoleType());
+        userTokenDTO.setUserId(user.getId());
         userTokenCacheList.add(userTokenDTO);
         logger.debug("End adding token into cache for user : {} " + user.getName());
     }

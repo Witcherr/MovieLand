@@ -9,6 +9,7 @@ public class UserTokenDTO {
     private String login;
     private LocalDateTime connectionTime;
     private RoleType roleType;
+    private int userId;
 
     public String getToken() {
         return token;
@@ -42,6 +43,14 @@ public class UserTokenDTO {
         this.roleType = roleType;
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "UserTokenDTO{" +
@@ -49,6 +58,7 @@ public class UserTokenDTO {
                 ", login='" + login + '\'' +
                 ", connectionTime=" + connectionTime +
                 ", roleType=" + roleType +
+                ", userId=" + userId +
                 '}';
     }
 }

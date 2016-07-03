@@ -2,11 +2,9 @@ package com.potopalskyi.movieland.util;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.potopalskyi.movieland.entity.UserCredential;
+import com.potopalskyi.movieland.entity.*;
 import com.potopalskyi.movieland.entity.dto.MovieDTO;
 import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
-import com.potopalskyi.movieland.entity.Movie;
-import com.potopalskyi.movieland.entity.MovieSearchParam;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,6 +34,10 @@ public class ConverterJson {
 
     public MovieSearchParam toMovieSearchParam(String json){
         return gson.fromJson(json, MovieSearchParam.class);
+    }
+
+    public ReviewAlterParam toReviewAddParam(String json){
+        return gson.fromJson(json, ReviewAlterParam.class);
     }
 
     public UserCredential toUserCredential(String json){

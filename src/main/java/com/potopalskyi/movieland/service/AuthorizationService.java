@@ -11,4 +11,6 @@ public interface AuthorizationService {
     String generateToken(User user);
 
     boolean checkRightsForRequest(String token, RoleTypeRequired roleTypeRequired);
+
+    boolean checkUserForAltering(String token, int userId);
 }
