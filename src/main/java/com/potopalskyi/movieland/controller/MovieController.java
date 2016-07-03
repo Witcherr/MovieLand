@@ -71,13 +71,6 @@ public class MovieController {
     }
 
     @RoleTypeRequired(role = RoleType.USER)
-    @RequestMapping( value = "/rate", method = RequestMethod.POST)
-    @ResponseBody
-    public void addRateToMovie(){
-
-    }
-
-    @RoleTypeRequired(role = RoleType.USER)
     @RequestMapping( value = "/movie", method = RequestMethod.POST)
     @ResponseBody
     public void addMovie(){

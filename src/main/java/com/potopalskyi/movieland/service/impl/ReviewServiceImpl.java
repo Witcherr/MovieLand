@@ -13,7 +13,7 @@ import java.util.List;
 public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
-    ReviewDAO reviewDAO;
+    private ReviewDAO reviewDAO;
 
     @Override
     public List<Review> getReviewByMovieId(int id) {

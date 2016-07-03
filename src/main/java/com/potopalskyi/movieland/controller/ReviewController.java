@@ -21,13 +21,13 @@ import javax.servlet.http.HttpServletRequest;
 public class ReviewController {
 
     @Autowired
-    ConverterJson converterJson;
+    private ConverterJson converterJson;
 
     @Autowired
-    AuthorizationService authorizationService;
+    private AuthorizationService authorizationService;
 
     @Autowired
-    ReviewService reviewService;
+    private ReviewService reviewService;
 
     @RoleTypeRequired(role = RoleType.USER)
     @RequestMapping(method = RequestMethod.POST)
@@ -38,7 +38,6 @@ public class ReviewController {
             return new ResponseEntity<>("You cann't add review for other user", HttpStatus.FORBIDDEN);
         }
         if (reviewService.addReview(reviewAlterParam)){
-
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

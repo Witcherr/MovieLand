@@ -77,4 +77,28 @@
                                 where movie_id = ?
                                 and user_id = ?"/>
     </bean>
+
+    <bean id="checkRatingExistSQL" class="java.lang.String">
+        <constructor-arg value="select count(*)
+                                from rating_movie
+                                where movie_id = ?
+                                and user_id = ?"/>
+    </bean>
+
+    <bean id="addRatingSQL" class="java.lang.String">
+        <constructor-arg value="insert into rating_movie(movie_id, user_id, rating)
+                                values(?, ?, ?)"/>
+    </bean>
+
+    <bean id="updateRatingSQL" class="java.lang.String">
+        <constructor-arg value="update rating_movie
+                                set rating = ?
+                                where movie_id = ?
+                                and user_id = ?"/>
+    </bean>
+
+    <bean id="getAllRatingSQL" class="java.lang.String">
+        <constructor-arg value="select movie_id, user_id, rating
+                                from rating_movie"/>
+    </bean>
 </beans>

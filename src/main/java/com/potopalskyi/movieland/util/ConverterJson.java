@@ -43,4 +43,8 @@ public class ConverterJson {
     public UserCredential toUserCredential(String json){
         return gson.fromJson(json, UserCredential.class);
     }
+
+    public RatingParam toRatingParam(String json){
+        return gson.fromJson(json, RatingParam.class);
+    }
 }
