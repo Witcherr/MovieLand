@@ -1,7 +1,7 @@
 package com.potopalskyi.movieland.caching.impl;
 
 import com.potopalskyi.movieland.caching.CountryCache;
-import com.potopalskyi.movieland.entity.Country;
+import com.potopalskyi.movieland.entity.business.Country;
 import com.potopalskyi.movieland.entity.dto.CountryCacheDTO;
 import com.potopalskyi.movieland.service.CountryService;
 import com.potopalskyi.movieland.service.MovieService;

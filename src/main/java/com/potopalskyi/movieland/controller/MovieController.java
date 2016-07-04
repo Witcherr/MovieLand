@@ -1,8 +1,8 @@
 package com.potopalskyi.movieland.controller;
 
-import com.potopalskyi.movieland.entity.Movie;
-import com.potopalskyi.movieland.entity.MovieSearchParam;
-import com.potopalskyi.movieland.entity.MovieSortAndLimitParam;
+import com.potopalskyi.movieland.entity.business.Movie;
+import com.potopalskyi.movieland.entity.param.MovieSearchParam;
+import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
 import com.potopalskyi.movieland.entity.annotation.RoleTypeRequired;
 import com.potopalskyi.movieland.entity.enums.RoleType;
 import com.potopalskyi.movieland.entity.exception.NoDataFoundException;

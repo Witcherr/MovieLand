@@ -1,6 +1,6 @@
 package com.potopalskyi.movieland.service;
 
-import com.potopalskyi.movieland.entity.Genre;
+import com.potopalskyi.movieland.entity.business.Genre;
 
 import java.util.List;
 

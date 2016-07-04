@@ -2,8 +2,8 @@ package com.potopalskyi.movieland.dao.jdbc;
 
 import com.potopalskyi.movieland.dao.ReviewDAO;
 import com.potopalskyi.movieland.dao.jdbc.mapper.ReviewRowMapper;
-import com.potopalskyi.movieland.entity.Review;
-import com.potopalskyi.movieland.entity.ReviewAlterParam;
+import com.potopalskyi.movieland.entity.business.Review;
+import com.potopalskyi.movieland.entity.param.ReviewAlterParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

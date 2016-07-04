@@ -1,6 +1,6 @@
 package com.potopalskyi.movieland.service;
 
-import com.potopalskyi.movieland.entity.RatingParam;
+import com.potopalskyi.movieland.entity.param.RatingParam;
 import com.potopalskyi.movieland.entity.dto.RatingDTO;
 
 import java.util.List;

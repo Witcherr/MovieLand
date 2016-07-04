@@ -1,4 +1,4 @@
-package com.potopalskyi.movieland.entity;
+package com.potopalskyi.movieland.entity.business;
 
 import com.potopalskyi.movieland.entity.enums.RoleType;
 

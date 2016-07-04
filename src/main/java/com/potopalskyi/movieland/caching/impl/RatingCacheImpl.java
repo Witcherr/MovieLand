@@ -1,7 +1,7 @@
 package com.potopalskyi.movieland.caching.impl;
 
 import com.potopalskyi.movieland.caching.RatingCache;
-import com.potopalskyi.movieland.entity.RatingParam;
+import com.potopalskyi.movieland.entity.param.RatingParam;
 import com.potopalskyi.movieland.entity.dto.RatingDTO;
 import com.potopalskyi.movieland.service.RatingService;
 import org.slf4j.Logger;

@@ -2,7 +2,7 @@ package com.potopalskyi.movieland.dao.jdbc;
 
 import com.potopalskyi.movieland.dao.GenreDAO;
 import com.potopalskyi.movieland.dao.jdbc.mapper.GenreRowMapper;
-import com.potopalskyi.movieland.entity.Genre;
+import com.potopalskyi.movieland.entity.business.Genre;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

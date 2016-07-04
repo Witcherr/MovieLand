@@ -1,7 +1,7 @@
 package com.potopalskyi.movieland.caching.impl;
 
 import com.potopalskyi.movieland.caching.GenreCache;
-import com.potopalskyi.movieland.entity.Genre;
+import com.potopalskyi.movieland.entity.business.Genre;
 import com.potopalskyi.movieland.entity.dto.GenreCacheDTO;
 import com.potopalskyi.movieland.service.GenreService;
 import com.potopalskyi.movieland.service.MovieService;

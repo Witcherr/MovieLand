@@ -1,26 +1,26 @@
 package com.potopalskyi.movieland.service.impl;
 
 import com.potopalskyi.movieland.caching.UserTokenCache;
-import com.potopalskyi.movieland.entity.User;
-import com.potopalskyi.movieland.entity.UserCredential;
+import com.potopalskyi.movieland.entity.param.UserCredentialParam;
+import com.potopalskyi.movieland.entity.business.User;
 import com.potopalskyi.movieland.entity.annotation.RoleTypeRequired;
 import com.potopalskyi.movieland.entity.dto.UserTokenDTO;
 import com.potopalskyi.movieland.entity.enums.RoleType;
-import com.potopalskyi.movieland.service.AuthorizationService;
+import com.potopalskyi.movieland.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
-public class AuthorizationServiceImpl implements AuthorizationService{
+public class SecurityServiceImpl implements SecurityService {
 
     @Autowired
     private UserTokenCache userTokenCache;
 
     @Override
-    public boolean checkUserCredential(UserCredential userCredential, User user) {
-        return user.getPassword().equals(userCredential.getPassword());
+    public boolean checkUserCredential(UserCredentialParam userCredentialParam, User user) {
+        return user.getPassword().equals(userCredentialParam.getPassword());
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.potopalskyi.movieland.util;
 
-import com.potopalskyi.movieland.entity.MovieSearchParam;
-import com.potopalskyi.movieland.entity.MovieSortAndLimitParam;
+import com.potopalskyi.movieland.entity.param.MovieSearchParam;
+import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
 import org.springframework.stereotype.Service;
 
 @Service

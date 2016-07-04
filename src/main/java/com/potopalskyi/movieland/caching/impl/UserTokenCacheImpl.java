@@ -1,7 +1,7 @@
 package com.potopalskyi.movieland.caching.impl;
 
 import com.potopalskyi.movieland.caching.UserTokenCache;
-import com.potopalskyi.movieland.entity.User;
+import com.potopalskyi.movieland.entity.business.User;
 import com.potopalskyi.movieland.entity.dto.UserTokenDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

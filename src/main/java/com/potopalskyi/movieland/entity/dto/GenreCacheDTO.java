@@ -1,6 +1,6 @@
 package com.potopalskyi.movieland.entity.dto;
 
-import com.potopalskyi.movieland.entity.Genre;
+import com.potopalskyi.movieland.entity.business.Genre;
 
 import java.util.List;
 

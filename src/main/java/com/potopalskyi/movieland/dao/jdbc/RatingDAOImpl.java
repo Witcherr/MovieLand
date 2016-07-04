@@ -2,7 +2,7 @@ package com.potopalskyi.movieland.dao.jdbc;
 
 import com.potopalskyi.movieland.dao.RatingDAO;
 import com.potopalskyi.movieland.dao.jdbc.mapper.RatingRowMapper;
-import com.potopalskyi.movieland.entity.RatingParam;
+import com.potopalskyi.movieland.entity.param.RatingParam;
 import com.potopalskyi.movieland.entity.dto.RatingDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

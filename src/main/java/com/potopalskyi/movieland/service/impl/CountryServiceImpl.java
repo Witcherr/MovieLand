@@ -1,7 +1,7 @@
 package com.potopalskyi.movieland.service.impl;
 
 import com.potopalskyi.movieland.dao.CountryDAO;
-import com.potopalskyi.movieland.entity.Country;
+import com.potopalskyi.movieland.entity.business.Country;
 import com.potopalskyi.movieland.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

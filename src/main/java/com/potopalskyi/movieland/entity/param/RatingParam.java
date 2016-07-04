@@ -1,4 +1,4 @@
-package com.potopalskyi.movieland.entity;
+package com.potopalskyi.movieland.entity.param;
 
 public class RatingParam {
     private int authorId;

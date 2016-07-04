@@ -1,9 +1,8 @@
 package com.potopalskyi.movieland.dao;
 
-import com.potopalskyi.movieland.entity.Movie;
-import com.potopalskyi.movieland.entity.MovieSearchParam;
-import com.potopalskyi.movieland.entity.MovieSortAndLimitParam;
-import org.springframework.stereotype.Repository;
+import com.potopalskyi.movieland.entity.business.Movie;
+import com.potopalskyi.movieland.entity.param.MovieSearchParam;
+import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
 
 import java.util.List;
 

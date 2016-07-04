@@ -1,9 +1,9 @@
 package com.potopalskyi.movieland.controller;
 
-import com.potopalskyi.movieland.entity.ReviewAlterParam;
+import com.potopalskyi.movieland.entity.param.ReviewAlterParam;
 import com.potopalskyi.movieland.entity.annotation.RoleTypeRequired;
 import com.potopalskyi.movieland.entity.enums.RoleType;
-import com.potopalskyi.movieland.service.AuthorizationService;
+import com.potopalskyi.movieland.service.SecurityService;
 import com.potopalskyi.movieland.service.ReviewService;
 import com.potopalskyi.movieland.util.ConverterJson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class ReviewController {
     private ConverterJson converterJson;
 
     @Autowired
-    private AuthorizationService authorizationService;
+    private SecurityService securityService;
 
     @Autowired
     private ReviewService reviewService;
@@ -34,7 +34,7 @@ public class ReviewController {
     public ResponseEntity<String> addReview(@RequestBody String json, HttpServletRequest request) {
         ReviewAlterParam reviewAlterParam = converterJson.toReviewAddParam(json);
         String token = request.getHeader("token");
-        if (!authorizationService.checkUserForAltering(token, reviewAlterParam.getAuthorId())) {
+        if (!securityService.checkUserForAltering(token, reviewAlterParam.getAuthorId())) {
             return new ResponseEntity<>("You cann't add review for other user", HttpStatus.FORBIDDEN);
         }
         if (reviewService.addReview(reviewAlterParam)){
@@ -48,7 +48,7 @@ public class ReviewController {
     public ResponseEntity<String> deleteReview(@RequestBody String json, HttpServletRequest request) {
         ReviewAlterParam reviewAlterParam = converterJson.toReviewAddParam(json);
         String token = request.getHeader("token");
-        if (!authorizationService.checkUserForAltering(token, reviewAlterParam.getAuthorId())) {
+        if (!securityService.checkUserForAltering(token, reviewAlterParam.getAuthorId())) {
             return new ResponseEntity<>("You cann't delete review of other user", HttpStatus.FORBIDDEN);
         }
         if (reviewService.deleteReview(reviewAlterParam)){

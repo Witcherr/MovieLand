@@ -1,6 +1,6 @@
-package com.potopalskyi.movieland.entity;
+package com.potopalskyi.movieland.entity.business;
 
-public class Country {
+public class Genre {
     private int id;
     private String name;
 
@@ -22,9 +22,10 @@ public class Country {
 
     @Override
     public String toString() {
-        return "Country{" +
+        return "Genre{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
     }
 }
+

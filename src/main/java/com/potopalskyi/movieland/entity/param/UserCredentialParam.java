@@ -1,6 +1,6 @@
-package com.potopalskyi.movieland.entity;
+package com.potopalskyi.movieland.entity.param;
 
-public class UserCredential {
+public class UserCredentialParam {
     private String name;
     private String password;
 
@@ -22,7 +22,7 @@ public class UserCredential {
 
     @Override
     public String toString() {
-        return "UserCredential{" +
+        return "UserCredentialParam{" +
                 "name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 '}';

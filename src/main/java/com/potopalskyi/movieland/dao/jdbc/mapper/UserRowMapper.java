@@ -1,6 +1,6 @@
 package com.potopalskyi.movieland.dao.jdbc.mapper;
 
-import com.potopalskyi.movieland.entity.User;
+import com.potopalskyi.movieland.entity.business.User;
 import com.potopalskyi.movieland.entity.enums.RoleType;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;

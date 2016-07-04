@@ -1,6 +1,6 @@
 package com.potopalskyi.movieland.dao.jdbc.mapper;
 
-import com.potopalskyi.movieland.entity.Review;
+import com.potopalskyi.movieland.entity.business.Review;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 

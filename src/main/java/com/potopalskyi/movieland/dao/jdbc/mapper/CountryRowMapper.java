@@ -1,6 +1,6 @@
 package com.potopalskyi.movieland.dao.jdbc.mapper;
 
-import com.potopalskyi.movieland.entity.Country;
+import com.potopalskyi.movieland.entity.business.Country;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 

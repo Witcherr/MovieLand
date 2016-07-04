@@ -2,7 +2,7 @@ package com.potopalskyi.movieland.dao.jdbc;
 
 import com.potopalskyi.movieland.dao.UserDAO;
 import com.potopalskyi.movieland.dao.jdbc.mapper.UserRowMapper;
-import com.potopalskyi.movieland.entity.User;
+import com.potopalskyi.movieland.entity.business.User;
 import com.potopalskyi.movieland.entity.exception.NoDataFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

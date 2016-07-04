@@ -1,9 +1,9 @@
 package com.potopalskyi.movieland.controller;
 
-import com.potopalskyi.movieland.entity.User;
-import com.potopalskyi.movieland.entity.UserCredential;
+import com.potopalskyi.movieland.entity.business.User;
+import com.potopalskyi.movieland.entity.param.UserCredentialParam;
 import com.potopalskyi.movieland.entity.exception.NoDataFoundException;
-import com.potopalskyi.movieland.service.AuthorizationService;
+import com.potopalskyi.movieland.service.SecurityService;
 import com.potopalskyi.movieland.service.UserService;
 import com.potopalskyi.movieland.util.ConverterJson;
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/v1")
-public class AuthorizationController {
+public class SecurityController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -27,7 +27,7 @@ public class AuthorizationController {
     private ConverterJson converterJson;
 
     @Autowired
-    private AuthorizationService authorizationService;
+    private SecurityService securityService;
 
     @Autowired
     private UserService userService;
@@ -37,16 +37,16 @@ public class AuthorizationController {
     public ResponseEntity<String> authorizeUser(@RequestBody String json) {
         logger.info("Start process of getting movies with search params  = {}", json);
         long startTime = System.currentTimeMillis();
-        UserCredential userCredential = converterJson.toUserCredential(json);
+        UserCredentialParam userCredentialParam = converterJson.toUserCredential(json);
         User user;
         try {
-            user = userService.getUserByName(userCredential.getName());
+            user = userService.getUserByName(userCredentialParam.getName());
         }catch (NoDataFoundException e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        if( authorizationService.checkUserCredential(userCredential, user)){
-            String token = authorizationService.generateToken(user);
-            logger.info("For user = {} was generated token = {}. It took {} ms", userCredential.getName(), token, System.currentTimeMillis() - startTime);
+        if( securityService.checkUserCredential(userCredentialParam, user)){
+            String token = securityService.generateToken(user);
+            logger.info("For user = {} was generated token = {}. It took {} ms", userCredentialParam.getName(), token, System.currentTimeMillis() - startTime);
             return new ResponseEntity<>(token, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
