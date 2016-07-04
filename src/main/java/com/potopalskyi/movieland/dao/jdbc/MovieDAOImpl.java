@@ -51,7 +51,7 @@ public class MovieDAOImpl implements MovieDAO {
             return jdbcTemplate.query(generatorSQLQuery.generateAllMoviesWithParamQuery(movieSortAndLimitParam), movieRowMapper);
         }catch (EmptyResultDataAccessException e){
             logger.warn("Database of movies is empty");
-            throw new NoDataFoundException();
+            throw new NoDataFoundException("Database of movies is empty", e);
         }
     }
 
@@ -61,19 +61,22 @@ public class MovieDAOImpl implements MovieDAO {
         try {
             return jdbcTemplate.query(generatorSQLQuery.generateSearchMoviesQuery(movieSearchParam), movieRowMapper);
         }catch (EmptyResultDataAccessException e){
-            logger.warn("There are no movies with params " + movieSearchParam);
-            throw new NoDataFoundException();
+            logger.warn("There are no movies with params {}", movieSearchParam);
+            throw new NoDataFoundException("There are no movies with params " + movieSearchParam, e);
         }
     }
 
     @Override
     public Movie getMovieById(int id) {
-        logger.info("Start query for getting movie with id = " + id);
+        logger.info("Start query for getting movie with id = {}", id);
         try {
             return jdbcTemplate.queryForObject(getMoviesByIdSQL, new Object[]{id}, movieDetailedRowMapper);
         }catch (EmptyResultDataAccessException e){
-            logger.warn("The movie with id = " + id + " doesn't exist");
-            throw new NoDataFoundException();
+            if (logger.isWarnEnabled()) {
+                String warning = "The movie with id = " + id + " doesn't exist";
+                logger.warn(warning, e);
+            }
+            throw new NoDataFoundException("The movie with id = " + id + " doesn't exist", e);
         }
     }
 
@@ -84,7 +87,7 @@ public class MovieDAOImpl implements MovieDAO {
             return jdbcTemplate.query(getAllMoviesIdeIdSQL, movieIdRowMapper);
         }catch (EmptyResultDataAccessException e){
             logger.warn("Database of movies is empty");
-            throw new NoDataFoundException();
+            throw new NoDataFoundException("Database of movies is empty", e);
         }
     }
 }

@@ -27,12 +27,12 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User getUserByName(String name) {
-        logger.info("Start query for getting user with name = " + name);
+        logger.info("Start query for getting user with name = {}", name);
         try {
             return jdbcTemplate.queryForObject(getUserByNameSQL, new Object[]{name}, userRowMapper);
         }catch (EmptyResultDataAccessException e){
-            logger.warn("There is no user with name = " + name);
-            throw new NoDataFoundException();
+            logger.warn("There is no user with name = {}", name);
+            throw new NoDataFoundException("There is no user with name =" + name, e);
         }
     }
 }

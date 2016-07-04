@@ -10,6 +10,7 @@ import com.potopalskyi.movieland.entity.Review;
 import com.potopalskyi.movieland.service.MovieService;
 import com.potopalskyi.movieland.service.RatingService;
 import com.potopalskyi.movieland.service.ReviewService;
+//import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,12 +37,12 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> getAllMovies(MovieSortAndLimitParam movieSortAndLimitParam) {
         List<Movie> movies = movieDAO.getAllMovies(movieSortAndLimitParam);
-        if(movies != null) {
-            for (Movie movie : movies) {
-                movie.setGenreList(genreCache.getGenreByMovieId(movie.getId()));
-                movie.setRating(ratingService.getAverageRatingByMovieId(movie.getId()));
-            }
+        //if(movies != null) {
+        for (Movie movie : movies) {
+            movie.setGenreList(genreCache.getGenreByMovieId(movie.getId()));
+            movie.setRating(ratingService.getAverageRatingByMovieId(movie.getId()));
         }
+        //}
         return movies;
     }
 
@@ -60,17 +61,18 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie getMovieById(int id) {
         Movie movie = movieDAO.getMovieById(id);
-        if (movie != null) {
-            movie.setGenreList(genreCache.getGenreByMovieId(movie.getId()));
-            movie.setCountryList(countryCache.getCountryByMovieId(id));
-            movie.setRating(ratingService.getAverageRatingByMovieId(movie.getId()));
-            List<Review> reviews = reviewService.getReviewByMovieId(id);
-            if (reviews.size() >= 2) {
-                movie.setReviewList(reviews.subList(0, 2));
-            } else if (reviews.size() == 1) {
-                movie.setReviewList(reviews);
-            }
+        //Validate.notNull(movie, "Got null movie with ID = '%s' is null!", id);
+        //if (movie != null) {
+        movie.setGenreList(genreCache.getGenreByMovieId(movie.getId()));
+        movie.setCountryList(countryCache.getCountryByMovieId(id));
+        movie.setRating(ratingService.getAverageRatingByMovieId(movie.getId()));
+        List<Review> reviews = reviewService.getReviewByMovieId(id);
+        if (reviews.size() >= 2) {
+            movie.setReviewList(reviews.subList(0, 2));
+        } else if (reviews.size() == 1) {
+            movie.setReviewList(reviews);
         }
+        //}
         return movie;
     }
 
