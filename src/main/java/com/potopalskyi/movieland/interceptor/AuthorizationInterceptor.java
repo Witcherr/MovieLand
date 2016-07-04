@@ -15,13 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
     @Autowired
-    AuthorizationService authorizationService;
-
-    @Autowired
-    ConverterJson converterJson;
+    private AuthorizationService authorizationService;
 
     @Override
     public boolean preHandle(HttpServletRequest request,
