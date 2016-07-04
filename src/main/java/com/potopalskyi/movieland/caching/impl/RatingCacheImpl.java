@@ -23,7 +23,7 @@ public class RatingCacheImpl implements RatingCache {
 
     private List<RatingDTO> ratingCacheList = new CopyOnWriteArrayList<>();
 
-    @Scheduled(fixedRate = 100 * 60 * 60 * 1000)
+    @Scheduled(fixedRate = 365 * 24 * 60 * 60 * 1000)
     @Override
     public void fillCache() {
         logger.debug("Start filling of cache for rating");
