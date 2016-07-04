@@ -34,19 +34,21 @@ public class AuthorizationController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "text/plain; charset=UTF-8")
     @ResponseBody
-    public ResponseEntity<String> authorizateUser(@RequestBody String json) {
+    public ResponseEntity<String> authorizeUser(@RequestBody String json) {
+        logger.info("Start process of getting movies with search params  = {}", json);
+        long startTime = System.currentTimeMillis();
         UserCredential userCredential = converterJson.toUserCredential(json);
-        User user = userService.getUserByName(userCredential.getName());
-        boolean isCorrectUserCredential;
+        User user;
         try {
-            isCorrectUserCredential = authorizationService.checkUserCredential(userCredential, user);
-        } catch (NoDataFoundException e) {
-            logger.warn("Incorrect credential :" + json);
-            return new ResponseEntity<>("Incorrect credential :", HttpStatus.BAD_REQUEST);
+            user = userService.getUserByName(userCredential.getName());
+        }catch (NoDataFoundException e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        if (isCorrectUserCredential) {
-            return new ResponseEntity<>(authorizationService.generateToken(user), HttpStatus.OK);
+        if( authorizationService.checkUserCredential(userCredential, user)){
+            String token = authorizationService.generateToken(user);
+            logger.info("For user = {} was generated token = {}. It took {} ms", userCredential.getName(), token, System.currentTimeMillis() - startTime);
+            return new ResponseEntity<>(token, HttpStatus.OK);
         }
-        return new ResponseEntity<>("Problems with login", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

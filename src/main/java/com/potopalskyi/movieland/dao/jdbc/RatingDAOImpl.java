@@ -37,14 +37,15 @@ public class RatingDAOImpl implements RatingDAO {
 
     @Override
     public boolean addRating(RatingParam ratingParam) {
+        logger.info("Start insert/update rating = {} into database", ratingParam);
         int count = jdbcTemplate.queryForObject(checkRatingExistSQL, new Object[]{ratingParam.getMovieId(), ratingParam.getAuthorId()}, Integer.class);
         if (count == 0) {
             jdbcTemplate.update(addRatingSQL, ratingParam.getMovieId(), ratingParam.getAuthorId(), ratingParam.getRating());
-            logger.info("Rating {} was inserted into database", ratingParam);
+            logger.info("Rating = {} was inserted into database", ratingParam);
             return true;
         }
         jdbcTemplate.update(updateRatingSQL, ratingParam.getRating(), ratingParam.getMovieId(), ratingParam.getAuthorId());
-        logger.info("Rating {} was updated into database", ratingParam);
+        logger.info("Rating = {} was updated into database", ratingParam);
         return true;
     }
 

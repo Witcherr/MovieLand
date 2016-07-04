@@ -12,7 +12,7 @@ import java.util.List;
 public class GenreServiceImpl implements GenreService{
 
     @Autowired
-    GenreDAO genreDAO;
+    private GenreDAO genreDAO;
 
     @Override
     public List<Genre> getGenreById(int id) {

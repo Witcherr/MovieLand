@@ -45,21 +45,23 @@ public class ReviewDAOImpl implements ReviewDAO {
 
     @Override
     public boolean addReview(ReviewAlterParam reviewAlterParam) {
+        logger.info("Start insert/update review {} into database", reviewAlterParam);
         int count = jdbcTemplate.queryForObject(checkReviewExistSQL, new Object[]{reviewAlterParam.getMovieId(), reviewAlterParam.getAuthorId()}, Integer.class);
         if (count == 0) {
             jdbcTemplate.update(addReviewSQL, reviewAlterParam.getMovieId(), reviewAlterParam.getAuthorId(), reviewAlterParam.getReview());
-            logger.info("Review {} was inserted into database", reviewAlterParam);
+            logger.info("Review = {} was inserted into database", reviewAlterParam);
             return true;
         }
         jdbcTemplate.update(updateReviewSQL, reviewAlterParam.getReview(), reviewAlterParam.getMovieId(), reviewAlterParam.getAuthorId());
-        logger.info("Review {} was updated into database", reviewAlterParam);
+        logger.info("Review = {} was updated into database", reviewAlterParam);
         return true;
     }
 
     @Override
     public boolean deleteReview(ReviewAlterParam reviewAlterParam) {
+        logger.info("Start deleting review = {} from database", reviewAlterParam);
         jdbcTemplate.update(deleteReviewSQL, reviewAlterParam.getMovieId(), reviewAlterParam.getAuthorId());
-        logger.info("Review {} was deleted from database", reviewAlterParam);
+        logger.info("Review = {} was deleted from database", reviewAlterParam);
         return true;
     }
 }

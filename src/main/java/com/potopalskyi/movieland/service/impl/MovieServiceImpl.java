@@ -37,23 +37,19 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> getAllMovies(MovieSortAndLimitParam movieSortAndLimitParam) {
         List<Movie> movies = movieDAO.getAllMovies(movieSortAndLimitParam);
-        //if(movies != null) {
         for (Movie movie : movies) {
             movie.setGenreList(genreCache.getGenreByMovieId(movie.getId()));
             movie.setRating(ratingService.getAverageRatingByMovieId(movie.getId()));
         }
-        //}
         return movies;
     }
 
     @Override
     public List<Movie> getMoviesBySearch(MovieSearchParam movieSearchParam) {
         List<Movie> movies = movieDAO.getMoviesBySearch(movieSearchParam);
-        if (movies != null) {
-            for (Movie movie : movies) {
-                movie.setGenreList(genreCache.getGenreByMovieId(movie.getId()));
-                movie.setRating(ratingService.getAverageRatingByMovieId(movie.getId()));
-            }
+        for (Movie movie : movies) {
+            movie.setGenreList(genreCache.getGenreByMovieId(movie.getId()));
+            movie.setRating(ratingService.getAverageRatingByMovieId(movie.getId()));
         }
         return movies;
     }
@@ -61,8 +57,6 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie getMovieById(int id) {
         Movie movie = movieDAO.getMovieById(id);
-        //Validate.notNull(movie, "Got null movie with ID = '%s' is null!", id);
-        //if (movie != null) {
         movie.setGenreList(genreCache.getGenreByMovieId(movie.getId()));
         movie.setCountryList(countryCache.getCountryByMovieId(id));
         movie.setRating(ratingService.getAverageRatingByMovieId(movie.getId()));
@@ -72,7 +66,6 @@ public class MovieServiceImpl implements MovieService {
         } else if (reviews.size() == 1) {
             movie.setReviewList(reviews);
         }
-        //}
         return movie;
     }
 

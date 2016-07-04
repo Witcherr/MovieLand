@@ -73,10 +73,10 @@ public class MovieController {
         try {
             movies = movieService.getMoviesBySearch(movieSearchParam);
         } catch (NoDataFoundException e) {
-            logger.warn("There are no movies with params {}", json);
+            logger.warn("There are no movies with params = {}", json);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        logger.info("End process of getting movies with search param {}. It took {} ms", json, System.currentTimeMillis() - startTime);
+        logger.info("End process of getting movies with search param = {}. It took {} ms", json, System.currentTimeMillis() - startTime);
         return new ResponseEntity<>(converterJson.toJson(movies), HttpStatus.OK);
     }
 

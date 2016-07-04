@@ -31,7 +31,7 @@ public class UserDAOImpl implements UserDAO {
         try {
             return jdbcTemplate.queryForObject(getUserByNameSQL, new Object[]{name}, userRowMapper);
         }catch (EmptyResultDataAccessException e){
-            logger.warn("There is no user with name = {}", name);
+            logger.warn("There is no user with name = {} in database", name);
             throw new NoDataFoundException("There is no user with name =" + name, e);
         }
     }

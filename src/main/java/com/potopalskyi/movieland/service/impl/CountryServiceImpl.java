@@ -11,7 +11,7 @@ import java.util.List;
 public class CountryServiceImpl implements CountryService{
 
     @Autowired
-    CountryDAO countryDAO;
+    private CountryDAO countryDAO;
 
     @Override
     public List<Country> getCountryById(int id) {

@@ -15,13 +15,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Service
 public class UserTokenCacheImpl implements UserTokenCache {
 
+    private static final int MAX_USER_SESSION_HOURS = 2;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private List<UserTokenDTO> userTokenCacheList = new CopyOnWriteArrayList<>();
 
     @Override
     public void addNewElementToCache(User user, String token) {
-        logger.debug("Start adding token into user cache for user: {} ", user.getName());
+        logger.debug("Start adding token into user cache for user = {} ", user.getName());
         UserTokenDTO userTokenDTO = new UserTokenDTO();
         userTokenDTO.setLogin(user.getName());
         userTokenDTO.setToken(token);
@@ -29,7 +30,7 @@ public class UserTokenCacheImpl implements UserTokenCache {
         userTokenDTO.setRoleType(user.getRoleType());
         userTokenDTO.setUserId(user.getId());
         userTokenCacheList.add(userTokenDTO);
-        logger.debug("End adding token into cache for user : {} " + user.getName());
+        logger.debug("End adding token into cache for user = {} ", user.getName());
     }
 
     @Scheduled(fixedRate = 60 * 1000)
@@ -38,8 +39,8 @@ public class UserTokenCacheImpl implements UserTokenCache {
         logger.debug("Start refreshing user cache");
         LocalDateTime currentTime = LocalDateTime.now();
         for(int i = 0; i< userTokenCacheList.size(); i++){
-            if(currentTime.isAfter(userTokenCacheList.get(i).getConnectionTime().plusHours(2))){
-                logger.debug("Removing from user cache user :" + userTokenCacheList.get(i).getLogin());
+            if(currentTime.isAfter(userTokenCacheList.get(i).getConnectionTime().plusHours(MAX_USER_SESSION_HOURS))){
+                logger.debug("Removing from user cache user = {}", userTokenCacheList.get(i).getLogin());
                 userTokenCacheList.remove(i);
             }
         }

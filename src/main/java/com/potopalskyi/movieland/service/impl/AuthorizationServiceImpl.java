@@ -20,7 +20,7 @@ public class AuthorizationServiceImpl implements AuthorizationService{
 
     @Override
     public boolean checkUserCredential(UserCredential userCredential, User user) {
-        return (user != null && user.getPassword().equals(userCredential.getPassword()));
+        return user.getPassword().equals(userCredential.getPassword());
     }
 
     @Override

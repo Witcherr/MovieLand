@@ -57,11 +57,11 @@ public class MovieDAOImpl implements MovieDAO {
 
     @Override
     public List<Movie> getMoviesBySearch(MovieSearchParam movieSearchParam) {
-        logger.info("Start query for getting movies with search params " + movieSearchParam);
+        logger.info("Start query for getting movies with search params = {}", movieSearchParam);
         try {
             return jdbcTemplate.query(generatorSQLQuery.generateSearchMoviesQuery(movieSearchParam), movieRowMapper);
         }catch (EmptyResultDataAccessException e){
-            logger.warn("There are no movies with params {}", movieSearchParam);
+            logger.warn("There are no movies with params = {}", movieSearchParam);
             throw new NoDataFoundException("There are no movies with params " + movieSearchParam, e);
         }
     }
