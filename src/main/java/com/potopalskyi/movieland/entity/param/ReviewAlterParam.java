@@ -29,6 +29,10 @@ public class ReviewAlterParam {
         this.review = review;
     }
 
+    public boolean isCorrectParams() {
+        return !(review == null || review.length() <= 0 || authorId <= 0 || movieId <= 0);
+    }
+
     @Override
     public String toString() {
         return "ReviewAlterParam{" +

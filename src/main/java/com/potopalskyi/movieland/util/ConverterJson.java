@@ -40,7 +40,7 @@ public class ConverterJson {
         return gson.fromJson(json, MovieSearchParam.class);
     }
 
-    public ReviewAlterParam toReviewAddParam(String json){
+    public ReviewAlterParam toReviewAlterParam(String json){
         return gson.fromJson(json, ReviewAlterParam.class);
     }
 

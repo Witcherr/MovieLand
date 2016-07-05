@@ -57,15 +57,10 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie getMovieById(int id) {
         Movie movie = movieDAO.getMovieById(id);
-        movie.setGenreList(genreCache.getGenreByMovieId(movie.getId()));
+        movie.setGenreList(genreCache.getGenreByMovieId(id));
         movie.setCountryList(countryCache.getCountryByMovieId(id));
-        movie.setRating(ratingService.getAverageRatingByMovieId(movie.getId()));
-        List<Review> reviews = reviewService.getReviewByMovieId(id);
-        if (reviews.size() >= 2) {
-            movie.setReviewList(reviews.subList(0, 2));
-        } else if (reviews.size() == 1) {
-            movie.setReviewList(reviews);
-        }
+        movie.setRating(ratingService.getAverageRatingByMovieId(id));
+        movie.setReviewList(reviewService.getTwoReviewByMovieId(id));
         return movie;
     }
 

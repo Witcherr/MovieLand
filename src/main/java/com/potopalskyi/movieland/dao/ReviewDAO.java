@@ -9,7 +9,7 @@ public interface ReviewDAO {
 
     List<Review> getReviewByMovieId(int id);
 
-    boolean addReview(ReviewAlterParam reviewAlterParam);
+    void addReview(ReviewAlterParam reviewAlterParam);
 
-    boolean deleteReview(ReviewAlterParam reviewAlterParam);
+    void deleteReview(ReviewAlterParam reviewAlterParam);
 }

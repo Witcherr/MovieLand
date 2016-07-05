@@ -27,9 +27,9 @@ public class RatingCacheImpl implements RatingCache {
     @Override
     public void fillCache() {
         logger.debug("Start filling of cache for rating");
-        List<RatingDTO> temlList = ratingService.getAllRating();
-        if(temlList != null){
-            ratingCacheList = new CopyOnWriteArrayList<>(temlList);
+        List<RatingDTO> tempList = ratingService.getAllRating();
+        if(tempList != null){
+            ratingCacheList = new CopyOnWriteArrayList<>(tempList);
         }
         logger.debug("End filling of cache for rating");
     }

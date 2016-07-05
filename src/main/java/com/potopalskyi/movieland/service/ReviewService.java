@@ -7,9 +7,11 @@ import java.util.List;
 
 public interface ReviewService {
 
-    List<Review> getReviewByMovieId(int id);
+    List<Review> getReviewByMovieId(int movieId);
 
-    boolean addReview(ReviewAlterParam reviewAlterParam);
+    List<Review> getTwoReviewByMovieId(int movieId);
 
-    boolean deleteReview(ReviewAlterParam reviewAlterParam);
+    void addReview(ReviewAlterParam reviewAlterParam);
+
+    void deleteReview(ReviewAlterParam reviewAlterParam);
 }

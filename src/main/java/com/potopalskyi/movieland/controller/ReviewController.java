@@ -1,11 +1,14 @@
 package com.potopalskyi.movieland.controller;
 
+import com.potopalskyi.movieland.entity.exception.AlterIntoDBException;
 import com.potopalskyi.movieland.entity.param.ReviewAlterParam;
 import com.potopalskyi.movieland.entity.annotation.RoleTypeRequired;
 import com.potopalskyi.movieland.entity.enums.RoleType;
 import com.potopalskyi.movieland.service.SecurityService;
 import com.potopalskyi.movieland.service.ReviewService;
 import com.potopalskyi.movieland.util.ConverterJson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(value = "/v1/review")
 public class ReviewController {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     @Autowired
     private ConverterJson converterJson;
 
@@ -32,29 +37,41 @@ public class ReviewController {
     @RoleTypeRequired(role = RoleType.USER)
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<String> addReview(@RequestBody String json, HttpServletRequest request) {
-        ReviewAlterParam reviewAlterParam = converterJson.toReviewAddParam(json);
+        logger.info("Start process of adding review = {} ", json);
+        long startTime = System.currentTimeMillis();
+        ReviewAlterParam reviewAlterParam = converterJson.toReviewAlterParam(json);
+        if (!reviewAlterParam.isCorrectParams()) {
+            return new ResponseEntity<>("You should send correct review", HttpStatus.BAD_REQUEST);
+        }
         String token = request.getHeader("token");
         if (!securityService.checkUserForAltering(token, reviewAlterParam.getAuthorId())) {
-            return new ResponseEntity<>("You cann't add review for other user", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("You can not add review for other user", HttpStatus.FORBIDDEN);
         }
-        if (reviewService.addReview(reviewAlterParam)){
-            return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            reviewService.addReview(reviewAlterParam);
+            logger.info("End process of adding review = {}. It took {} ms", System.currentTimeMillis() - startTime);
+            return new ResponseEntity<>("Your review was successfully added", HttpStatus.OK);
+        } catch (AlterIntoDBException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @RoleTypeRequired(role = RoleType.USER)
     @RequestMapping(method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteReview(@RequestBody String json, HttpServletRequest request) {
-        ReviewAlterParam reviewAlterParam = converterJson.toReviewAddParam(json);
+        ReviewAlterParam reviewAlterParam = converterJson.toReviewAlterParam(json);
+        if (!reviewAlterParam.isCorrectParams()) {
+            return new ResponseEntity<>("You should send correct review", HttpStatus.BAD_REQUEST);
+        }
         String token = request.getHeader("token");
         if (!securityService.checkUserForAltering(token, reviewAlterParam.getAuthorId())) {
-            return new ResponseEntity<>("You cann't delete review of other user", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("You can not delete review of other user", HttpStatus.FORBIDDEN);
         }
-        if (reviewService.deleteReview(reviewAlterParam)){
-            return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            reviewService.deleteReview(reviewAlterParam);
+            return new ResponseEntity<>("Your review was successfully added", HttpStatus.OK);
+        } catch (AlterIntoDBException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-
 }
