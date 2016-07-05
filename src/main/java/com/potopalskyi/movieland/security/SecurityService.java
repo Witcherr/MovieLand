@@ -1,8 +1,8 @@
-package com.potopalskyi.movieland.service;
+package com.potopalskyi.movieland.security;
 
 import com.potopalskyi.movieland.entity.business.User;
-import com.potopalskyi.movieland.entity.param.UserCredentialParam;
-import com.potopalskyi.movieland.entity.annotation.RoleTypeRequired;
+import com.potopalskyi.movieland.security.entity.RoleTypeRequired;
+import com.potopalskyi.movieland.security.entity.UserCredentialParam;
 
 public interface SecurityService {
 
@@ -12,5 +12,5 @@ public interface SecurityService {
 
     boolean checkRightsForRequest(String token, RoleTypeRequired roleTypeRequired);
 
-    boolean checkUserForAltering(String token, int userId);
+    boolean checkAlterPermission(String token, int userId);
 }

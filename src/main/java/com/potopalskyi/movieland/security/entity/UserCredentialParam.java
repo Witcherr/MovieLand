@@ -1,4 +1,4 @@
-package com.potopalskyi.movieland.entity.param;
+package com.potopalskyi.movieland.security.entity;
 
 public class UserCredentialParam {
     private String name;

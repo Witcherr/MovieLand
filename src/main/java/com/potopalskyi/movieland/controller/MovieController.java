@@ -3,7 +3,7 @@ package com.potopalskyi.movieland.controller;
 import com.potopalskyi.movieland.entity.business.Movie;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
 import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
-import com.potopalskyi.movieland.entity.annotation.RoleTypeRequired;
+import com.potopalskyi.movieland.security.entity.RoleTypeRequired;
 import com.potopalskyi.movieland.entity.enums.RoleType;
 import com.potopalskyi.movieland.entity.exception.NoDataFoundException;
 import com.potopalskyi.movieland.service.MovieService;

@@ -8,7 +8,7 @@ import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
 import com.potopalskyi.movieland.entity.param.RatingParam;
 import com.potopalskyi.movieland.entity.param.ReviewAlterParam;
-import com.potopalskyi.movieland.entity.param.UserCredentialParam;
+import com.potopalskyi.movieland.security.entity.UserCredentialParam;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

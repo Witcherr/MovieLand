@@ -1,8 +1,7 @@
-package com.potopalskyi.movieland.caching.impl;
+package com.potopalskyi.movieland.security;
 
-import com.potopalskyi.movieland.caching.UserTokenCache;
 import com.potopalskyi.movieland.entity.business.User;
-import com.potopalskyi.movieland.entity.dto.UserTokenDTO;
+import com.potopalskyi.movieland.security.entity.UserTokenDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;

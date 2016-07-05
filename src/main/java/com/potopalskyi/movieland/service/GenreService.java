@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface GenreService {
     List<Genre> getGenreById(int id);
+
+    List<Genre> getGenreFromCacheByMovieId(int movieId);
 }

@@ -1,10 +1,9 @@
 package com.potopalskyi.movieland.controller;
 
-import com.potopalskyi.movieland.entity.exception.AlterIntoDBException;
 import com.potopalskyi.movieland.entity.param.ReviewAlterParam;
-import com.potopalskyi.movieland.entity.annotation.RoleTypeRequired;
+import com.potopalskyi.movieland.security.entity.RoleTypeRequired;
 import com.potopalskyi.movieland.entity.enums.RoleType;
-import com.potopalskyi.movieland.service.SecurityService;
+import com.potopalskyi.movieland.security.SecurityService;
 import com.potopalskyi.movieland.service.ReviewService;
 import com.potopalskyi.movieland.util.ConverterJson;
 import org.slf4j.Logger;
@@ -44,16 +43,12 @@ public class ReviewController {
             return new ResponseEntity<>("You should send correct review", HttpStatus.BAD_REQUEST);
         }
         String token = request.getHeader("token");
-        if (!securityService.checkUserForAltering(token, reviewAlterParam.getAuthorId())) {
+        if (!securityService.checkAlterPermission(token, reviewAlterParam.getAuthorId())) {
             return new ResponseEntity<>("You can not add review for other user", HttpStatus.FORBIDDEN);
         }
-        try {
-            reviewService.addReview(reviewAlterParam);
-            logger.info("End process of adding review = {}. It took {} ms", System.currentTimeMillis() - startTime);
-            return new ResponseEntity<>("Your review was successfully added", HttpStatus.OK);
-        } catch (AlterIntoDBException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        reviewService.addReview(reviewAlterParam);
+        logger.info("End process of adding review = {}. It took {} ms", System.currentTimeMillis() - startTime);
+        return new ResponseEntity<>("Your review was successfully added", HttpStatus.OK);
     }
 
     @RoleTypeRequired(role = RoleType.USER)
@@ -64,14 +59,10 @@ public class ReviewController {
             return new ResponseEntity<>("You should send correct review", HttpStatus.BAD_REQUEST);
         }
         String token = request.getHeader("token");
-        if (!securityService.checkUserForAltering(token, reviewAlterParam.getAuthorId())) {
+        if (!securityService.checkAlterPermission(token, reviewAlterParam.getAuthorId())) {
             return new ResponseEntity<>("You can not delete review of other user", HttpStatus.FORBIDDEN);
         }
-        try {
-            reviewService.deleteReview(reviewAlterParam);
-            return new ResponseEntity<>("Your review was successfully added", HttpStatus.OK);
-        } catch (AlterIntoDBException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        reviewService.deleteReview(reviewAlterParam);
+        return new ResponseEntity<>("Your review was successfully added", HttpStatus.OK);
     }
 }

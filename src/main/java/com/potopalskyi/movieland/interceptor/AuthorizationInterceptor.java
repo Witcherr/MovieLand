@@ -1,7 +1,7 @@
 package com.potopalskyi.movieland.interceptor;
 
-import com.potopalskyi.movieland.entity.annotation.RoleTypeRequired;
-import com.potopalskyi.movieland.service.SecurityService;
+import com.potopalskyi.movieland.security.entity.RoleTypeRequired;
+import com.potopalskyi.movieland.security.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;

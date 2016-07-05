@@ -3,7 +3,6 @@ package com.potopalskyi.movieland.dao.jdbc;
 import com.potopalskyi.movieland.dao.ReviewDAO;
 import com.potopalskyi.movieland.dao.jdbc.mapper.ReviewRowMapper;
 import com.potopalskyi.movieland.entity.business.Review;
-import com.potopalskyi.movieland.entity.exception.AlterIntoDBException;
 import com.potopalskyi.movieland.entity.param.ReviewAlterParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,9 +45,7 @@ public class ReviewDAOImpl implements ReviewDAO {
         try {
             return jdbcTemplate.query(getReviewByMovieIdSQL, new Object[]{id}, reviewRowMapper);
         } catch (EmptyResultDataAccessException e) {
-            if (logger.isWarnEnabled()) {
-                logger.warn("There are no reviews for movieId = {}", id, e);
-            }
+            logger.warn("There are no reviews for movieId = {}", id, e);
             return null;
         }
     }
@@ -58,38 +55,17 @@ public class ReviewDAOImpl implements ReviewDAO {
         logger.info("Start insert/update review {} into database", reviewAlterParam);
         int count = jdbcTemplate.queryForObject(checkReviewExistSQL, new Object[]{reviewAlterParam.getMovieId(), reviewAlterParam.getAuthorId()}, Integer.class);
         if (count == 0) {
-            try {
-                jdbcTemplate.update(addReviewSQL, reviewAlterParam.getMovieId(), reviewAlterParam.getAuthorId(), reviewAlterParam.getReview());
-                logger.info("Review = {} was inserted into database", reviewAlterParam);
-            } catch (RuntimeException e) {
-                if (logger.isWarnEnabled()) {
-                    logger.warn("Problem while inserting new review = " + reviewAlterParam, e);
-                }
-                throw new AlterIntoDBException("Problem while inserting new review = " + reviewAlterParam, e);
-            }
+            jdbcTemplate.update(addReviewSQL, reviewAlterParam.getMovieId(), reviewAlterParam.getAuthorId(), reviewAlterParam.getReview());
+            logger.info("Review = {} was inserted into database", reviewAlterParam);
         }
-        try {
-            jdbcTemplate.update(updateReviewSQL, reviewAlterParam.getReview(), reviewAlterParam.getMovieId(), reviewAlterParam.getAuthorId());
-            logger.info("Review = {} was updated into database", reviewAlterParam);
-        } catch (RuntimeException e){
-            if (logger.isWarnEnabled()) {
-                logger.warn("Problem while updating review = " + reviewAlterParam, e);
-            }
-            throw new AlterIntoDBException("Problem while updating review = " + reviewAlterParam, e);
-        }
+        jdbcTemplate.update(updateReviewSQL, reviewAlterParam.getReview(), reviewAlterParam.getMovieId(), reviewAlterParam.getAuthorId());
+        logger.info("Review = {} was updated into database", reviewAlterParam);
     }
 
     @Override
     public void deleteReview(ReviewAlterParam reviewAlterParam) {
         logger.info("Start deleting review = {} from database", reviewAlterParam);
-        try {
-            jdbcTemplate.update(deleteReviewSQL, reviewAlterParam.getMovieId(), reviewAlterParam.getAuthorId());
-            logger.info("Review = {} was deleted from database", reviewAlterParam);
-        }catch (RuntimeException e){
-            if (logger.isWarnEnabled()) {
-                logger.warn("Problem while deleting review = " + reviewAlterParam, e);
-            }
-            throw new AlterIntoDBException("Problem while deleting review = " + reviewAlterParam, e);
-        }
+        jdbcTemplate.update(deleteReviewSQL, reviewAlterParam.getMovieId(), reviewAlterParam.getAuthorId());
+        logger.info("Review = {} was deleted from database", reviewAlterParam);
     }
 }

@@ -1,7 +1,7 @@
-package com.potopalskyi.movieland.caching;
+package com.potopalskyi.movieland.security;
 
 import com.potopalskyi.movieland.entity.business.User;
-import com.potopalskyi.movieland.entity.dto.UserTokenDTO;
+import com.potopalskyi.movieland.security.entity.UserTokenDTO;
 
 public interface UserTokenCache {
 

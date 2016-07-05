@@ -1,16 +1,10 @@
 package com.potopalskyi.movieland.service.impl;
 
-import com.potopalskyi.movieland.caching.CountryCache;
-import com.potopalskyi.movieland.caching.GenreCache;
 import com.potopalskyi.movieland.dao.MovieDAO;
 import com.potopalskyi.movieland.entity.business.Movie;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
 import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
-import com.potopalskyi.movieland.entity.business.Review;
-import com.potopalskyi.movieland.service.MovieService;
-import com.potopalskyi.movieland.service.RatingService;
-import com.potopalskyi.movieland.service.ReviewService;
-//import org.apache.commons.lang3.Validate;
+import com.potopalskyi.movieland.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,22 +17,22 @@ public class MovieServiceImpl implements MovieService {
     private MovieDAO movieDAO;
 
     @Autowired
-    private CountryCache countryCache;
+    private CountryService countryService;
 
     @Autowired
     private ReviewService reviewService;
 
     @Autowired
-    private RatingService ratingService;
+    private GenreService genreService;
 
     @Autowired
-    private GenreCache genreCache;
+    private RatingService ratingService;
 
     @Override
     public List<Movie> getAllMovies(MovieSortAndLimitParam movieSortAndLimitParam) {
         List<Movie> movies = movieDAO.getAllMovies(movieSortAndLimitParam);
         for (Movie movie : movies) {
-            movie.setGenreList(genreCache.getGenreByMovieId(movie.getId()));
+            movie.setGenreList(genreService.getGenreFromCacheByMovieId(movie.getId()));
             movie.setRating(ratingService.getAverageRatingByMovieId(movie.getId()));
         }
         return movies;
@@ -48,7 +42,7 @@ public class MovieServiceImpl implements MovieService {
     public List<Movie> getMoviesBySearch(MovieSearchParam movieSearchParam) {
         List<Movie> movies = movieDAO.getMoviesBySearch(movieSearchParam);
         for (Movie movie : movies) {
-            movie.setGenreList(genreCache.getGenreByMovieId(movie.getId()));
+            movie.setGenreList(genreService.getGenreFromCacheByMovieId(movie.getId()));
             movie.setRating(ratingService.getAverageRatingByMovieId(movie.getId()));
         }
         return movies;
@@ -57,8 +51,8 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie getMovieById(int id) {
         Movie movie = movieDAO.getMovieById(id);
-        movie.setGenreList(genreCache.getGenreByMovieId(id));
-        movie.setCountryList(countryCache.getCountryByMovieId(id));
+        movie.setGenreList(genreService.getGenreFromCacheByMovieId(movie.getId()));
+        movie.setCountryList(countryService.getCountryFromCacheByMovieId(movie.getId()));
         movie.setRating(ratingService.getAverageRatingByMovieId(id));
         movie.setReviewList(reviewService.getTwoReviewByMovieId(id));
         return movie;

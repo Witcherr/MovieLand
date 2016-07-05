@@ -1,9 +1,9 @@
 package com.potopalskyi.movieland.controller;
 
 import com.potopalskyi.movieland.entity.param.RatingParam;
-import com.potopalskyi.movieland.entity.annotation.RoleTypeRequired;
+import com.potopalskyi.movieland.security.entity.RoleTypeRequired;
 import com.potopalskyi.movieland.entity.enums.RoleType;
-import com.potopalskyi.movieland.service.SecurityService;
+import com.potopalskyi.movieland.security.SecurityService;
 import com.potopalskyi.movieland.service.RatingService;
 import com.potopalskyi.movieland.util.ConverterJson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +34,8 @@ public class RatingController {
     public ResponseEntity<String> addReview(@RequestBody String json, HttpServletRequest request) {
         RatingParam ratingParam = converterJson.toRatingParam(json);
         String token = request.getHeader("token");
-        if (!securityService.checkUserForAltering(token, ratingParam.getAuthorId())) {
-            return new ResponseEntity<>("You cann't add rating for other user", HttpStatus.FORBIDDEN);
+        if (!securityService.checkAlterPermission(token, ratingParam.getAuthorId())) {
+            return new ResponseEntity<>("You can not add rating for other user", HttpStatus.FORBIDDEN);
         }
         if(ratingService.addRating(ratingParam)){
             return new ResponseEntity<>(HttpStatus.OK);

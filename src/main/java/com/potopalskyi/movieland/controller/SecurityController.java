@@ -1,9 +1,9 @@
 package com.potopalskyi.movieland.controller;
 
 import com.potopalskyi.movieland.entity.business.User;
-import com.potopalskyi.movieland.entity.param.UserCredentialParam;
+import com.potopalskyi.movieland.security.entity.UserCredentialParam;
 import com.potopalskyi.movieland.entity.exception.NoDataFoundException;
-import com.potopalskyi.movieland.service.SecurityService;
+import com.potopalskyi.movieland.security.SecurityService;
 import com.potopalskyi.movieland.service.UserService;
 import com.potopalskyi.movieland.util.ConverterJson;
 import org.slf4j.Logger;
