@@ -34,17 +34,9 @@ public class GeneratorSQLQueryTest {
 
     @Test
     public void generateAllMoviesWithParamQueryTest(){
-        String expected1 = "select id, name_rus, name_eng, year, rating, price " +
-                "                                from movie m " +
-                "order by rating asc,price asc " +
-                "limit 5,5";
-        String expected2 = "select id, name_rus, name_eng, year, rating, price " +
-                "                                from movie m " +
-                "limit 0,5";
-        String expected3 = "select id, name_rus, name_eng, year, rating, price " +
-                "                                from movie m " +
-                "order by rating desc " +
-                "limit 45,5";
+        String expected1 = "select id, name_rus, name_eng, year, IFNULL(sumrating/countrating, 0) rating, price from movie m left join (select movie_id, sum(rating) sumrating, count(*) countrating from rating_movie group by movie_id) n on m.id = n.movie_id order by rating asc,price asc limit 5,5";
+        String expected2 = "select id, name_rus, name_eng, year, IFNULL(sumrating/countrating, 0) rating, price from movie m left join (select movie_id, sum(rating) sumrating, count(*) countrating from rating_movie group by movie_id) n on m.id = n.movie_id limit 0,5";
+        String expected3 = "select id, name_rus, name_eng, year, IFNULL(sumrating/countrating, 0) rating, price from movie m left join (select movie_id, sum(rating) sumrating, count(*) countrating from rating_movie group by movie_id) n on m.id = n.movie_id order by rating desc limit 45,5";
         MovieSortAndLimitParam movieSortAndLimitParam1 = new MovieSortAndLimitParam("asc", "asc", "2");
         MovieSortAndLimitParam movieSortAndLimitParam2 = new MovieSortAndLimitParam(null, "ascasasd", "1");
         MovieSortAndLimitParam movieSortAndLimitParam3 = new MovieSortAndLimitParam("desc", "ascasasd", "10");

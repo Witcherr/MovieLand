@@ -34,8 +34,12 @@ public class GeneratorSQLQuery {
             "on c.id = cm.country_id " +
             "where 1 = 1 ";
     private static final String CLOSE_SEARCH_SQL = "group by 1, 2, 3, 4, 5";
-    private static final String INITIAL_ALL_MOVIES_SQL = "select id, name_rus, name_eng, year, rating, price " +
-            "                                from movie m ";
+    private static final String INITIAL_ALL_MOVIES_SQL = "select id, name_rus, name_eng, year, IFNULL(sumrating/countrating, 0) rating, price " +
+            "from movie m " +
+            "left join (select movie_id, sum(rating) sumrating, count(*) countrating " +
+            "from rating_movie " +
+            "group by movie_id) n " +
+            "on m.id = n.movie_id ";
 
 
     public String generateSearchMoviesQuery(MovieSearchParam movieSearchParam){

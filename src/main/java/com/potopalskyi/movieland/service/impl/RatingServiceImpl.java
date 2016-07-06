@@ -22,13 +22,12 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public void addRating(RatingParam ratingParam) {
-        ratingDAO.addRating(ratingParam);
         ratingCache.addNewElement(ratingParam);
     }
 
     @Override
-    public List<RatingDTO> getAllRating() {
-        return ratingDAO.getAllRating();
+    public void addRatingToDAO(RatingParam ratingParam) {
+        ratingDAO.addRating(ratingParam);
     }
 
     @Override

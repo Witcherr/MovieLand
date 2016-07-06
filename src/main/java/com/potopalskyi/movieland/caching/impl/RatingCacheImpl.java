@@ -1,6 +1,7 @@
 package com.potopalskyi.movieland.caching.impl;
 
 import com.potopalskyi.movieland.caching.RatingCache;
+import com.potopalskyi.movieland.entity.dto.TotalRatingDTO;
 import com.potopalskyi.movieland.entity.param.RatingParam;
 import com.potopalskyi.movieland.entity.dto.RatingDTO;
 import com.potopalskyi.movieland.service.RatingService;
@@ -31,7 +32,7 @@ public class RatingCacheImpl implements RatingCache {
 
     private List<RatingDTO> ratingCacheList = new CopyOnWriteArrayList<>();
 
-    @Scheduled(fixedRate = 2 * 60 * 1000)
+    @Scheduled(fixedRate = 60 * 1000)
     @Override
     public void flush() {
         writeLock.lock();
@@ -39,7 +40,7 @@ public class RatingCacheImpl implements RatingCache {
             logger.debug("Start flushing cache of ratings");
             if (!ratingCacheList.isEmpty()) {
                 for(RatingDTO ratingDTO: ratingCacheList){
-                    ratingService.addRating(ConverterToDTO.convertToRatingParam(ratingDTO));
+                    ratingService.addRatingToDAO(ConverterToDTO.convertToRatingParam(ratingDTO));
                 }
                 ratingCacheList.clear();
             }
@@ -78,20 +79,27 @@ public class RatingCacheImpl implements RatingCache {
     public double getAverageRatingByMovieId(int movieId) {
         double sumRating = 0;
         int count = 0;
-        writeLock.lock();
+        readLock.lock();
         try {
-            for (RatingDTO ratingDTO : ratingCacheList) {
-                if (movieId == ratingDTO.getMovieId()) {
-                    sumRating += ratingDTO.getRating();
-                    count++;
+            if(!ratingCacheList.isEmpty()) {
+                for (RatingDTO ratingDTO : ratingCacheList) {
+                    if (movieId == ratingDTO.getMovieId()) {
+                        sumRating += ratingDTO.getRating();
+                        count++;
+                    }
                 }
+            }
+            TotalRatingDTO totalRatingDTO = ratingService.getTotalRating(movieId);
+            if(totalRatingDTO != null) {
+                sumRating += totalRatingDTO.getSumRating();
+                count += totalRatingDTO.getCountRating();
             }
             if (count != 0) {
                 return sumRating / count;
             }
             return 0;
         }finally {
-            writeLock.unlock();
+            readLock.unlock();
         }
     }
 }

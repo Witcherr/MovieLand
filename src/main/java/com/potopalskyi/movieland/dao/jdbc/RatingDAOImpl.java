@@ -9,6 +9,7 @@ import com.potopalskyi.movieland.entity.dto.RatingDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +24,6 @@ public class RatingDAOImpl implements RatingDAO {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    private RatingRowMapper ratingRowMapper;
-
-    @Autowired
     private TotalRatingMapper totalRatingMapper;
 
     @Autowired
@@ -38,7 +36,7 @@ public class RatingDAOImpl implements RatingDAO {
     private String updateRatingSQL;
 
     @Autowired
-    private String getAllRatingSQL;
+    private String getTotalRatingSQL;
 
     @Override
     public void addRating(RatingParam ratingParam) {
@@ -53,13 +51,13 @@ public class RatingDAOImpl implements RatingDAO {
     }
 
     @Override
-    public List<RatingDTO> getAllRating() {
-        logger.info("Start getting ratings");
-        return jdbcTemplate.query(getAllRatingSQL, ratingRowMapper);
-    }
-
-    @Override
     public TotalRatingDTO getTotalRating(int movieId) {
-        return null;
+        logger.info("Start getting total rating information from database for movieid = {}", movieId);
+        try {
+            return jdbcTemplate.queryForObject(getTotalRatingSQL, new Object[]{movieId}, totalRatingMapper);
+        }catch (EmptyResultDataAccessException e){
+                logger.warn("There is no information about rating in database for movieid = {}", movieId, e);
+            return null;
+        }
     }
 }

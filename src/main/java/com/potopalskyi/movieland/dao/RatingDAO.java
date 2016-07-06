@@ -10,7 +10,5 @@ public interface RatingDAO {
 
     void addRating(RatingParam ratingParam);
 
-    List<RatingDTO> getAllRating();
-
     TotalRatingDTO getTotalRating(int movieId);
 }

@@ -10,7 +10,7 @@ public interface RatingService {
 
     void addRating(RatingParam ratingParam);
 
-    List<RatingDTO> getAllRating();
+    void addRatingToDAO(RatingParam ratingParam);
 
     double getAverageRatingByMovieId(int movieId);
 
