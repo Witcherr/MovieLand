@@ -29,6 +29,10 @@ public class RatingParam {
         this.movieId = movieId;
     }
 
+    public boolean isCorrectParams() {
+        return !(authorId <= 0 || movieId <= 0 || rating > 10 || rating < 1);
+    }
+
     @Override
     public String toString() {
         return "RatingParam{" +

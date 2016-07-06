@@ -47,13 +47,15 @@ public class ReviewController {
             return new ResponseEntity<>("You can not add review for other user", HttpStatus.FORBIDDEN);
         }
         reviewService.addReview(reviewAlterParam);
-        logger.info("End process of adding review = {}. It took {} ms", System.currentTimeMillis() - startTime);
+        logger.info("End process of adding review = {}. It took {} ms", json, System.currentTimeMillis() - startTime);
         return new ResponseEntity<>("Your review was successfully added", HttpStatus.OK);
     }
 
     @RoleTypeRequired(role = RoleType.USER)
     @RequestMapping(method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteReview(@RequestBody String json, HttpServletRequest request) {
+        logger.info("Start process of deleting review = {} ", json);
+        long startTime = System.currentTimeMillis();
         ReviewAlterParam reviewAlterParam = converterJson.toReviewAlterParam(json);
         if (!reviewAlterParam.isCorrectParams()) {
             return new ResponseEntity<>("You should send correct review", HttpStatus.BAD_REQUEST);
@@ -63,6 +65,7 @@ public class ReviewController {
             return new ResponseEntity<>("You can not delete review of other user", HttpStatus.FORBIDDEN);
         }
         reviewService.deleteReview(reviewAlterParam);
-        return new ResponseEntity<>("Your review was successfully added", HttpStatus.OK);
+        logger.info("End process of deleting review = {}. It took {} ms", json, System.currentTimeMillis() - startTime);
+        return new ResponseEntity<>("Your review was successfully deleted", HttpStatus.OK);
     }
 }

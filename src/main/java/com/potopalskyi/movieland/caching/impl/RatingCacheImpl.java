@@ -4,6 +4,7 @@ import com.potopalskyi.movieland.caching.RatingCache;
 import com.potopalskyi.movieland.entity.param.RatingParam;
 import com.potopalskyi.movieland.entity.dto.RatingDTO;
 import com.potopalskyi.movieland.service.RatingService;
+import com.potopalskyi.movieland.util.ConverterToDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,58 +13,85 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Service
 public class RatingCacheImpl implements RatingCache {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    private ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+    private Lock readLock = readWriteLock.readLock();
+    private Lock writeLock = readWriteLock.writeLock();
 
     @Autowired
     private RatingService ratingService;
 
     private List<RatingDTO> ratingCacheList = new CopyOnWriteArrayList<>();
 
-    @Scheduled(fixedRate = 365 * 24 * 60 * 60 * 1000)
+    @Scheduled(fixedRate = 2 * 60 * 1000)
     @Override
-    public void fillCache() {
-        logger.debug("Start filling of cache for rating");
-        List<RatingDTO> tempList = ratingService.getAllRating();
-        if(tempList != null){
-            ratingCacheList = new CopyOnWriteArrayList<>(tempList);
+    public void flush() {
+        writeLock.lock();
+        try {
+            logger.debug("Start flushing cache of ratings");
+            if (!ratingCacheList.isEmpty()) {
+                for(RatingDTO ratingDTO: ratingCacheList){
+                    ratingService.addRating(ConverterToDTO.convertToRatingParam(ratingDTO));
+                }
+                ratingCacheList.clear();
+            }
+            logger.debug("End flushing cache of ratings");
+        }finally {
+            writeLock.unlock();
         }
-        logger.debug("End filling of cache for rating");
     }
 
     @Override
-    public boolean addNewElement(RatingParam ratingParam) {
-        for(RatingDTO ratingDTO: ratingCacheList){
-            if (ratingDTO.getMovieId() == ratingParam.getMovieId()
-                    && ratingDTO.getUserId() == ratingParam.getAuthorId()){
-                ratingDTO.setRating(ratingParam.getRating());
-                return true;
+    public void addNewElement(RatingParam ratingParam) {
+        writeLock.lock();
+        try {
+            boolean isExistInCache = false;
+            for (RatingDTO ratingDTO : ratingCacheList) {
+                if (ratingDTO.getMovieId() == ratingParam.getMovieId()
+                        && ratingDTO.getUserId() == ratingParam.getAuthorId()) {
+                    ratingDTO.setRating(ratingParam.getRating());
+                    isExistInCache = true;
+                    break;
+                }
             }
+            if (!isExistInCache) {
+                RatingDTO ratingDTO = new RatingDTO();
+                ratingDTO.setUserId(ratingParam.getAuthorId());
+                ratingDTO.setMovieId(ratingParam.getMovieId());
+                ratingDTO.setRating(ratingParam.getRating());
+                ratingCacheList.add(ratingDTO);
+            }
+        } finally {
+            writeLock.unlock();
         }
-        RatingDTO ratingDTO = new RatingDTO();
-        ratingDTO.setUserId(ratingParam.getAuthorId());
-        ratingDTO.setMovieId(ratingParam.getMovieId());
-        ratingDTO.setRating(ratingParam.getRating());
-        ratingCacheList.add(ratingDTO);
-        return true;
     }
 
     @Override
     public double getAverageRatingByMovieId(int movieId) {
         double sumRating = 0;
         int count = 0;
-        for(RatingDTO ratingDTO:ratingCacheList){
-            if(movieId == ratingDTO.getMovieId()){
-                sumRating+= ratingDTO.getRating();
-                count++;
+        writeLock.lock();
+        try {
+            for (RatingDTO ratingDTO : ratingCacheList) {
+                if (movieId == ratingDTO.getMovieId()) {
+                    sumRating += ratingDTO.getRating();
+                    count++;
+                }
             }
+            if (count != 0) {
+                return sumRating / count;
+            }
+            return 0;
+        }finally {
+            writeLock.unlock();
         }
-        if(count!=0){
-            return sumRating/count;
-        }
-        return 0;
     }
 }

@@ -2,6 +2,8 @@ package com.potopalskyi.movieland.dao.jdbc;
 
 import com.potopalskyi.movieland.dao.RatingDAO;
 import com.potopalskyi.movieland.dao.jdbc.mapper.RatingRowMapper;
+import com.potopalskyi.movieland.dao.jdbc.mapper.TotalRatingMapper;
+import com.potopalskyi.movieland.entity.dto.TotalRatingDTO;
 import com.potopalskyi.movieland.entity.param.RatingParam;
 import com.potopalskyi.movieland.entity.dto.RatingDTO;
 import org.slf4j.Logger;
@@ -24,6 +26,9 @@ public class RatingDAOImpl implements RatingDAO {
     private RatingRowMapper ratingRowMapper;
 
     @Autowired
+    private TotalRatingMapper totalRatingMapper;
+
+    @Autowired
     private String checkRatingExistSQL;
 
     @Autowired
@@ -36,22 +41,25 @@ public class RatingDAOImpl implements RatingDAO {
     private String getAllRatingSQL;
 
     @Override
-    public boolean addRating(RatingParam ratingParam) {
+    public void addRating(RatingParam ratingParam) {
         logger.info("Start insert/update rating = {} into database", ratingParam);
         int count = jdbcTemplate.queryForObject(checkRatingExistSQL, new Object[]{ratingParam.getMovieId(), ratingParam.getAuthorId()}, Integer.class);
         if (count == 0) {
             jdbcTemplate.update(addRatingSQL, ratingParam.getMovieId(), ratingParam.getAuthorId(), ratingParam.getRating());
             logger.info("Rating = {} was inserted into database", ratingParam);
-            return true;
         }
         jdbcTemplate.update(updateRatingSQL, ratingParam.getRating(), ratingParam.getMovieId(), ratingParam.getAuthorId());
         logger.info("Rating = {} was updated into database", ratingParam);
-        return true;
     }
 
     @Override
     public List<RatingDTO> getAllRating() {
         logger.info("Start getting ratings");
         return jdbcTemplate.query(getAllRatingSQL, ratingRowMapper);
+    }
+
+    @Override
+    public TotalRatingDTO getTotalRating(int movieId) {
+        return null;
     }
 }

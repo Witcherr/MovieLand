@@ -6,6 +6,8 @@ import com.potopalskyi.movieland.entity.enums.RoleType;
 import com.potopalskyi.movieland.security.SecurityService;
 import com.potopalskyi.movieland.service.RatingService;
 import com.potopalskyi.movieland.util.ConverterJson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(value = "/v1/rate")
 public class RatingController {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     @Autowired
     private ConverterJson converterJson;
 
@@ -31,15 +35,19 @@ public class RatingController {
 
     @RoleTypeRequired(role = RoleType.USER)
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<String> addReview(@RequestBody String json, HttpServletRequest request) {
+    public ResponseEntity<String> addRating(@RequestBody String json, HttpServletRequest request) {
+        logger.info("Start process of adding rating = {} ", json);
+        long startTime = System.currentTimeMillis();
         RatingParam ratingParam = converterJson.toRatingParam(json);
+        if(!ratingParam.isCorrectParams()){
+            return new ResponseEntity<>("Please check authorId, movieId and don't forget, rating should be between 1 and 10", HttpStatus.BAD_REQUEST);
+        }
         String token = request.getHeader("token");
         if (!securityService.checkAlterPermission(token, ratingParam.getAuthorId())) {
             return new ResponseEntity<>("You can not add rating for other user", HttpStatus.FORBIDDEN);
         }
-        if(ratingService.addRating(ratingParam)){
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        ratingService.addRating(ratingParam);
+        logger.info("End process of adding rating = {}. It took {} ms", json, System.currentTimeMillis() - startTime);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

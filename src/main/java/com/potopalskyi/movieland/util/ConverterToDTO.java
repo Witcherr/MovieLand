@@ -6,6 +6,8 @@ import com.potopalskyi.movieland.entity.business.Country;
 import com.potopalskyi.movieland.entity.business.Genre;
 import com.potopalskyi.movieland.entity.business.Movie;
 import com.potopalskyi.movieland.entity.business.Review;
+import com.potopalskyi.movieland.entity.dto.RatingDTO;
+import com.potopalskyi.movieland.entity.param.RatingParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,5 +51,13 @@ public class ConverterToDTO {
         }
         movieDetailedDTO.setReview(tempList);
         return movieDetailedDTO;
+    }
+
+    public static RatingParam convertToRatingParam(RatingDTO ratingDTO){
+        RatingParam ratingParam = new RatingParam();
+        ratingParam.setMovieId(ratingDTO.getMovieId());
+        ratingParam.setAuthorId(ratingDTO.getUserId());
+        ratingParam.setRating(ratingDTO.getRating());
+        return ratingParam;
     }
 }
