@@ -10,4 +10,6 @@ public interface UserTokenCache {
     void refreshCache();
 
     UserTokenDTO getUserTokenDTO(String token);
+
+    int getUserIdIfExist(String token);
 }

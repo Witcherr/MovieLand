@@ -39,4 +39,9 @@ public class SecurityServiceImpl implements SecurityService {
         UserTokenDTO userTokenDTO = userTokenCache.getUserTokenDTO(token);
         return userId == userTokenDTO.getUserId() || RoleType.ADMIN == userTokenDTO.getRoleType();
     }
+
+    @Override
+    public int getUserIdIfExist(String token) {
+        return userTokenCache.getUserIdIfExist(token);
+    }
 }

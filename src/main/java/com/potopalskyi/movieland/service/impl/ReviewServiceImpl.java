@@ -2,7 +2,6 @@ package com.potopalskyi.movieland.service.impl;
 
 import com.potopalskyi.movieland.dao.ReviewDAO;
 import com.potopalskyi.movieland.entity.business.Review;
-import com.potopalskyi.movieland.entity.exception.NoDataFoundException;
 import com.potopalskyi.movieland.entity.param.ReviewAlterParam;
 import com.potopalskyi.movieland.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;

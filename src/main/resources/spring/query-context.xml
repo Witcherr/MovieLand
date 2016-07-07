@@ -103,4 +103,10 @@
                                 where movie_id = ?"/>
     </bean>
 
+    <bean id="getUserRatingForSQl" class="java.lang.String">
+        <constructor-arg value="select rating
+                                from rating_movie
+                                where movie_id = ?
+                                and user_id = ?"/>
+    </bean>
 </beans>

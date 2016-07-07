@@ -13,4 +13,6 @@ public interface SecurityService {
     boolean checkRightsForRequest(String token, RoleTypeRequired roleTypeRequired);
 
     boolean checkAlterPermission(String token, int userId);
+
+    int getUserIdIfExist(String token);
 }

@@ -36,6 +36,7 @@ public class ConverterToDTO {
         movieDetailedDTO.setYear(movie.getYear());
         movieDetailedDTO.setDescription(movie.getDescription());
         movieDetailedDTO.setRating(movie.getRating());
+        movieDetailedDTO.setUserRating(movie.getUserRating());
         for(Country country: movie.getCountryList()){
             tempList.add(country.getName());
         }

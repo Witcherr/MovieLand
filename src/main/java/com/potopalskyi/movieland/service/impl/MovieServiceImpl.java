@@ -13,6 +13,9 @@ import java.util.List;
 @Service
 public class MovieServiceImpl implements MovieService {
 
+    private static final String MINUS_ONE_DOUBLE = "-1.0";
+    private static final String EMPTY = "Empty";
+
     @Autowired
     private MovieDAO movieDAO;
 
@@ -61,5 +64,14 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Integer> getAllMoviesId() {
         return movieDAO.getAllMoviesId();
+    }
+
+    @Override
+    public void updateUserRating(Movie movie, int userId) {
+        String userRating = String.valueOf(ratingService.getUserRating(userId, movie.getId()));
+        if(MINUS_ONE_DOUBLE.equals(userRating)){
+            userRating = EMPTY;
+        }
+        movie.setUserRating(userRating);
     }
 }

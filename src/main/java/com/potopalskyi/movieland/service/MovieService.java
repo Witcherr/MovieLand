@@ -14,4 +14,6 @@ public interface MovieService {
     Movie getMovieById(int id);
 
     List<Integer> getAllMoviesId();
+
+    void updateUserRating(Movie movie, int userId);
 }

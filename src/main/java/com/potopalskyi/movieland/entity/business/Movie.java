@@ -8,6 +8,7 @@ public class Movie {
     private String titleEnglish;
     private int year;
     private double rating;
+    private String userRating;
     private double price;
     private String description;
     private List<Genre> genreList;
@@ -94,6 +95,14 @@ public class Movie {
         this.price = price;
     }
 
+    public String getUserRating() {
+        return userRating;
+    }
+
+    public void setUserRating(String userRating) {
+        this.userRating = userRating;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +
@@ -102,6 +111,7 @@ public class Movie {
                 ", titleEnglish='" + titleEnglish + '\'' +
                 ", year=" + year +
                 ", rating=" + rating +
+                ", userRating='" + userRating + '\'' +
                 ", price=" + price +
                 ", description='" + description + '\'' +
                 ", genreList=" + genreList +
