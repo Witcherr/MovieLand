@@ -90,17 +90,11 @@
                                 values(?, ?, ?)"/>
     </bean>
 
-    <bean id="updateRatingSQL" class="java.lang.String">
-        <constructor-arg value="update rating_movie
-                                set rating = ?
-                                where movie_id = ?
-                                and user_id = ?"/>
-    </bean>
 
     <bean id="getTotalRatingSQL" class="java.lang.String">
-        <constructor-arg value="select sum(rating) sumrating, count(*) countrating
+        <constructor-arg value="select movie_id, sum(rating) sumrating, count(*) countrating
                                 from rating_movie
-                                where movie_id = ?"/>
+                                group by movie_id"/>
     </bean>
 
     <bean id="getUserRatingForSQl" class="java.lang.String">

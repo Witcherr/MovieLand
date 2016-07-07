@@ -28,6 +28,10 @@ public class ConverterJson {
         return gson.toJson(movieDetailedDTO);
     }
 
+    public String toJsonDetailed(MovieDetailedDTO movieDetailedDTO) {
+        return gson.toJson(movieDetailedDTO);
+    }
+
     public String toJson(List<Movie> movies) {
         List<JsonElement> list = new ArrayList<>();
         for(Movie movie: movies){

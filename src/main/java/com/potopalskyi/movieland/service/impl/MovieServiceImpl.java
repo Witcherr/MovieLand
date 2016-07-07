@@ -2,9 +2,11 @@ package com.potopalskyi.movieland.service.impl;
 
 import com.potopalskyi.movieland.dao.MovieDAO;
 import com.potopalskyi.movieland.entity.business.Movie;
+import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
 import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
 import com.potopalskyi.movieland.service.*;
+import com.potopalskyi.movieland.util.ConverterToDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,13 +54,13 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie getMovieById(int id) {
+    public MovieDetailedDTO getMovieById(int id) {
         Movie movie = movieDAO.getMovieById(id);
         movie.setGenreList(genreService.getGenreFromCacheByMovieId(movie.getId()));
         movie.setCountryList(countryService.getCountryFromCacheByMovieId(movie.getId()));
         movie.setRating(ratingService.getAverageRatingByMovieId(id));
         movie.setReviewList(reviewService.getTwoReviewByMovieId(id));
-        return movie;
+        return ConverterToDTO.convertToDetailedMovieDTO(movie);
     }
 
     @Override
@@ -72,6 +74,6 @@ public class MovieServiceImpl implements MovieService {
         if(MINUS_ONE_DOUBLE.equals(userRating)){
             userRating = EMPTY;
         }
-        movie.setUserRating(userRating);
+        //movie.setUserRating(userRating);
     }
 }

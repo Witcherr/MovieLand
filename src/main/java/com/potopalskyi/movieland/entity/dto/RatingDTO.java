@@ -2,8 +2,8 @@ package com.potopalskyi.movieland.entity.dto;
 
 public class RatingDTO {
     private int movieId;
-    private int userId;
-    private double rating;
+    private double sumRating;
+    private int countRating;
 
     public int getMovieId() {
         return movieId;
@@ -13,28 +13,28 @@ public class RatingDTO {
         this.movieId = movieId;
     }
 
-    public int getUserId() {
-        return userId;
+    public double getSumRating() {
+        return sumRating;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setSumRating(double sumRating) {
+        this.sumRating = sumRating;
     }
 
-    public double getRating() {
-        return rating;
+    public int getCountRating() {
+        return countRating;
     }
 
-    public void setRating(double rating) {
-        this.rating = rating;
+    public void setCountRating(int countRating) {
+        this.countRating = countRating;
     }
 
     @Override
     public String toString() {
         return "RatingDTO{" +
                 "movieId=" + movieId +
-                ", userId=" + userId +
-                ", rating=" + rating +
+                ", sumRating=" + sumRating +
+                ", countRating=" + countRating +
                 '}';
     }
 }

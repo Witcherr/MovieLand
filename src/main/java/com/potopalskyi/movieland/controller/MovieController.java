@@ -1,6 +1,7 @@
 package com.potopalskyi.movieland.controller;
 
 import com.potopalskyi.movieland.entity.business.Movie;
+import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
 import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
 import com.potopalskyi.movieland.security.SecurityService;
@@ -59,20 +60,21 @@ public class MovieController {
         logger.info("Start process of getting movie with id = {}", movieId);
         long startTime = System.currentTimeMillis();
         Movie movie;
+        MovieDetailedDTO movieDetailedDTO;
         try {
-            movie = movieService.getMovieById(movieId);
+            movieDetailedDTO = movieService.getMovieById(movieId);
             String token = request.getHeader("token");
             if(token!=null){
                 int userId = securityService.getUserIdIfExist(token);
                 if(userId != -1){
-                    movieService.updateUserRating(movie, userId);
+                    //movieService.updateUserRating(movie, userId);
                 }
             }
         } catch (NoDataFoundException e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         logger.info("Movie with id {} received, it took {} ms", movieId, System.currentTimeMillis() - startTime);
-        return new ResponseEntity<>(converterJson.toJsonDetailed(movie), HttpStatus.OK);
+        return new ResponseEntity<>(converterJson.toJsonDetailed(movieDetailedDTO), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/movies/search", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
