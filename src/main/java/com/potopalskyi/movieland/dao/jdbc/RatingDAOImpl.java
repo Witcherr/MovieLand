@@ -45,9 +45,10 @@ public class RatingDAOImpl implements RatingDAO {
         if (count == 0) {
             jdbcTemplate.update(addRatingSQL, ratingParam.getMovieId(), ratingParam.getAuthorId(), ratingParam.getRating());
             logger.info("Rating = {} was inserted into database", ratingParam);
+        } else {
+            logger.warn("Rating for movie = {} for user = {} has already exist in database", ratingParam.getMovieId(), ratingParam.getAuthorId());
+            throw new RuntimeException("Rating for movie = " + ratingParam.getMovieId() + "has already exist");
         }
-        jdbcTemplate.update(updateRatingSQL, ratingParam.getRating(), ratingParam.getMovieId(), ratingParam.getAuthorId());
-        logger.info("Rating = {} was updated into database", ratingParam);
     }
 
     @Override

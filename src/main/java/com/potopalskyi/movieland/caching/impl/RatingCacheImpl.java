@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.Lock;
@@ -32,27 +33,27 @@ public class RatingCacheImpl implements RatingCache {
 
     private List<RatingDTO> ratingCacheList = new CopyOnWriteArrayList<>();
 
+    //private List<RatingDTO> tempNewRatingList = new CopyOnWriteArrayList<>();
+
     @Scheduled(fixedRate = 60 * 1000)
     @Override
     public void flush() {
         writeLock.lock();
         try {
             logger.debug("Start flushing cache of ratings");
-            if (!ratingCacheList.isEmpty()) {
-                for(RatingDTO ratingDTO: ratingCacheList){
-                    ratingService.addRatingToDAO(ConverterToDTO.convertToRatingParam(ratingDTO));
-                }
-                ratingCacheList.clear();
+            for (RatingDTO ratingDTO : ratingCacheList) {
+                ratingService.addRatingToDAO(ConverterToDTO.convertToRatingParam(ratingDTO));
             }
+            ratingCacheList.clear();
             logger.debug("End flushing cache of ratings");
-        }finally {
+        } finally {
             writeLock.unlock();
         }
     }
 
     @Override
     public void addNewElement(RatingParam ratingParam) {
-        writeLock.lock();
+        /*writeLock.lock();
         try {
             boolean isExistInCache = false;
             for (RatingDTO ratingDTO : ratingCacheList) {
@@ -72,7 +73,8 @@ public class RatingCacheImpl implements RatingCache {
             }
         } finally {
             writeLock.unlock();
-        }
+        }*/
+
     }
 
     @Override
@@ -81,16 +83,14 @@ public class RatingCacheImpl implements RatingCache {
         int count = 0;
         readLock.lock();
         try {
-            if(!ratingCacheList.isEmpty()) {
-                for (RatingDTO ratingDTO : ratingCacheList) {
-                    if (movieId == ratingDTO.getMovieId()) {
-                        sumRating += ratingDTO.getRating();
-                        count++;
-                    }
+            for (RatingDTO ratingDTO : ratingCacheList) {
+                if (movieId == ratingDTO.getMovieId()) {
+                    sumRating += ratingDTO.getRating();
+                    count++;
                 }
             }
             TotalRatingDTO totalRatingDTO = ratingService.getTotalRating(movieId);
-            if(totalRatingDTO != null) {
+            if (totalRatingDTO != null) {
                 sumRating += totalRatingDTO.getSumRating();
                 count += totalRatingDTO.getCountRating();
             }
@@ -98,7 +98,7 @@ public class RatingCacheImpl implements RatingCache {
                 return sumRating / count;
             }
             return 0;
-        }finally {
+        } finally {
             readLock.unlock();
         }
     }

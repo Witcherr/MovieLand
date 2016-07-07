@@ -39,15 +39,19 @@ public class RatingController {
         logger.info("Start process of adding rating = {} ", json);
         long startTime = System.currentTimeMillis();
         RatingParam ratingParam = converterJson.toRatingParam(json);
-        if(!ratingParam.isCorrectParams()){
+        if (!ratingParam.isCorrectParams()) {
             return new ResponseEntity<>("Please check authorId, movieId and don't forget, rating should be between 1 and 10", HttpStatus.BAD_REQUEST);
         }
         String token = request.getHeader("token");
         if (!securityService.checkAlterPermission(token, ratingParam.getAuthorId())) {
             return new ResponseEntity<>("You can not add rating for other user", HttpStatus.FORBIDDEN);
         }
-        ratingService.addRating(ratingParam);
-        logger.info("End process of adding rating = {}. It took {} ms", json, System.currentTimeMillis() - startTime);
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            ratingService.addRating(ratingParam);
+            logger.info("End process of adding rating = {}. It took {} ms", json, System.currentTimeMillis() - startTime);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

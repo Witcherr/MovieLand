@@ -19,6 +19,7 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public void addRating(RatingParam ratingParam) {
+        ratingDAO.addRating(ratingParam);
         ratingCache.addNewElement(ratingParam);
     }
 
