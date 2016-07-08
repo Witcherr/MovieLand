@@ -16,5 +16,5 @@ public interface MovieService {
 
     List<Integer> getAllMoviesId();
 
-    void updateUserRating(Movie movie, int userId);
+    void setUserRatingForMovie(MovieDetailedDTO movieDetailedDTO, String token, int movieId);
 }

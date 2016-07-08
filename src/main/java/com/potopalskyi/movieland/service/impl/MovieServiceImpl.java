@@ -5,6 +5,7 @@ import com.potopalskyi.movieland.entity.business.Movie;
 import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
 import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
+import com.potopalskyi.movieland.security.SecurityService;
 import com.potopalskyi.movieland.service.*;
 import com.potopalskyi.movieland.util.ConverterToDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,6 @@ import java.util.List;
 
 @Service
 public class MovieServiceImpl implements MovieService {
-
-    private static final String MINUS_ONE_DOUBLE = "-1.0";
-    private static final String EMPTY = "Empty";
 
     @Autowired
     private MovieDAO movieDAO;
@@ -32,6 +30,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private RatingService ratingService;
+
+    @Autowired
+    private SecurityService securityService;
 
     @Override
     public List<Movie> getAllMovies(MovieSortAndLimitParam movieSortAndLimitParam) {
@@ -69,11 +70,13 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void updateUserRating(Movie movie, int userId) {
-        String userRating = String.valueOf(ratingService.getUserRating(userId, movie.getId()));
-        if(MINUS_ONE_DOUBLE.equals(userRating)){
-            userRating = EMPTY;
+    public void setUserRatingForMovie(MovieDetailedDTO movieDetailedDTO, String token, int movieid) {
+        int userId = securityService.getUserIdIfExist(token);
+        if(userId != 0){
+            double userRating = ratingService.getUserRating(userId, movieid);
+            if(userRating != -1){
+                movieDetailedDTO.setUserRating(userRating);
+            }
         }
-        //movie.setUserRating(userRating);
     }
 }

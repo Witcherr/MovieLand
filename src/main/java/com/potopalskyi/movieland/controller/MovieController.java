@@ -33,9 +33,6 @@ public class MovieController {
     @Autowired
     private ConverterJson converterJson;
 
-    @Autowired
-    private SecurityService securityService;
-
     @RequestMapping(value = "/movies", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ResponseEntity<String> getAllMovies(@RequestParam(value = "rating", required = false) String ratingSortType,
@@ -59,17 +56,11 @@ public class MovieController {
     public ResponseEntity<String> getMovieById(@PathVariable("movieId") int movieId, HttpServletRequest request) {
         logger.info("Start process of getting movie with id = {}", movieId);
         long startTime = System.currentTimeMillis();
-        Movie movie;
         MovieDetailedDTO movieDetailedDTO;
         try {
             movieDetailedDTO = movieService.getMovieById(movieId);
             String token = request.getHeader("token");
-            if(token!=null){
-                int userId = securityService.getUserIdIfExist(token);
-                if(userId != -1){
-                    //movieService.updateUserRating(movie, userId);
-                }
-            }
+            movieService.setUserRatingForMovie(movieDetailedDTO, token, movieId);
         } catch (NoDataFoundException e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

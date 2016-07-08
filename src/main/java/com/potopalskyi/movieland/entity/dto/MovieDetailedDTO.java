@@ -11,7 +11,7 @@ public class MovieDetailedDTO {
     private String description;
     private List<String> review;
     private double rating;
-    private String userRating;
+    private Double userRating;
 
     public String getTitleRussian() {
         return titleRussian;
@@ -77,11 +77,11 @@ public class MovieDetailedDTO {
         this.country = country;
     }
 
-    public String getUserRating() {
+    public Double getUserRating() {
         return userRating;
     }
 
-    public void setUserRating(String userRating) {
+    public void setUserRating(Double userRating) {
         this.userRating = userRating;
     }
 }
