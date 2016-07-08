@@ -5,12 +5,12 @@ import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
 import com.potopalskyi.movieland.entity.param.MovieNewParam;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
 import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
-import com.potopalskyi.movieland.security.SecurityService;
 import com.potopalskyi.movieland.security.entity.RoleTypeRequired;
 import com.potopalskyi.movieland.entity.enums.RoleType;
 import com.potopalskyi.movieland.entity.exception.NoDataFoundException;
 import com.potopalskyi.movieland.service.MovieService;
 import com.potopalskyi.movieland.util.ConverterJson;
+import com.potopalskyi.movieland.util.ConverterToBusinessEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +91,12 @@ public class MovieController {
     @ResponseBody
     public ResponseEntity<String> addMovie(@RequestBody String json) {
         MovieNewParam movieNewParam = converterJson.toMovieNewParam(json);
-        movieService.addNewMovie(movieNewParam);
+        Movie movie = ConverterToBusinessEntity.convertToMovie(movieNewParam);
+        try {
+            movieService.addNewMovie(movie);
+        }catch (RuntimeException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

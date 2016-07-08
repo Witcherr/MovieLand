@@ -57,9 +57,11 @@ public class UserTokenCacheImpl implements UserTokenCache {
 
     @Override
     public int getUserIdIfExist(String token) {
-        for(UserTokenDTO userTokenDTO: userTokenCacheList){
-            if(token.equals(userTokenDTO.getToken())){
-                return userTokenDTO.getUserId();
+        if(token != null) {
+            for (UserTokenDTO userTokenDTO : userTokenCacheList) {
+                if (token.equals(userTokenDTO.getToken())) {
+                    return userTokenDTO.getUserId();
+                }
             }
         }
         return -1;

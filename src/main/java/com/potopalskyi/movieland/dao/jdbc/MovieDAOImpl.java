@@ -5,7 +5,6 @@ import com.potopalskyi.movieland.dao.jdbc.mapper.MovieDetailedRowMapper;
 import com.potopalskyi.movieland.dao.jdbc.mapper.MovieIdRowMapper;
 import com.potopalskyi.movieland.dao.jdbc.mapper.MovieRowMapper;
 import com.potopalskyi.movieland.entity.business.Movie;
-import com.potopalskyi.movieland.entity.param.MovieNewParam;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
 import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
 import com.potopalskyi.movieland.entity.exception.NoDataFoundException;
@@ -102,30 +101,30 @@ public class MovieDAOImpl implements MovieDAO {
     }
 
     @Override
-    public void addNewMovie(MovieNewParam movieNewParam) {
-        logger.info("Start inserting new movie = {} to database", movieNewParam);
+    public void addNewMovie(Movie movie) {
+        logger.info("Start inserting new movie = {} to database", movie);
         KeyHolder keyHolder = new GeneratedKeyHolder();
-
-        int count = jdbcTemplate.queryForObject(checkMovieExistSQL, new Object[]{movieNewParam.getTitleRussian(),
-                movieNewParam.getTitleEnglish(), movieNewParam.getYear()}, Integer.class);
+        int count = jdbcTemplate.queryForObject(checkMovieExistSQL, new Object[]{movie.getTitleRussian(),
+                movie.getTitleEnglish(), movie.getYear()}, Integer.class);
         if (count == 0) {
             jdbcTemplate.update(new PreparedStatementCreator() {
                 @Override
                 public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                     PreparedStatement preparedStatement = connection.prepareStatement(addNewMovieSQL, new String[] { "id" });
-                    preparedStatement.setString(1, movieNewParam.getTitleRussian());
-                    preparedStatement.setString(2, movieNewParam.getTitleEnglish());
-                    preparedStatement.setString(3, String.valueOf(movieNewParam.getYear()));
-                    preparedStatement.setString(4, movieNewParam.getDescription());
-                    preparedStatement.setString(5, String.valueOf(movieNewParam.getPrice()));
+                    preparedStatement.setString(1, movie.getTitleRussian());
+                    preparedStatement.setString(2, movie.getTitleEnglish());
+                    preparedStatement.setString(3, String.valueOf(movie.getYear()));
+                    preparedStatement.setString(4, movie.getDescription());
+                    preparedStatement.setString(5, String.valueOf(movie.getPrice()));
                     return preparedStatement;
                 }
             }, keyHolder);
             int movieId = keyHolder.getKey().intValue();
-            logger.info("The movie = {} was inserted into database", movieNewParam);
+            movie.setId(movieId);
+            logger.info("The movie = {} was inserted into database with movieId = {}", movie, movieId);
         } else {
-            logger.warn("Movie = {} has already exist in database", movieNewParam);
-            throw new RuntimeException();
+            logger.warn("Movie = {} has already exist in database", movie);
+            throw new RuntimeException("Movie = " + movie.getTitleEnglish() + " has already exist in database");
         }
     }
 }
