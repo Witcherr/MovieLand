@@ -48,9 +48,59 @@
     </bean>
 
     <bean id="getUserByNameSQL" class="java.lang.String">
-        <constructor-arg value="select id, name, email, password
+        <constructor-arg value="select id, name, email, password, usertype
                                 from user
                                 where name = ?"/>
     </bean>
 
+    <bean id="addReviewSQL" class="java.lang.String">
+        <constructor-arg value="insert into review(movie_id, user_id, description)
+                                values(?, ?, ?)"/>
+    </bean>
+
+    <bean id="checkReviewExistSQL" class="java.lang.String">
+        <constructor-arg value="select count(*)
+                                from review
+                                where movie_id = ?
+                                and user_id = ?"/>
+    </bean>
+
+    <bean id="updateReviewSQL" class="java.lang.String">
+        <constructor-arg value="update review
+                                set description = ?
+                                where movie_id = ?
+                                and user_id = ?"/>
+    </bean>
+
+    <bean id="deleteReviewSQL" class="java.lang.String">
+        <constructor-arg value="delete from review
+                                where movie_id = ?
+                                and user_id = ?"/>
+    </bean>
+
+    <bean id="checkRatingExistSQL" class="java.lang.String">
+        <constructor-arg value="select count(*)
+                                from rating_movie
+                                where movie_id = ?
+                                and user_id = ?"/>
+    </bean>
+
+    <bean id="addRatingSQL" class="java.lang.String">
+        <constructor-arg value="insert into rating_movie(movie_id, user_id, rating)
+                                values(?, ?, ?)"/>
+    </bean>
+
+
+    <bean id="getTotalRatingSQL" class="java.lang.String">
+        <constructor-arg value="select movie_id, sum(rating) sumrating, count(*) countrating
+                                from rating_movie
+                                group by movie_id"/>
+    </bean>
+
+    <bean id="getUserRatingForSQl" class="java.lang.String">
+        <constructor-arg value="select rating
+                                from rating_movie
+                                where movie_id = ?
+                                and user_id = ?"/>
+    </bean>
 </beans>

@@ -1,7 +1,7 @@
 package com.potopalskyi.movieland.caching.impl;
 
 import com.potopalskyi.movieland.caching.GenreCache;
-import com.potopalskyi.movieland.entity.Genre;
+import com.potopalskyi.movieland.entity.business.Genre;
 import com.potopalskyi.movieland.entity.dto.GenreCacheDTO;
 import com.potopalskyi.movieland.service.GenreService;
 import com.potopalskyi.movieland.service.MovieService;
@@ -31,13 +31,13 @@ public class GenreCacheImpl implements GenreCache {
 
     @Override
     public List<Genre> getGenreByMovieId(int movieId) {
-        logger.info("Start getting genre from cache");
+        logger.info("Start getting genre from cache for movieId = {}", movieId);
         for (GenreCacheDTO genreCacheDTO : genreCacheList) {
             if (movieId == genreCacheDTO.getMovieId()) {
                 return Util.cloneListGenre(genreCacheDTO.getGenre());
             }
         }
-        logger.info("Genre for movieId = " + movieId + " was not found in cache. Try to add information to cache from database");
+        logger.info("Genre for movieId = {} was not found in cache. Try to add information to cache from database", movieId);
         return Util.cloneListGenre(addNewElementToCache(movieId));
     }
 
@@ -66,7 +66,7 @@ public class GenreCacheImpl implements GenreCache {
         genreCacheDTO.setGenre(genres);
         if (genres != null) {
             genreCacheList.add(genreCacheDTO);
-            logger.info("Genre was got from database and added to cache");
+            logger.info("Genre for movied = {} was got from database and added to cache", movieId);
         }
         return genres;
     }

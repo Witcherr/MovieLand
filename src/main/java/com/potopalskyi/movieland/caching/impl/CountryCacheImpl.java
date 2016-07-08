@@ -1,7 +1,7 @@
 package com.potopalskyi.movieland.caching.impl;
 
 import com.potopalskyi.movieland.caching.CountryCache;
-import com.potopalskyi.movieland.entity.Country;
+import com.potopalskyi.movieland.entity.business.Country;
 import com.potopalskyi.movieland.entity.dto.CountryCacheDTO;
 import com.potopalskyi.movieland.service.CountryService;
 import com.potopalskyi.movieland.service.MovieService;
@@ -36,7 +36,7 @@ public class CountryCacheImpl implements CountryCache{
                 return Util.cloneListCountry(countryCacheDTO.getCountries());
             }
         }
-        logger.info("Country for movieId = " + movieId + " was not found in cache. Try to add information to cache from database");
+        logger.info("Country for movieId = {} was not found in cache. Try to add information to cache from database", movieId);
         return Util.cloneListCountry(addNewElementToCache(movieId));
     }
 
@@ -65,7 +65,7 @@ public class CountryCacheImpl implements CountryCache{
         countryCacheDTO.setCountries(countries);
         if(countries != null){
             countryCacheList.add(countryCacheDTO);
-            logger.info("Country was got from database and added to cache");
+            logger.info("Country for movieId = {} was got from database and added to cache", movieId);
         }
         return countries;
     }

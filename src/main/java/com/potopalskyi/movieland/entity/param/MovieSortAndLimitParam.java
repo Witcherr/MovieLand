@@ -1,4 +1,4 @@
-package com.potopalskyi.movieland.entity;
+package com.potopalskyi.movieland.entity.param;
 
 import com.potopalskyi.movieland.entity.enums.SortType;
 import com.potopalskyi.movieland.util.Util;

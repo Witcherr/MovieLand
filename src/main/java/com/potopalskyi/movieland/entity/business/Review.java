@@ -1,4 +1,4 @@
-package com.potopalskyi.movieland.entity;
+package com.potopalskyi.movieland.entity.business;
 
 public class Review {
     private User user;

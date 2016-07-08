@@ -1,10 +1,10 @@
 package com.potopalskyi.movieland.dao;
 
-import com.potopalskyi.movieland.entity.Country;
+import com.potopalskyi.movieland.entity.business.Country;
 
 import java.util.List;
 
 public interface CountryDAO {
 
-    public List<Country> getCountryById(int id);
+    List<Country> getCountryById(int id);
 }

@@ -1,9 +1,9 @@
 package com.potopalskyi.movieland.util;
 
-import com.potopalskyi.movieland.entity.Country;
-import com.potopalskyi.movieland.entity.Genre;
-import com.potopalskyi.movieland.entity.Movie;
-import com.potopalskyi.movieland.entity.Review;
+import com.potopalskyi.movieland.entity.business.Country;
+import com.potopalskyi.movieland.entity.business.Genre;
+import com.potopalskyi.movieland.entity.business.Movie;
+import com.potopalskyi.movieland.entity.business.Review;
 import org.junit.Test;
 
 import java.util.ArrayList;

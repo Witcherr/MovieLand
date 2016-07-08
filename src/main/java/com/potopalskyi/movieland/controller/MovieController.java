@@ -1,8 +1,12 @@
 package com.potopalskyi.movieland.controller;
 
-import com.potopalskyi.movieland.entity.Movie;
-import com.potopalskyi.movieland.entity.MovieSearchParam;
-import com.potopalskyi.movieland.entity.MovieSortAndLimitParam;
+import com.potopalskyi.movieland.entity.business.Movie;
+import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
+import com.potopalskyi.movieland.entity.param.MovieSearchParam;
+import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
+import com.potopalskyi.movieland.security.SecurityService;
+import com.potopalskyi.movieland.security.entity.RoleTypeRequired;
+import com.potopalskyi.movieland.entity.enums.RoleType;
 import com.potopalskyi.movieland.entity.exception.NoDataFoundException;
 import com.potopalskyi.movieland.service.MovieService;
 import com.potopalskyi.movieland.util.ConverterJson;
@@ -14,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -32,69 +37,79 @@ public class MovieController {
     @ResponseBody
     public ResponseEntity<String> getAllMovies(@RequestParam(value = "rating", required = false) String ratingSortType,
                                                @RequestParam(value = "price", required = false) String priceSortType,
-                                               @RequestParam(value = "page", defaultValue = "1" ) String page) {
-        logger.info("Start process of getting all movies");
+                                               @RequestParam(value = "page", defaultValue = "1") String page) {
+        logger.info("Start process of getting all movies with Rating order = {}, Price rating = {}, Page = {}", ratingSortType, priceSortType, page);
+        long startTime = System.currentTimeMillis();
+        List<Movie> movies;
         MovieSortAndLimitParam movieSortAndLimitParam = new MovieSortAndLimitParam(ratingSortType, priceSortType, page);
-        List<Movie> movies = movieService.getAllMovies(movieSortAndLimitParam);
+        try {
+            movies = movieService.getAllMovies(movieSortAndLimitParam);
+        } catch (NoDataFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        logger.info("End of getting all movies with Rating order = {}, Price rating = {}, Page = {}. It took {} ms", ratingSortType, priceSortType, page, System.currentTimeMillis() - startTime);
         return new ResponseEntity<>(converterJson.toJson(movies), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/movie/{movieId}", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseEntity<String> getMovieById(@PathVariable("movieId") int movieId) {
-        logger.info("Start process of getting movie with id = " + movieId);
-        Movie movie;
+    public ResponseEntity<String> getMovieById(@PathVariable("movieId") int movieId, HttpServletRequest request) {
+        logger.info("Start process of getting movie with id = {}", movieId);
+        long startTime = System.currentTimeMillis();
+        MovieDetailedDTO movieDetailedDTO;
         try {
-            movie = movieService.getMovieById(movieId);
+            movieDetailedDTO = movieService.getMovieById(movieId);
+            String token = request.getHeader("token");
+            movieService.setUserRatingForMovie(movieDetailedDTO, token, movieId);
         } catch (NoDataFoundException e) {
-            logger.warn("The movie with id = " + movieId + " wasn't found");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(converterJson.toJsonDetailed(movie), HttpStatus.OK);
+        logger.info("Movie with id {} received, it took {} ms", movieId, System.currentTimeMillis() - startTime);
+        return new ResponseEntity<>(converterJson.toJsonDetailed(movieDetailedDTO), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/movies/search", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<String> getMoviesBySearch(@RequestBody String json) {
-        logger.info("Start process of getting movies with search params " + json);
+        logger.info("Start process of getting movies with search params {}", json);
+        long startTime = System.currentTimeMillis();
         MovieSearchParam movieSearchParam = converterJson.toMovieSearchParam(json);
         List<Movie> movies;
         try {
             movies = movieService.getMoviesBySearch(movieSearchParam);
         } catch (NoDataFoundException e) {
-            logger.warn("There are no movies with params " + json);
+            logger.warn("There are no movies with params = {}", json);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+        logger.info("End process of getting movies with search param = {}. It took {} ms", json, System.currentTimeMillis() - startTime);
         return new ResponseEntity<>(converterJson.toJson(movies), HttpStatus.OK);
     }
 
-    @RequestMapping( value = "/rate", method = RequestMethod.POST)
+    @RoleTypeRequired(role = RoleType.USER)
+    @RequestMapping(value = "/movie", method = RequestMethod.POST)
     @ResponseBody
-    public void addRateToMovie(){
+    public void addMovie() {
 
     }
 
-    @RequestMapping( value = "/movie", method = RequestMethod.POST)
+    @RoleTypeRequired(role = RoleType.USER)
+    @RequestMapping(value = "/movie", method = RequestMethod.PUT)
     @ResponseBody
-    public void addMovie(){
+    public void editMovie() {
 
     }
 
-    @RequestMapping( value = "/movie", method = RequestMethod.PUT)
+    @RoleTypeRequired(role = RoleType.ADMIN)
+    @RequestMapping(value = "/movie/{movieId}", method = RequestMethod.DELETE)
     @ResponseBody
-    public void editMovie(){
+    public void markMovie() {
 
     }
 
-    @RequestMapping( value = "/movie/{movieId}", method = RequestMethod.DELETE)
+    @RoleTypeRequired(role = RoleType.ADMIN)
+    @RequestMapping(value = "/movie/{movieId}", method = RequestMethod.POST)
     @ResponseBody
-    public void markMovie(){
-
-    }
-
-    @RequestMapping( value = "/movie/{movieId}", method = RequestMethod.POST)
-    @ResponseBody
-    public void unMarkMovie(){
+    public void unMarkMovie() {
 
     }
 }

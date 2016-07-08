@@ -1,7 +1,7 @@
 package com.potopalskyi.movieland.service.impl;
 
 import com.potopalskyi.movieland.dao.UserDAO;
-import com.potopalskyi.movieland.entity.User;
+import com.potopalskyi.movieland.entity.business.User;
 import com.potopalskyi.movieland.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

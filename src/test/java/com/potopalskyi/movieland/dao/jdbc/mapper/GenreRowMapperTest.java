@@ -1,6 +1,6 @@
 package com.potopalskyi.movieland.dao.jdbc.mapper;
 
-import com.potopalskyi.movieland.entity.Genre;
+import com.potopalskyi.movieland.entity.business.Genre;
 import org.junit.Test;
 
 import java.sql.ResultSet;

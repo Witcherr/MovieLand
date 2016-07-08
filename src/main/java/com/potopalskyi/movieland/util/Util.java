@@ -1,7 +1,7 @@
 package com.potopalskyi.movieland.util;
 
-import com.potopalskyi.movieland.entity.Country;
-import com.potopalskyi.movieland.entity.Genre;
+import com.potopalskyi.movieland.entity.business.Country;
+import com.potopalskyi.movieland.entity.business.Genre;
 
 import java.util.ArrayList;
 import java.util.List;

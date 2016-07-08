@@ -1,8 +1,9 @@
 package com.potopalskyi.movieland.service;
 
-import com.potopalskyi.movieland.entity.Movie;
-import com.potopalskyi.movieland.entity.MovieSearchParam;
-import com.potopalskyi.movieland.entity.MovieSortAndLimitParam;
+import com.potopalskyi.movieland.entity.business.Movie;
+import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
+import com.potopalskyi.movieland.entity.param.MovieSearchParam;
+import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
 
 import java.util.List;
 
@@ -11,7 +12,9 @@ public interface MovieService {
 
     List<Movie> getMoviesBySearch(MovieSearchParam movieSearchParam);
 
-    Movie getMovieById(int id);
+    MovieDetailedDTO getMovieById(int id);
 
     List<Integer> getAllMoviesId();
+
+    void setUserRatingForMovie(MovieDetailedDTO movieDetailedDTO, String token, int movieId);
 }

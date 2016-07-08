@@ -2,10 +2,10 @@ package com.potopalskyi.movieland.util;
 
 import com.potopalskyi.movieland.entity.dto.MovieDTO;
 import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
-import com.potopalskyi.movieland.entity.Country;
-import com.potopalskyi.movieland.entity.Genre;
-import com.potopalskyi.movieland.entity.Movie;
-import com.potopalskyi.movieland.entity.Review;
+import com.potopalskyi.movieland.entity.business.Country;
+import com.potopalskyi.movieland.entity.business.Genre;
+import com.potopalskyi.movieland.entity.business.Movie;
+import com.potopalskyi.movieland.entity.business.Review;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +34,7 @@ public class ConverterToDTO {
         movieDetailedDTO.setYear(movie.getYear());
         movieDetailedDTO.setDescription(movie.getDescription());
         movieDetailedDTO.setRating(movie.getRating());
+        //movieDetailedDTO.setUserRating(movie.getUserRating());
         for(Country country: movie.getCountryList()){
             tempList.add(country.getName());
         }
@@ -50,4 +51,5 @@ public class ConverterToDTO {
         movieDetailedDTO.setReview(tempList);
         return movieDetailedDTO;
     }
+
 }

@@ -1,7 +1,6 @@
 package com.potopalskyi.movieland.dao;
 
-import com.potopalskyi.movieland.entity.Genre;
-import com.potopalskyi.movieland.entity.Movie;
+import com.potopalskyi.movieland.entity.business.Genre;
 
 import java.util.List;
 

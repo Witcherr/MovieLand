@@ -1,14 +1,13 @@
 package com.potopalskyi.movieland.service.impl;
 
-import com.potopalskyi.movieland.caching.CountryCache;
-import com.potopalskyi.movieland.caching.GenreCache;
 import com.potopalskyi.movieland.dao.MovieDAO;
-import com.potopalskyi.movieland.entity.Movie;
-import com.potopalskyi.movieland.entity.MovieSearchParam;
-import com.potopalskyi.movieland.entity.MovieSortAndLimitParam;
-import com.potopalskyi.movieland.entity.Review;
-import com.potopalskyi.movieland.service.MovieService;
-import com.potopalskyi.movieland.service.ReviewService;
+import com.potopalskyi.movieland.entity.business.Movie;
+import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
+import com.potopalskyi.movieland.entity.param.MovieSearchParam;
+import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
+import com.potopalskyi.movieland.security.SecurityService;
+import com.potopalskyi.movieland.service.*;
+import com.potopalskyi.movieland.util.ConverterToDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,24 +17,29 @@ import java.util.List;
 public class MovieServiceImpl implements MovieService {
 
     @Autowired
-    MovieDAO movieDAO;
+    private MovieDAO movieDAO;
 
     @Autowired
-    CountryCache countryCache;
+    private CountryService countryService;
 
     @Autowired
-    ReviewService reviewService;
+    private ReviewService reviewService;
 
     @Autowired
-    GenreCache genreCache;
+    private GenreService genreService;
+
+    @Autowired
+    private RatingService ratingService;
+
+    @Autowired
+    private SecurityService securityService;
 
     @Override
     public List<Movie> getAllMovies(MovieSortAndLimitParam movieSortAndLimitParam) {
         List<Movie> movies = movieDAO.getAllMovies(movieSortAndLimitParam);
-        if(movies != null) {
-            for (Movie movie : movies) {
-                movie.setGenreList(genreCache.getGenreByMovieId(movie.getId()));
-            }
+        for (Movie movie : movies) {
+            movie.setGenreList(genreService.getGenreFromCacheByMovieId(movie.getId()));
+            movie.setRating(ratingService.getAverageRatingByMovieId(movie.getId()));
         }
         return movies;
     }
@@ -43,32 +47,36 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> getMoviesBySearch(MovieSearchParam movieSearchParam) {
         List<Movie> movies = movieDAO.getMoviesBySearch(movieSearchParam);
-        if (movies != null) {
-            for (Movie movie : movies) {
-                movie.setGenreList(genreCache.getGenreByMovieId(movie.getId()));
-            }
+        for (Movie movie : movies) {
+            movie.setGenreList(genreService.getGenreFromCacheByMovieId(movie.getId()));
+            movie.setRating(ratingService.getAverageRatingByMovieId(movie.getId()));
         }
         return movies;
     }
 
     @Override
-    public Movie getMovieById(int id) {
+    public MovieDetailedDTO getMovieById(int id) {
         Movie movie = movieDAO.getMovieById(id);
-        if (movie != null) {
-            movie.setGenreList(genreCache.getGenreByMovieId(movie.getId()));
-            movie.setCountryList(countryCache.getCountryByMovieId(id));
-            List<Review> reviews = reviewService.getReviewByMovieId(id);
-            if (reviews.size() >= 2) {
-                movie.setReviewList(reviews.subList(0, 2));
-            } else if (reviews.size() == 1) {
-                movie.setReviewList(reviews);
-            }
-        }
-        return movie;
+        movie.setGenreList(genreService.getGenreFromCacheByMovieId(movie.getId()));
+        movie.setCountryList(countryService.getCountryFromCacheByMovieId(movie.getId()));
+        movie.setRating(ratingService.getAverageRatingByMovieId(id));
+        movie.setReviewList(reviewService.getTwoReviewByMovieId(id));
+        return ConverterToDTO.convertToDetailedMovieDTO(movie);
     }
 
     @Override
     public List<Integer> getAllMoviesId() {
         return movieDAO.getAllMoviesId();
+    }
+
+    @Override
+    public void setUserRatingForMovie(MovieDetailedDTO movieDetailedDTO, String token, int movieid) {
+        int userId = securityService.getUserIdIfExist(token);
+        if(userId != 0){
+            double userRating = ratingService.getUserRating(userId, movieid);
+            if(userRating != -1){
+                movieDetailedDTO.setUserRating(userRating);
+            }
+        }
     }
 }

@@ -1,6 +1,6 @@
 package com.potopalskyi.movieland.caching;
 
-import com.potopalskyi.movieland.entity.Country;
+import com.potopalskyi.movieland.entity.business.Country;
 
 import java.util.List;
 
