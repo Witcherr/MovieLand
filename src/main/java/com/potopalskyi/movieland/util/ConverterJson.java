@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.potopalskyi.movieland.entity.business.Movie;
 import com.potopalskyi.movieland.entity.dto.MovieDTO;
 import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
+import com.potopalskyi.movieland.entity.param.MovieNewParam;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
 import com.potopalskyi.movieland.entity.param.RatingParam;
 import com.potopalskyi.movieland.entity.param.ReviewAlterParam;
@@ -42,6 +43,10 @@ public class ConverterJson {
 
     public MovieSearchParam toMovieSearchParam(String json){
         return gson.fromJson(json, MovieSearchParam.class);
+    }
+
+    public MovieNewParam toMovieNewParam(String json){
+        return gson.fromJson(json, MovieNewParam.class);
     }
 
     public ReviewAlterParam toReviewAlterParam(String json){

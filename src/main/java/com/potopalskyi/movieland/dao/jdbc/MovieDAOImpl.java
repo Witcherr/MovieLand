@@ -5,6 +5,7 @@ import com.potopalskyi.movieland.dao.jdbc.mapper.MovieDetailedRowMapper;
 import com.potopalskyi.movieland.dao.jdbc.mapper.MovieIdRowMapper;
 import com.potopalskyi.movieland.dao.jdbc.mapper.MovieRowMapper;
 import com.potopalskyi.movieland.entity.business.Movie;
+import com.potopalskyi.movieland.entity.param.MovieNewParam;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
 import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
 import com.potopalskyi.movieland.entity.exception.NoDataFoundException;
@@ -14,8 +15,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -31,6 +38,12 @@ public class MovieDAOImpl implements MovieDAO {
 
     @Autowired
     private String getAllMoviesIdeIdSQL;
+
+    @Autowired
+    private String addNewMovieSQL;
+
+    @Autowired
+    private String checkMovieExistSQL;
 
     @Autowired
     private GeneratorSQLQuery generatorSQLQuery;
@@ -85,6 +98,34 @@ public class MovieDAOImpl implements MovieDAO {
         } catch (EmptyResultDataAccessException e) {
             logger.warn("Database of movies is empty");
             throw new NoDataFoundException("Database of movies is empty", e);
+        }
+    }
+
+    @Override
+    public void addNewMovie(MovieNewParam movieNewParam) {
+        logger.info("Start inserting new movie = {} to database", movieNewParam);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        int count = jdbcTemplate.queryForObject(checkMovieExistSQL, new Object[]{movieNewParam.getTitleRussian(),
+                movieNewParam.getTitleEnglish(), movieNewParam.getYear()}, Integer.class);
+        if (count == 0) {
+            jdbcTemplate.update(new PreparedStatementCreator() {
+                @Override
+                public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                    PreparedStatement preparedStatement = connection.prepareStatement(addNewMovieSQL, new String[] { "id" });
+                    preparedStatement.setString(1, movieNewParam.getTitleRussian());
+                    preparedStatement.setString(2, movieNewParam.getTitleEnglish());
+                    preparedStatement.setString(3, String.valueOf(movieNewParam.getYear()));
+                    preparedStatement.setString(4, movieNewParam.getDescription());
+                    preparedStatement.setString(5, String.valueOf(movieNewParam.getPrice()));
+                    return preparedStatement;
+                }
+            }, keyHolder);
+            int movieId = keyHolder.getKey().intValue();
+            logger.info("The movie = {} was inserted into database", movieNewParam);
+        } else {
+            logger.warn("Movie = {} has already exist in database", movieNewParam);
+            throw new RuntimeException();
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.potopalskyi.movieland.dao;
 
 import com.potopalskyi.movieland.entity.business.Movie;
+import com.potopalskyi.movieland.entity.param.MovieNewParam;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
 import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
 
@@ -14,4 +15,6 @@ public interface MovieDAO {
     Movie getMovieById(int id);
 
     List<Integer> getAllMoviesId();
+
+    void addNewMovie(MovieNewParam movieNewParam);
 }

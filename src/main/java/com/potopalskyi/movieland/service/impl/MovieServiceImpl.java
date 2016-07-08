@@ -3,6 +3,7 @@ package com.potopalskyi.movieland.service.impl;
 import com.potopalskyi.movieland.dao.MovieDAO;
 import com.potopalskyi.movieland.entity.business.Movie;
 import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
+import com.potopalskyi.movieland.entity.param.MovieNewParam;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
 import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
 import com.potopalskyi.movieland.security.SecurityService;
@@ -78,5 +79,10 @@ public class MovieServiceImpl implements MovieService {
                 movieDetailedDTO.setUserRating(userRating);
             }
         }
+    }
+
+    @Override
+    public void addNewMovie(MovieNewParam movieNewParam) {
+        movieDAO.addNewMovie(movieNewParam);
     }
 }

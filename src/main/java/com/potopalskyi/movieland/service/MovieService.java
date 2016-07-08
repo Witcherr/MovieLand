@@ -2,6 +2,7 @@ package com.potopalskyi.movieland.service;
 
 import com.potopalskyi.movieland.entity.business.Movie;
 import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
+import com.potopalskyi.movieland.entity.param.MovieNewParam;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
 import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
 
@@ -17,4 +18,6 @@ public interface MovieService {
     List<Integer> getAllMoviesId();
 
     void setUserRatingForMovie(MovieDetailedDTO movieDetailedDTO, String token, int movieId);
+
+    void addNewMovie(MovieNewParam movieNewParam);
 }

@@ -2,6 +2,7 @@ package com.potopalskyi.movieland.controller;
 
 import com.potopalskyi.movieland.entity.business.Movie;
 import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
+import com.potopalskyi.movieland.entity.param.MovieNewParam;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
 import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
 import com.potopalskyi.movieland.security.SecurityService;
@@ -85,11 +86,13 @@ public class MovieController {
         return new ResponseEntity<>(converterJson.toJson(movies), HttpStatus.OK);
     }
 
-    @RoleTypeRequired(role = RoleType.USER)
+    @RoleTypeRequired(role = RoleType.ADMIN)
     @RequestMapping(value = "/movie", method = RequestMethod.POST)
     @ResponseBody
-    public void addMovie() {
-
+    public ResponseEntity<String> addMovie(@RequestBody String json) {
+        MovieNewParam movieNewParam = converterJson.toMovieNewParam(json);
+        movieService.addNewMovie(movieNewParam);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RoleTypeRequired(role = RoleType.USER)

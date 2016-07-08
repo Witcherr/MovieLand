@@ -103,4 +103,18 @@
                                 where movie_id = ?
                                 and user_id = ?"/>
     </bean>
+
+    <bean id="addNewMovieSQL" class="java.lang.String">
+        <constructor-arg value="insert into movie(name_rus, name_eng, year, description, price)
+                                values(?, ?, ?, ?, ?)"/>
+    </bean>
+
+    <bean id="checkMovieExistSQL" class="java.lang.String">
+        <constructor-arg value="select count(*)
+                                from movie
+                                where name_rus = ?
+                                and name_eng = ?
+                                and year = ?"/>
+    </bean>
+
 </beans>
