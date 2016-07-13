@@ -101,7 +101,7 @@ public class MovieDAOImpl implements MovieDAO {
     }
 
     @Override
-    public void addNewMovie(Movie movie) {
+    public void saveNewMovie(Movie movie) {
         logger.info("Start inserting new movie = {} to database", movie);
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int count = jdbcTemplate.queryForObject(checkMovieExistSQL, new Object[]{movie.getTitleRussian(),

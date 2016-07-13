@@ -1,6 +1,7 @@
 package com.potopalskyi.movieland.service.impl;
 
 import com.potopalskyi.movieland.dao.MovieDAO;
+import com.potopalskyi.movieland.entity.business.Genre;
 import com.potopalskyi.movieland.entity.business.Movie;
 import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
@@ -82,6 +83,12 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void addNewMovie(Movie movie) {
-        movieDAO.addNewMovie(movie);
+        movieDAO.saveNewMovie(movie);
+
+
+        for(Genre genre: movie.getGenreList()){
+            genre.setId(genreService.getGenreIdByName(genre.getName()));
+        }
+
     }
 }

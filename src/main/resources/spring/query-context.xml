@@ -117,4 +117,10 @@
                                 and year = ?"/>
     </bean>
 
+    <bean id="getGenreIdByNameSQL" class="java.lang.String">
+        <constructor-arg value="select id
+                                from genre
+                                where genre in (?)"/>
+    </bean>
+
 </beans>

@@ -3,6 +3,7 @@ package com.potopalskyi.movieland.service.impl;
 import com.potopalskyi.movieland.caching.GenreCache;
 import com.potopalskyi.movieland.dao.GenreDAO;
 import com.potopalskyi.movieland.entity.business.Genre;
+import com.potopalskyi.movieland.entity.business.Movie;
 import com.potopalskyi.movieland.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,5 +27,17 @@ public class GenreServiceImpl implements GenreService{
     @Override
     public List<Genre> getGenreFromCacheByMovieId(int movieId) {
         return genreCache.getGenreByMovieId(movieId);
+    }
+
+    @Override
+    public int getGenreIdByName(String genreName) {
+        return genreDAO.getGenreIdByName(genreName);
+    }
+
+    @Override
+    public void saveGenreForNewMovie(Movie movie) {
+        for(Genre genre: movie.getGenreList()){
+
+        }
     }
 }
