@@ -123,4 +123,22 @@
                                 where genre in (?)"/>
     </bean>
 
+    <bean id="addGenreForNewMovieSQL" class="java.lang.String">
+        <constructor-arg value="insert into genre_movie(id_genre, id_movie)
+                                values( (select id from genre where genre = ?),  ?)"/>
+    </bean>
+
+    <bean id="addCountryForNewMovieSQL" class="java.lang.String">
+        <constructor-arg value="insert into country_movie(movie_id, country_id)
+                                values( ?, (select id from country where name = ?))"/>
+    </bean>
+
+    <bean id="getMovieIdByNameSQL" class="java.lang.String">
+        <constructor-arg value="select id
+                                from movie
+                                where name_rus = ?
+                                and name_eng = ?
+                                and year = ?"/>
+    </bean>
+
 </beans>

@@ -67,6 +67,12 @@ public class MovieNewParam {
         this.country = country;
     }
 
+    public boolean isCorrectParams() {
+        //return !(authorId <= 0 || movieId <= 0 || rating > 10 || rating < 1);
+        return !(titleRussian == null || titleEnglish == null || year <= 0 || price <= 0 || description == null
+                || genre == null || country == null);
+    }
+
     @Override
     public String toString() {
         return "MovieNewParam{" +

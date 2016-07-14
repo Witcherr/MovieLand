@@ -45,6 +45,9 @@ public class MovieDAOImpl implements MovieDAO {
     private String checkMovieExistSQL;
 
     @Autowired
+    private String getMovieIdByNameSQL;
+
+    @Autowired
     private GeneratorSQLQuery generatorSQLQuery;
 
     @Autowired
@@ -110,7 +113,7 @@ public class MovieDAOImpl implements MovieDAO {
             jdbcTemplate.update(new PreparedStatementCreator() {
                 @Override
                 public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-                    PreparedStatement preparedStatement = connection.prepareStatement(addNewMovieSQL, new String[] { "id" });
+                    PreparedStatement preparedStatement = connection.prepareStatement(addNewMovieSQL, new String[]{"id"});
                     preparedStatement.setString(1, movie.getTitleRussian());
                     preparedStatement.setString(2, movie.getTitleEnglish());
                     preparedStatement.setString(3, String.valueOf(movie.getYear()));
@@ -126,5 +129,18 @@ public class MovieDAOImpl implements MovieDAO {
             logger.warn("Movie = {} has already exist in database", movie);
             throw new RuntimeException("Movie = " + movie.getTitleEnglish() + " has already exist in database");
         }
+    }
+
+    @Override
+    public void updateMovie(Movie movie) {
+        logger.info("Star update movie = {}", movie.getTitleEnglish());
+        try {
+            int movieId = jdbcTemplate.queryForObject(getMovieIdByNameSQL, new Object[]{movie.getTitleRussian(),
+                    movie.getTitleEnglish(), movie.getYear()}, Integer.class);
+        }catch (EmptyResultDataAccessException e){
+            logger.warn("The movie = {} doesn't exist in database", movie.getTitleEnglish(), e);
+            throw new NoDataFoundException("There is no movie = " + movie.getTitleEnglish()+ " in database", e);
+        }
+
     }
 }

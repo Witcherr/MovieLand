@@ -36,8 +36,6 @@ public class GenreServiceImpl implements GenreService{
 
     @Override
     public void saveGenreForNewMovie(Movie movie) {
-        for(Genre genre: movie.getGenreList()){
-
-        }
+        genreDAO.saveGenreForNewMovie(movie);
     }
 }

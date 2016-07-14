@@ -19,4 +19,6 @@ public interface MovieService {
     void setUserRatingForMovie(MovieDetailedDTO movieDetailedDTO, String token, int movieId);
 
     void addNewMovie(Movie movie);
+
+    void updateMovie(Movie movie);
 }

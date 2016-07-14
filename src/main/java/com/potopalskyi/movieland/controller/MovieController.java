@@ -91,20 +91,28 @@ public class MovieController {
     @ResponseBody
     public ResponseEntity<String> addMovie(@RequestBody String json) {
         MovieNewParam movieNewParam = converterJson.toMovieNewParam(json);
+        if(!movieNewParam.isCorrectParams()){
+            return new ResponseEntity<>("Please check input parameters", HttpStatus.BAD_REQUEST);
+        }
         Movie movie = ConverterToBusinessEntity.convertToMovie(movieNewParam);
         try {
             movieService.addNewMovie(movie);
         }catch (RuntimeException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("The movie was successfully added", HttpStatus.OK);
     }
 
     @RoleTypeRequired(role = RoleType.USER)
     @RequestMapping(value = "/movie", method = RequestMethod.PUT)
     @ResponseBody
-    public void editMovie() {
-
+    public ResponseEntity<String> editMovie(@RequestBody String json) {
+        MovieNewParam movieNewParam = converterJson.toMovieNewParam(json);
+        if(!movieNewParam.isCorrectParams()){
+            return new ResponseEntity<>("Please check input parameters", HttpStatus.BAD_REQUEST);
+        }
+        Movie movie = ConverterToBusinessEntity.convertToMovie(movieNewParam);
+        return null;
     }
 
     @RoleTypeRequired(role = RoleType.ADMIN)

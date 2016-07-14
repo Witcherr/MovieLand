@@ -16,4 +16,6 @@ public interface MovieDAO {
     List<Integer> getAllMoviesId();
 
     void saveNewMovie(Movie movie);
+
+    void updateMovie(Movie movie);
 }

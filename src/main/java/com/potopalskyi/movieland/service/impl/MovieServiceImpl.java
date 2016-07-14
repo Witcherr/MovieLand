@@ -11,6 +11,7 @@ import com.potopalskyi.movieland.service.*;
 import com.potopalskyi.movieland.util.ConverterToDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -81,14 +82,16 @@ public class MovieServiceImpl implements MovieService {
         }
     }
 
+    @Transactional
     @Override
     public void addNewMovie(Movie movie) {
         movieDAO.saveNewMovie(movie);
+        genreService.saveGenreForNewMovie(movie);
+        countryService.saveCountryForNewMovie(movie);
+    }
 
-
-        for(Genre genre: movie.getGenreList()){
-            genre.setId(genreService.getGenreIdByName(genre.getName()));
-        }
+    @Override
+    public void updateMovie(Movie movie) {
 
     }
 }
