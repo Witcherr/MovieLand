@@ -9,5 +9,7 @@ public interface CountryDAO {
 
     List<Country> getCountryById(int id);
 
-    void saveGenreForNewMovie(Movie movie);
+    void saveCountryForNewMovie(Movie movie);
+
+    void deleteCountryForMovie(int movieId);
 }

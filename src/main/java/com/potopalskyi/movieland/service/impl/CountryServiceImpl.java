@@ -30,6 +30,12 @@ public class CountryServiceImpl implements CountryService{
 
     @Override
     public void saveCountryForNewMovie(Movie movie) {
-        countryDAO.saveGenreForNewMovie(movie);
+        countryDAO.saveCountryForNewMovie(movie);
+    }
+
+    @Override
+    public void updateCountryForMovie(Movie movie) {
+        countryDAO.deleteCountryForMovie(movie.getId());
+        countryDAO.saveCountryForNewMovie(movie);
     }
 }

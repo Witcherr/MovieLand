@@ -141,4 +141,26 @@
                                 and year = ?"/>
     </bean>
 
+    <bean id="updateMovieSQL" class="java.lang.String">
+    <constructor-arg value="update movie
+                                set name_eng = ?,
+                                name_rus = ?,
+                                year = ?,
+                                description = ?,
+                                price = ?
+                                where id = ?"/>
+    </bean>
+
+    <bean id="deleteGenreForMovieSQL" class="java.lang.String">
+        <constructor-arg value="delete
+                                from genre_movie
+                                where id_movie = ?"/>
+    </bean>
+
+    <bean id="deleteCountryForMovieSQL" class="java.lang.String">
+        <constructor-arg value="delete
+                                from country_movie
+                                where movie_id = ?"/>
+    </bean>
+
 </beans>

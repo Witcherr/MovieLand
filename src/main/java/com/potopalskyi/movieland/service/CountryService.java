@@ -12,4 +12,6 @@ public interface CountryService {
     List<Country> getCountryFromCacheByMovieId(int movieId);
 
     void saveCountryForNewMovie(Movie movie);
+
+    void updateCountryForMovie(Movie movie);
 }

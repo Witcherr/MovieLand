@@ -48,6 +48,9 @@ public class MovieDAOImpl implements MovieDAO {
     private String getMovieIdByNameSQL;
 
     @Autowired
+    private String updateMovieSQL;
+
+    @Autowired
     private GeneratorSQLQuery generatorSQLQuery;
 
     @Autowired
@@ -134,13 +137,16 @@ public class MovieDAOImpl implements MovieDAO {
     @Override
     public void updateMovie(Movie movie) {
         logger.info("Star update movie = {}", movie.getTitleEnglish());
+        int movieId;
         try {
-            int movieId = jdbcTemplate.queryForObject(getMovieIdByNameSQL, new Object[]{movie.getTitleRussian(),
+            movieId = jdbcTemplate.queryForObject(getMovieIdByNameSQL, new Object[]{movie.getTitleRussian(),
                     movie.getTitleEnglish(), movie.getYear()}, Integer.class);
         }catch (EmptyResultDataAccessException e){
             logger.warn("The movie = {} doesn't exist in database", movie.getTitleEnglish(), e);
             throw new NoDataFoundException("There is no movie = " + movie.getTitleEnglish()+ " in database", e);
         }
-
+        movie.setId(movieId);
+        jdbcTemplate.update(updateMovieSQL, movie.getTitleEnglish(), movie.getTitleRussian(), movie.getYear(), movie.getDescription(), movie.getPrice(), movieId );
+        logger.info("End update movie = {}", movie.getTitleEnglish());
     }
 }

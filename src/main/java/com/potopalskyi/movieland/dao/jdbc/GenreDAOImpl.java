@@ -34,6 +34,9 @@ public class GenreDAOImpl implements GenreDAO{
     private String addGenreForNewMovieSQL;
 
     @Autowired
+    private String deleteGenreForMovieSQL;
+
+    @Autowired
     private GenreRowMapper genreRowMapper;
 
     @Override
@@ -66,4 +69,12 @@ public class GenreDAOImpl implements GenreDAO{
         });
         logger.info("End inserting into database genres for movie = {}", movie.getTitleEnglish());
     }
+
+    @Override
+    public void deleteGenreForMovie(int movieId) {
+        logger.info("Start deleting genres for movieId = {}", movieId);
+        jdbcTemplate.update(deleteGenreForMovieSQL, movieId);
+        logger.info("End deleting genres for movieId = {}", movieId);
+    }
+
 }

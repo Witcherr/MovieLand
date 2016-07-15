@@ -30,6 +30,9 @@ public class CountryDAOImpl implements CountryDAO{
     private String addCountryForNewMovieSQL;
 
     @Autowired
+    private String deleteCountryForMovieSQL;
+
+    @Autowired
     private CountryRowMapper countryRowMapper;
 
     @Override
@@ -39,7 +42,7 @@ public class CountryDAOImpl implements CountryDAO{
     }
 
     @Override
-    public void saveGenreForNewMovie(Movie movie) {
+    public void saveCountryForNewMovie(Movie movie) {
         logger.info("Start inserting countries for movie = {}", movie.getTitleEnglish());
         jdbcTemplate.batchUpdate(addCountryForNewMovieSQL, new BatchPreparedStatementSetter() {
             @Override
@@ -55,5 +58,12 @@ public class CountryDAOImpl implements CountryDAO{
             }
         });
         logger.info("End inserting countries for movie = {}", movie.getTitleEnglish());
+    }
+
+    @Override
+    public void deleteCountryForMovie(int movieId) {
+        logger.info("Start deleting countries for movieId = {}", movieId);
+        jdbcTemplate.update(deleteCountryForMovieSQL, movieId);
+        logger.info("End deleting countries for movieId = {}", movieId);
     }
 }

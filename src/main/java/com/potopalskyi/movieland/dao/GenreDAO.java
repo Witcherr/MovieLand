@@ -12,4 +12,6 @@ public interface GenreDAO {
     int getGenreIdByName(String genreName);
 
     void saveGenreForNewMovie(Movie movie);
+
+    void deleteGenreForMovie(int movieId);
 }

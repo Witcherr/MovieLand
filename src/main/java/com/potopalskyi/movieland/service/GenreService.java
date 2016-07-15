@@ -13,4 +13,6 @@ public interface GenreService {
     int getGenreIdByName(String genreName);
 
     void saveGenreForNewMovie(Movie movie);
+
+    void updateGenreForMovie(Movie movie);
 }

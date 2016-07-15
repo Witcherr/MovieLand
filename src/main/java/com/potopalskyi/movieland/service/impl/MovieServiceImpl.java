@@ -90,8 +90,11 @@ public class MovieServiceImpl implements MovieService {
         countryService.saveCountryForNewMovie(movie);
     }
 
+    @Transactional
     @Override
     public void updateMovie(Movie movie) {
-
+        movieDAO.updateMovie(movie);
+        genreService.updateGenreForMovie(movie);
+        countryService.updateCountryForMovie(movie);
     }
 }
