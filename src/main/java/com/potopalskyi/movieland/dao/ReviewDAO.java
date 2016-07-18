@@ -12,4 +12,6 @@ public interface ReviewDAO {
     void addReview(ReviewAlterParam reviewAlterParam);
 
     void deleteReview(ReviewAlterParam reviewAlterParam);
+
+    void deleteReview(int movieId);
 }

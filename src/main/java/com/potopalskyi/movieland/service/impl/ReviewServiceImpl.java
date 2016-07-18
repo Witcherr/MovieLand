@@ -47,4 +47,9 @@ public class ReviewServiceImpl implements ReviewService {
     public void deleteReview(ReviewAlterParam reviewAlterParam) {
         reviewDAO.deleteReview(reviewAlterParam);
     }
+
+    @Override
+    public void deleteReview(int movieId) {
+        reviewDAO.deleteReview(movieId);
+    }
 }

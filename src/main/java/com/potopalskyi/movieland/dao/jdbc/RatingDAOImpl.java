@@ -31,6 +31,9 @@ public class RatingDAOImpl implements RatingDAO {
     private String addRatingSQL;
 
     @Autowired
+    private String deleteRatingSQL;
+
+    @Autowired
     private String getTotalRatingSQL;
 
     @Autowired
@@ -69,5 +72,12 @@ public class RatingDAOImpl implements RatingDAO {
             logger.warn("Table of movie's rating is empty");
             return null;
         }
+    }
+
+    @Override
+    public void deleteRatings(int movieId) {
+        logger.info("Start deleting ratings for movieId = {}", movieId);
+        jdbcTemplate.update(deleteRatingSQL, movieId);
+        logger.info("End deleting ratings for movieId = {}", movieId);
     }
 }

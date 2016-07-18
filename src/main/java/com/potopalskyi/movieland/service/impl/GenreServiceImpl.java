@@ -44,4 +44,9 @@ public class GenreServiceImpl implements GenreService{
         genreDAO.deleteGenreForMovie(movie.getId());
         genreDAO.saveGenreForNewMovie(movie);
     }
+
+    @Override
+    public void deleteGenre(int movieId) {
+        genreDAO.deleteGenreForMovie(movieId);
+    }
 }

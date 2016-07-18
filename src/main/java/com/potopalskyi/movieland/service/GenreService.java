@@ -15,4 +15,6 @@ public interface GenreService {
     void saveGenreForNewMovie(Movie movie);
 
     void updateGenreForMovie(Movie movie);
+
+    void deleteGenre(int movieId);
 }

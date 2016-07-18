@@ -8,4 +8,6 @@ public interface RatingCache {
     void addNewElement(RatingParam ratingParam);
 
     double getAverageRatingByMovieId(int movieId);
+
+    void deleteRatings(int movieId);
 }

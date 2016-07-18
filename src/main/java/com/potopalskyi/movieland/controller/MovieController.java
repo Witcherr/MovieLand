@@ -87,50 +87,72 @@ public class MovieController {
     }
 
     @RoleTypeRequired(role = RoleType.ADMIN)
-    @RequestMapping(value = "/movie", method = RequestMethod.POST)
+    @RequestMapping(value = "/movie", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<String> addMovie(@RequestBody String json) {
+        logger.info("Start process of adding movie = {}", json);
+        long startTime = System.currentTimeMillis();
         MovieNewParam movieNewParam = converterJson.toMovieNewParam(json);
         if (!movieNewParam.isCorrectParams()) {
-            return new ResponseEntity<>("Please check input parameters", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Movie movie = ConverterToBusinessEntity.convertToMovie(movieNewParam);
         try {
             movieService.addNewMovie(movie);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("The movie was successfully added", HttpStatus.OK);
+        logger.info("End process of adding movie = {}. It took {} ms", json, System.currentTimeMillis() - startTime);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RoleTypeRequired(role = RoleType.USER)
-    @RequestMapping(value = "/movie", method = RequestMethod.PUT)
+    @RequestMapping(value = "/movie", produces = "application/json;charset=UTF-8", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<String> editMovie(@RequestBody String json) {
+        logger.info("Start process of editing movie = {}", json);
+        long startTime = System.currentTimeMillis();
         MovieNewParam movieNewParam = converterJson.toMovieNewParam(json);
         if (!movieNewParam.isCorrectParams()) {
-            return new ResponseEntity<>("Please check input parameters", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Movie movie = ConverterToBusinessEntity.convertToMovie(movieNewParam);
         try {
             movieService.updateMovie(movie);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("The movie was successfully updated", HttpStatus.OK);
+        logger.info("End process of editing movie = {}. It took {} ms", json, System.currentTimeMillis() - startTime);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RoleTypeRequired(role = RoleType.ADMIN)
-    @RequestMapping(value = "/movie/{movieId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/movie/{movieId}", produces = "application/json;charset=UTF-8", method = RequestMethod.DELETE)
     @ResponseBody
-    public void markMovie() {
-
+    public ResponseEntity<String> markMovie(@PathVariable("movieId") int movieId) {
+        logger.info("Start process of marking movieId = {}", movieId);
+        long startTime = System.currentTimeMillis();
+        try {
+            movieService.markMovie(movieId);
+        }catch (RuntimeException e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        logger.info("End process of marking movieId = {}. It took {} ms", movieId, System.currentTimeMillis() - startTime);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RoleTypeRequired(role = RoleType.ADMIN)
-    @RequestMapping(value = "/movie/{movieId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/movie/{movieId}/unmark", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     @ResponseBody
-    public void unMarkMovie() {
-
+    public ResponseEntity<String> unMarkMovie(@PathVariable ("movieId") int movieId ) {
+        logger.info("Start process of unmarking movieId = {}", movieId);
+        long startTime = System.currentTimeMillis();
+        try {
+            movieService.unMarkMovie(movieId);
+        }catch (RuntimeException e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        logger.info("End process of unmarking movie = {}. It took {} ms", movieId, System.currentTimeMillis() - startTime);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

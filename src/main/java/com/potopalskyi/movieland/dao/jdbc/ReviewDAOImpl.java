@@ -37,6 +37,9 @@ public class ReviewDAOImpl implements ReviewDAO {
     private String deleteReviewSQL;
 
     @Autowired
+    private String deleteReviewsForMovieSQL;
+
+    @Autowired
     private ReviewRowMapper reviewRowMapper;
 
     @Override
@@ -67,5 +70,12 @@ public class ReviewDAOImpl implements ReviewDAO {
         logger.info("Start deleting review = {} from database", reviewAlterParam);
         jdbcTemplate.update(deleteReviewSQL, reviewAlterParam.getMovieId(), reviewAlterParam.getAuthorId());
         logger.info("Review = {} was deleted from database", reviewAlterParam);
+    }
+
+    @Override
+    public void deleteReview(int movieId) {
+        logger.info("Start deleting reviews for movieId = {}", movieId);
+        jdbcTemplate.update(deleteReviewsForMovieSQL, movieId);
+        logger.info("End deleting reviews for movieId = {}", movieId);
     }
 }

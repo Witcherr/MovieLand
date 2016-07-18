@@ -14,4 +14,6 @@ public interface CountryService {
     void saveCountryForNewMovie(Movie movie);
 
     void updateCountryForMovie(Movie movie);
+
+    void deleteCountry(int movieId);
 }

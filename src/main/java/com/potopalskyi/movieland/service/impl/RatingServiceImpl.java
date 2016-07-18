@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Service
 public class RatingServiceImpl implements RatingService {
@@ -19,10 +22,19 @@ public class RatingServiceImpl implements RatingService {
     @Autowired
     private RatingCache ratingCache;
 
+    private ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+    private Lock writeLock = readWriteLock.writeLock();
+
     @Override
     public void addRating(RatingParam ratingParam) {
-        ratingDAO.addRating(ratingParam);
-        ratingCache.addNewElement(ratingParam);
+        writeLock.lock();
+        try {
+            ratingDAO.addRating(ratingParam);
+            ratingCache.addNewElement(ratingParam);
+        } finally {
+            writeLock.unlock();
+        }
+
     }
 
     @Override
@@ -38,5 +50,17 @@ public class RatingServiceImpl implements RatingService {
     @Override
     public List<RatingDTO> getTotalRatingsForAllMovies() {
         return ratingDAO.getTotalRatingsForAllMovies();
+    }
+
+    @Override
+    public void deleteRatings(int movieId) {
+        writeLock.lock();
+        try {
+            ratingDAO.deleteRatings(movieId);
+            ratingCache.deleteRatings(movieId);
+
+        } finally {
+            writeLock.unlock();
+        }
     }
 }

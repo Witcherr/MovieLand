@@ -14,4 +14,6 @@ public interface RatingService {
     double getUserRating(int userId, int movieId);
 
     List<RatingDTO> getTotalRatingsForAllMovies();
+
+    void deleteRatings(int movieId);
 }

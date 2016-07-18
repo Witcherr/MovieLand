@@ -66,7 +66,7 @@ public class GenreCacheImpl implements GenreCache {
         genreCacheDTO.setGenre(genres);
         if (genres != null) {
             genreCacheList.add(genreCacheDTO);
-            logger.info("Genre for movied = {} was got from database and added to cache", movieId);
+            logger.info("Genre for movieId = {} was got from database and added to cache", movieId);
         }
         return genres;
     }

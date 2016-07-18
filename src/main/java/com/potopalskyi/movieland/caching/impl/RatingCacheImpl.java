@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.Lock;
@@ -30,13 +31,13 @@ public class RatingCacheImpl implements RatingCache {
     @Autowired
     private RatingService ratingService;
 
-    private List<RatingDTO> ratingCacheList = new CopyOnWriteArrayList<>();
+    private List<RatingDTO> ratingCacheList = new ArrayList<>();
 
     @PostConstruct
     @Override
     public void fillCache() {
         logger.debug("Start filling cache of ratings");
-        List<RatingDTO> tempList =  ratingService.getTotalRatingsForAllMovies();
+        List<RatingDTO> tempList = ratingService.getTotalRatingsForAllMovies();
         if (tempList != null) {
             ratingCacheList = new CopyOnWriteArrayList<>(tempList);
         }
@@ -89,6 +90,21 @@ public class RatingCacheImpl implements RatingCache {
             return 0;
         } finally {
             readLock.unlock();
+        }
+    }
+
+    @Override
+    public void deleteRatings(int movieId) {
+        writeLock.lock();
+        try {
+            for(RatingDTO ratingDTO: ratingCacheList){
+                if(ratingDTO.getMovieId() == movieId){
+                    ratingCacheList.remove(ratingDTO);
+                    break;
+                }
+            }
+        } finally {
+            writeLock.unlock();
         }
     }
 }

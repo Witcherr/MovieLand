@@ -18,4 +18,8 @@ public interface MovieDAO {
     void saveNewMovie(Movie movie);
 
     void updateMovie(Movie movie);
+
+    void deleteMovie(int movieId);
+
+    boolean checkExist(int movieId);
 }

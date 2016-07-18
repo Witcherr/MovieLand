@@ -163,4 +163,25 @@
                                 where movie_id = ?"/>
     </bean>
 
+    <bean id="deleteReviewsForMovieSQL" class="java.lang.String">
+        <constructor-arg value="delete from review
+                                where movie_id = ?"/>
+    </bean>
+
+    <bean id="deleteRatingSQL" class="java.lang.String">
+        <constructor-arg value="delete from rating_movie
+                                where movie_id = ?"/>
+    </bean>
+
+    <bean id="deleteMovieSQL" class="java.lang.String">
+        <constructor-arg value="delete from movie
+                                where id = ?"/>
+    </bean>
+
+    <bean id="checkMovieExistWithIdSQL" class="java.lang.String">
+        <constructor-arg value="select count(*)
+                                from movie
+                                where id = ?"/>
+    </bean>
+
 </beans>

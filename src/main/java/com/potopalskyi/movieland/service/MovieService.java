@@ -21,4 +21,10 @@ public interface MovieService {
     void addNewMovie(Movie movie);
 
     void updateMovie(Movie movie);
+
+    void markMovie(int movieId);
+
+    void unMarkMovie(int movieId);
+
+    void deleteMovie(int movieId);
 }

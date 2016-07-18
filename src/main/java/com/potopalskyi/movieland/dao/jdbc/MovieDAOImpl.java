@@ -45,10 +45,16 @@ public class MovieDAOImpl implements MovieDAO {
     private String checkMovieExistSQL;
 
     @Autowired
+    private String checkMovieExistWithIdSQL;
+
+    @Autowired
     private String getMovieIdByNameSQL;
 
     @Autowired
     private String updateMovieSQL;
+
+    @Autowired
+    private String deleteMovieSQL;
 
     @Autowired
     private GeneratorSQLQuery generatorSQLQuery;
@@ -141,12 +147,27 @@ public class MovieDAOImpl implements MovieDAO {
         try {
             movieId = jdbcTemplate.queryForObject(getMovieIdByNameSQL, new Object[]{movie.getTitleRussian(),
                     movie.getTitleEnglish(), movie.getYear()}, Integer.class);
-        }catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             logger.warn("The movie = {} doesn't exist in database", movie.getTitleEnglish(), e);
-            throw new NoDataFoundException("There is no movie = " + movie.getTitleEnglish()+ " in database", e);
+            throw new NoDataFoundException("There is no movie = " + movie.getTitleEnglish() + " in database", e);
         }
         movie.setId(movieId);
-        jdbcTemplate.update(updateMovieSQL, movie.getTitleEnglish(), movie.getTitleRussian(), movie.getYear(), movie.getDescription(), movie.getPrice(), movieId );
+        jdbcTemplate.update(updateMovieSQL, movie.getTitleEnglish(), movie.getTitleRussian(), movie.getYear(), movie.getDescription(), movie.getPrice(), movieId);
         logger.info("End update movie = {}", movie.getTitleEnglish());
+    }
+
+    @Override
+    public void deleteMovie(int movieId) {
+        logger.info("Start deleting movieId = {}", movieId);
+        jdbcTemplate.update(deleteMovieSQL, movieId);
+        logger.info("End deleting movieId = {}", movieId);
+    }
+
+    @Override
+    public boolean checkExist(int movieId) {
+        logger.info("Start checking movieId = {} into database", movieId);
+        int count = jdbcTemplate.queryForObject(checkMovieExistWithIdSQL, new Object[]{movieId}, Integer.class);
+        logger.info("End checking movieId = {} into database", movieId);
+        return count > 0;
     }
 }
