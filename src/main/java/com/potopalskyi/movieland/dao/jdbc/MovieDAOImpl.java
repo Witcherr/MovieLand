@@ -57,6 +57,9 @@ public class MovieDAOImpl implements MovieDAO {
     private String deleteMovieSQL;
 
     @Autowired
+    private String getMoviePosterSQL;
+
+    @Autowired
     private GeneratorSQLQuery generatorSQLQuery;
 
     @Autowired
@@ -169,5 +172,16 @@ public class MovieDAOImpl implements MovieDAO {
         int count = jdbcTemplate.queryForObject(checkMovieExistWithIdSQL, new Object[]{movieId}, Integer.class);
         logger.info("End checking movieId = {} into database", movieId);
         return count > 0;
+    }
+
+    @Override
+    public byte[] getMoviePoster(int movieId) {
+        logger.info("Start getting poster for movieId = {} from database", movieId);
+        try {
+            return jdbcTemplate.queryForObject(getMoviePosterSQL, new Object[]{movieId}, byte[].class);
+        }catch (EmptyResultDataAccessException e){
+            logger.warn("There is no poster for movieId = {} in database", movieId);
+            throw new NoDataFoundException("There is no poster for movieId = " + movieId + "in database", e );
+        }
     }
 }

@@ -184,4 +184,10 @@
                                 where id = ?"/>
     </bean>
 
+    <bean id="getMoviePosterSQL" class="java.lang.String">
+        <constructor-arg value="select image
+                                from movie
+                                where id = ?"/>
+    </bean>
+
 </beans>

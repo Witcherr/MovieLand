@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -152,7 +153,22 @@ public class MovieController {
         }catch (RuntimeException e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        logger.info("End process of unmarking movie = {}. It took {} ms", movieId, System.currentTimeMillis() - startTime);
+        logger.info("End process of unmarking movieId = {}. It took {} ms", movieId, System.currentTimeMillis() - startTime);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/poster/{movieId}", produces = MediaType.IMAGE_JPEG_VALUE)
+    @ResponseBody
+    public ResponseEntity<byte[]> getMoviePoster(@PathVariable("movieId") int movieId){
+        logger.info("Start process of getting poster for movieId = {}", movieId);
+        long startTime = System.currentTimeMillis();
+        byte[] poster;
+        try {
+            poster = movieService.getMoviePoster(movieId);
+        } catch (NoDataFoundException e){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        logger.info("End process of getting poster for movieId = {}. It took {} ms", movieId, System.currentTimeMillis() - startTime);
+        return new ResponseEntity<>(poster, HttpStatus.OK);
     }
 }

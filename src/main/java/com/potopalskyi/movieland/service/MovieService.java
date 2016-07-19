@@ -27,4 +27,6 @@ public interface MovieService {
     void unMarkMovie(int movieId);
 
     void deleteMarkedMovies();
+
+    byte[] getMoviePoster(int movieId);
 }

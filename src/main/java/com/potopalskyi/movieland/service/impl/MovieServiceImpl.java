@@ -161,4 +161,9 @@ public class MovieServiceImpl implements MovieService {
             logger.info("End deleting marked movies");
         }
     }
+
+    @Override
+    public byte[] getMoviePoster(int movieId) {
+        return  movieDAO.getMoviePoster(movieId);
+    }
 }

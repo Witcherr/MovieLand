@@ -22,4 +22,6 @@ public interface MovieDAO {
     void deleteMovie(int movieId);
 
     boolean checkExist(int movieId);
+
+    byte[] getMoviePoster(int movieId);
 }
