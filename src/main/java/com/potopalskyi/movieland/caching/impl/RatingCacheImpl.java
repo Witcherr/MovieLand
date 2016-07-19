@@ -97,8 +97,8 @@ public class RatingCacheImpl implements RatingCache {
     public void deleteRatings(int movieId) {
         writeLock.lock();
         try {
-            for(RatingDTO ratingDTO: ratingCacheList){
-                if(ratingDTO.getMovieId() == movieId){
+            for (RatingDTO ratingDTO : ratingCacheList) {
+                if (ratingDTO.getMovieId() == movieId) {
                     ratingCacheList.remove(ratingDTO);
                     break;
                 }

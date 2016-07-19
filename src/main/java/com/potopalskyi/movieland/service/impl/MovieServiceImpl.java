@@ -12,7 +12,6 @@ import com.potopalskyi.movieland.util.ConverterToDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -141,15 +140,7 @@ public class MovieServiceImpl implements MovieService {
         }
     }
 
-    @Override
-    public void deleteMovie(int movieId) {
-        movieDAO.deleteMovie(movieId);
-    }
-
-
-    //@Scheduled(cron = "0 0 0 * * *")
     @Transactional
-    @Scheduled(cron = "0 0/3 * * * ?")
     public void deleteMarkedMovies() {
         logger.info("Start deleting marked movies");
         writeLock.lock();
@@ -159,11 +150,15 @@ public class MovieServiceImpl implements MovieService {
                 genreService.deleteGenre(movieId);
                 reviewService.deleteReview(movieId);
                 ratingService.deleteRatings(movieId);
-                deleteMovie(movieId);
+                movieDAO.deleteMovie(movieId);
             }
             movieMarkList.clear();
-        } finally {
+        }catch (RuntimeException e){
+            logger.warn("Exception while deleting movieMarkList", e);
+        }
+        finally {
             writeLock.unlock();
+            logger.info("End deleting marked movies");
         }
     }
 }

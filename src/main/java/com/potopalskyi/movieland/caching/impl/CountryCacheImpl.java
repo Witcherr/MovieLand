@@ -9,7 +9,6 @@ import com.potopalskyi.movieland.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -40,7 +39,6 @@ public class CountryCacheImpl implements CountryCache{
         return Util.cloneListCountry(addNewElementToCache(movieId));
     }
 
-    @Scheduled(fixedRate = 4 * 60 * 60 * 1000)
     @Override
     public void fillCache() {
         logger.info("Start filling of cache for country");

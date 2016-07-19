@@ -26,5 +26,5 @@ public interface MovieService {
 
     void unMarkMovie(int movieId);
 
-    void deleteMovie(int movieId);
+    void deleteMarkedMovies();
 }
