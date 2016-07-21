@@ -14,6 +14,7 @@ import com.potopalskyi.movieland.util.ConverterToBusinessEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -35,15 +36,19 @@ public class MovieController {
     @Autowired
     private ConverterJson converterJson;
 
+//    @Value("${defaultCurrency}")
+//    private static String currency;
+
     @RequestMapping(value = "/movies", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ResponseEntity<String> getAllMovies(@RequestParam(value = "rating", required = false) String ratingSortType,
                                                @RequestParam(value = "price", required = false) String priceSortType,
-                                               @RequestParam(value = "page", defaultValue = "1") String page) {
+                                               @RequestParam(value = "page", defaultValue = "1") String page,
+                                               @RequestParam(value = "currency", required = false) String currencyType) { // @Value("#{${allowedCurrencies.split(',')}}") Set<String> allowedCurrencies
         logger.info("Start process of getting all movies with Rating order = {}, Price rating = {}, Page = {}", ratingSortType, priceSortType, page);
         long startTime = System.currentTimeMillis();
         List<Movie> movies;
-        MovieSortAndLimitParam movieSortAndLimitParam = new MovieSortAndLimitParam(ratingSortType, priceSortType, page);
+        MovieSortAndLimitParam movieSortAndLimitParam = new MovieSortAndLimitParam(ratingSortType, priceSortType, page, currencyType);
         try {
             movies = movieService.getAllMovies(movieSortAndLimitParam);
         } catch (NoDataFoundException e) {
@@ -108,8 +113,7 @@ public class MovieController {
     }
 
     @RoleTypeRequired(role = RoleType.USER)
-    @RequestMapping(value = "/movie", produces = "application/json;charset=UTF-8", method = RequestMethod.PUT)
-    @ResponseBody
+    @RequestMapping(value = "/movie", method = RequestMethod.PUT)
     public ResponseEntity<String> editMovie(@RequestBody String json) {
         logger.info("Start process of editing movie = {}", json);
         long startTime = System.currentTimeMillis();
@@ -128,8 +132,7 @@ public class MovieController {
     }
 
     @RoleTypeRequired(role = RoleType.ADMIN)
-    @RequestMapping(value = "/movie/{movieId}", produces = "application/json;charset=UTF-8", method = RequestMethod.DELETE)
-    @ResponseBody
+    @RequestMapping(value = "/movie/{movieId}", method = RequestMethod.DELETE)
     public ResponseEntity<String> markMovie(@PathVariable("movieId") int movieId) {
         logger.info("Start process of marking movieId = {}", movieId);
         long startTime = System.currentTimeMillis();
@@ -143,8 +146,7 @@ public class MovieController {
     }
 
     @RoleTypeRequired(role = RoleType.ADMIN)
-    @RequestMapping(value = "/movie/{movieId}/unmark", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
-    @ResponseBody
+    @RequestMapping(value = "/movie/{movieId}/unmark", method = RequestMethod.POST)
     public ResponseEntity<String> unMarkMovie(@PathVariable ("movieId") int movieId ) {
         logger.info("Start process of unmarking movieId = {}", movieId);
         long startTime = System.currentTimeMillis();

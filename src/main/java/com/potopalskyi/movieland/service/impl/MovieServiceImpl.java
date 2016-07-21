@@ -44,6 +44,9 @@ public class MovieServiceImpl implements MovieService {
     @Autowired
     private SecurityService securityService;
 
+    @Autowired
+    private CurrencyService currencyService;
+
     private List<Integer> movieMarkList = new ArrayList<>();
     private ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
     private Lock writeLock = readWriteLock.writeLock();
@@ -54,6 +57,7 @@ public class MovieServiceImpl implements MovieService {
         for (Movie movie : movies) {
             movie.setGenreList(genreService.getGenreFromCacheByMovieId(movie.getId()));
             movie.setRating(ratingService.getAverageRatingByMovieId(movie.getId()));
+            movie.setPrice(currencyService.calculatePriceByCurrencyType(movie.getPrice(), movieSortAndLimitParam.getCurrencyType()));
         }
         return movies;
     }

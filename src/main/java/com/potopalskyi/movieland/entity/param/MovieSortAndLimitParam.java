@@ -7,8 +7,9 @@ public class MovieSortAndLimitParam {
     private String ratingSortType;
     private String priceSortType;
     private String page;
+    private String currencyType;
 
-    public MovieSortAndLimitParam(String ratingSortType, String priceSortType, String page){
+    public MovieSortAndLimitParam(String ratingSortType, String priceSortType, String page, String currencyType){
         if(Util.checkEnumContainsValue(SortType.class, ratingSortType)){
             this.ratingSortType = ratingSortType;
         }
@@ -16,6 +17,7 @@ public class MovieSortAndLimitParam {
             this.priceSortType = priceSortType;
         }
         this.page = page;
+        this.currencyType = currencyType;
     }
 
     public String getRatingSortType() {
@@ -28,5 +30,9 @@ public class MovieSortAndLimitParam {
 
     public String getPage() {
         return page;
+    }
+
+    public String getCurrencyType() {
+        return currencyType;
     }
 }
