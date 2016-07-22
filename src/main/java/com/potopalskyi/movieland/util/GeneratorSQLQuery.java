@@ -1,7 +1,7 @@
 package com.potopalskyi.movieland.util;
 
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
-import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
+import com.potopalskyi.movieland.entity.param.MovieSortLimitCurrencyParam;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -53,9 +53,9 @@ public class GeneratorSQLQuery {
         return sb.toString();
     }
 
-    public String generateAllMoviesWithParamQuery(MovieSortAndLimitParam movieSortAndLimitParam){
-        String ratingValue = movieSortAndLimitParam.getRatingSortType();
-        String priceValue = movieSortAndLimitParam.getPriceSortType();
+    public String generateAllMoviesWithParamQuery(MovieSortLimitCurrencyParam movieSortLimitCurrencyParam){
+        String ratingValue = movieSortLimitCurrencyParam.getRatingSortType();
+        String priceValue = movieSortLimitCurrencyParam.getPriceSortType();
         StringBuilder sb = new StringBuilder(INITIAL_ALL_MOVIES_SQL);
         if(ratingValue != null || priceValue != null){
             sb.append(ORDER_BY);
@@ -68,7 +68,7 @@ public class GeneratorSQLQuery {
             sb.deleteCharAt(sb.lastIndexOf(COMMA_SEPARATOR));
             sb.append(FREE_SPACE);
         }
-        sb.append(LIMIT).append(LIMIT_FOR_PAGE * (Integer.parseInt(movieSortAndLimitParam.getPage()) - 1)).append(COMMA_SEPARATOR).append(LIMIT_FOR_PAGE);
+        sb.append(LIMIT).append(LIMIT_FOR_PAGE * (Integer.parseInt(movieSortLimitCurrencyParam.getPage()) - 1)).append(COMMA_SEPARATOR).append(LIMIT_FOR_PAGE);
         return sb.toString();
     }
 

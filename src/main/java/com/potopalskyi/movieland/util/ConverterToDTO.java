@@ -48,6 +48,7 @@ public class ConverterToDTO {
             tempList.add(review.getDescription());
         }
         movieDetailedDTO.setReview(tempList);
+        movieDetailedDTO.setPrice(movie.getPrice());
         return movieDetailedDTO;
     }
 

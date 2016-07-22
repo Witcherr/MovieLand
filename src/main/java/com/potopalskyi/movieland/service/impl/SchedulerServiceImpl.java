@@ -3,6 +3,7 @@ package com.potopalskyi.movieland.service.impl;
 import com.potopalskyi.movieland.caching.CountryCache;
 import com.potopalskyi.movieland.caching.GenreCache;
 import com.potopalskyi.movieland.security.UserTokenCache;
+import com.potopalskyi.movieland.service.CurrencyService;
 import com.potopalskyi.movieland.service.MovieService;
 import com.potopalskyi.movieland.service.SchedulerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class SchedulerServiceImpl implements SchedulerService{
 
     @Autowired
     private UserTokenCache userTokenCache;
+
+    @Autowired
+    private CurrencyService currencyService;
 
     @Scheduled(cron = "0 0 0 * * *")
     @Override
@@ -46,5 +50,11 @@ public class SchedulerServiceImpl implements SchedulerService{
     @Override
     public void refreshUserTokenCache() {
         userTokenCache.refreshCache();
+    }
+
+    @Scheduled(cron="0 1 13 * * *", zone="Europe/Helsinki")
+    @Override
+    public void refreshCurrencyCache() {
+        currencyService.fillRateList();
     }
 }

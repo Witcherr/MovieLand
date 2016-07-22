@@ -6,7 +6,7 @@ import com.potopalskyi.movieland.dao.jdbc.mapper.MovieIdRowMapper;
 import com.potopalskyi.movieland.dao.jdbc.mapper.MovieRowMapper;
 import com.potopalskyi.movieland.entity.business.Movie;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
-import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
+import com.potopalskyi.movieland.entity.param.MovieSortLimitCurrencyParam;
 import com.potopalskyi.movieland.entity.exception.NoDataFoundException;
 import com.potopalskyi.movieland.util.GeneratorSQLQuery;
 import org.slf4j.Logger;
@@ -72,10 +72,10 @@ public class MovieDAOImpl implements MovieDAO {
     private MovieIdRowMapper movieIdRowMapper;
 
     @Override
-    public List<Movie> getAllMovies(MovieSortAndLimitParam movieSortAndLimitParam) {
+    public List<Movie> getAllMovies(MovieSortLimitCurrencyParam movieSortLimitCurrencyParam) {
         logger.info("Start query for all movies");
         try {
-            return jdbcTemplate.query(generatorSQLQuery.generateAllMoviesWithParamQuery(movieSortAndLimitParam), movieRowMapper);
+            return jdbcTemplate.query(generatorSQLQuery.generateAllMoviesWithParamQuery(movieSortLimitCurrencyParam), movieRowMapper);
         } catch (EmptyResultDataAccessException e) {
             logger.warn("Database of movies is empty");
             throw new NoDataFoundException("Database of movies is empty", e);

@@ -3,12 +3,12 @@ package com.potopalskyi.movieland.service;
 import com.potopalskyi.movieland.entity.business.Movie;
 import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
-import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
+import com.potopalskyi.movieland.entity.param.MovieSortLimitCurrencyParam;
 
 import java.util.List;
 
 public interface MovieService {
-    List<Movie> getAllMovies(MovieSortAndLimitParam movieSortAndLimitParam);
+    List<Movie> getAllMovies(MovieSortLimitCurrencyParam movieSortLimitCurrencyParam);
 
     List<Movie> getMoviesBySearch(MovieSearchParam movieSearchParam);
 
@@ -29,4 +29,6 @@ public interface MovieService {
     void deleteMarkedMovies();
 
     byte[] getMoviePoster(int movieId);
+
+    void setCurrency(MovieDetailedDTO movieDetailedDTO, String currency);
 }

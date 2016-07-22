@@ -1,7 +1,7 @@
 package com.potopalskyi.movieland.util;
 
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
-import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
+import com.potopalskyi.movieland.entity.param.MovieSortLimitCurrencyParam;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -37,11 +37,11 @@ public class GeneratorSQLQueryTest {
         String expected1 = "select id, name_rus, name_eng, year, IFNULL(sumrating/countrating, 0) rating, price from movie m left join (select movie_id, sum(rating) sumrating, count(*) countrating from rating_movie group by movie_id) n on m.id = n.movie_id order by rating asc,price asc limit 5,5";
         String expected2 = "select id, name_rus, name_eng, year, IFNULL(sumrating/countrating, 0) rating, price from movie m left join (select movie_id, sum(rating) sumrating, count(*) countrating from rating_movie group by movie_id) n on m.id = n.movie_id limit 0,5";
         String expected3 = "select id, name_rus, name_eng, year, IFNULL(sumrating/countrating, 0) rating, price from movie m left join (select movie_id, sum(rating) sumrating, count(*) countrating from rating_movie group by movie_id) n on m.id = n.movie_id order by rating desc limit 45,5";
-        MovieSortAndLimitParam movieSortAndLimitParam1 = new MovieSortAndLimitParam("asc", "asc", "2");
-        MovieSortAndLimitParam movieSortAndLimitParam2 = new MovieSortAndLimitParam(null, "ascasasd", "1");
-        MovieSortAndLimitParam movieSortAndLimitParam3 = new MovieSortAndLimitParam("desc", "ascasasd", "10");
-        assertEquals(expected1, generatorSQLQuery.generateAllMoviesWithParamQuery(movieSortAndLimitParam1));
-        assertEquals(expected2, generatorSQLQuery.generateAllMoviesWithParamQuery(movieSortAndLimitParam2));
-        assertEquals(expected3, generatorSQLQuery.generateAllMoviesWithParamQuery(movieSortAndLimitParam3));
+        MovieSortLimitCurrencyParam movieSortLimitCurrencyParam1 = new MovieSortLimitCurrencyParam("asc", "asc", "2", null);
+        MovieSortLimitCurrencyParam movieSortLimitCurrencyParam2 = new MovieSortLimitCurrencyParam(null, "ascasasd", "1", null);
+        MovieSortLimitCurrencyParam movieSortLimitCurrencyParam3 = new MovieSortLimitCurrencyParam("desc", "ascasasd", "10", null);
+        assertEquals(expected1, generatorSQLQuery.generateAllMoviesWithParamQuery(movieSortLimitCurrencyParam1));
+        assertEquals(expected2, generatorSQLQuery.generateAllMoviesWithParamQuery(movieSortLimitCurrencyParam2));
+        assertEquals(expected3, generatorSQLQuery.generateAllMoviesWithParamQuery(movieSortLimitCurrencyParam3));
     }
 }

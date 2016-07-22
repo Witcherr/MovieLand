@@ -9,4 +9,6 @@ public interface SchedulerService {
     void fillGenreCache();
 
     void refreshUserTokenCache();
+
+    void refreshCurrencyCache();
 }

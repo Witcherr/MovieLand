@@ -5,7 +5,7 @@ import com.potopalskyi.movieland.entity.business.Movie;
 import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
 import com.potopalskyi.movieland.entity.exception.NoDataFoundException;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
-import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
+import com.potopalskyi.movieland.entity.param.MovieSortLimitCurrencyParam;
 import com.potopalskyi.movieland.security.SecurityService;
 import com.potopalskyi.movieland.service.*;
 import com.potopalskyi.movieland.util.ConverterToDTO;
@@ -52,12 +52,12 @@ public class MovieServiceImpl implements MovieService {
     private Lock writeLock = readWriteLock.writeLock();
 
     @Override
-    public List<Movie> getAllMovies(MovieSortAndLimitParam movieSortAndLimitParam) {
-        List<Movie> movies = movieDAO.getAllMovies(movieSortAndLimitParam);
+    public List<Movie> getAllMovies(MovieSortLimitCurrencyParam movieSortLimitCurrencyParam) {
+        List<Movie> movies = movieDAO.getAllMovies(movieSortLimitCurrencyParam);
         for (Movie movie : movies) {
             movie.setGenreList(genreService.getGenreFromCacheByMovieId(movie.getId()));
             movie.setRating(ratingService.getAverageRatingByMovieId(movie.getId()));
-            movie.setPrice(currencyService.calculatePriceByCurrencyType(movie.getPrice(), movieSortAndLimitParam.getCurrencyType()));
+            movie.setPrice(currencyService.calculatePriceByCurrencyType(movie.getPrice(), movieSortLimitCurrencyParam.getCurrencyType()));
         }
         return movies;
     }
@@ -169,5 +169,10 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public byte[] getMoviePoster(int movieId) {
         return  movieDAO.getMoviePoster(movieId);
+    }
+
+    @Override
+    public void setCurrency(MovieDetailedDTO movieDetailedDTO, String currency) {
+        movieDetailedDTO.setPrice(currencyService.calculatePriceByCurrencyType(movieDetailedDTO.getPrice(), currency));
     }
 }

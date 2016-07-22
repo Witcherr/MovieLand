@@ -4,4 +4,5 @@ public interface CurrencyService {
 
     double calculatePriceByCurrencyType(double price, String currencyType);
 
+    void fillRateList();
 }

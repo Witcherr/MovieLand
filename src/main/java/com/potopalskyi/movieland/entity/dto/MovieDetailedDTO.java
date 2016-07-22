@@ -12,6 +12,7 @@ public class MovieDetailedDTO {
     private List<String> review;
     private double rating;
     private Double userRating;
+    private double price;
 
     public String getTitleRussian() {
         return titleRussian;
@@ -83,5 +84,13 @@ public class MovieDetailedDTO {
 
     public void setUserRating(Double userRating) {
         this.userRating = userRating;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

@@ -4,7 +4,7 @@ import com.potopalskyi.movieland.entity.business.Movie;
 import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
 import com.potopalskyi.movieland.entity.param.MovieNewParam;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
-import com.potopalskyi.movieland.entity.param.MovieSortAndLimitParam;
+import com.potopalskyi.movieland.entity.param.MovieSortLimitCurrencyParam;
 import com.potopalskyi.movieland.security.entity.RoleTypeRequired;
 import com.potopalskyi.movieland.entity.enums.RoleType;
 import com.potopalskyi.movieland.entity.exception.NoDataFoundException;
@@ -14,7 +14,6 @@ import com.potopalskyi.movieland.util.ConverterToBusinessEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,21 +35,18 @@ public class MovieController {
     @Autowired
     private ConverterJson converterJson;
 
-//    @Value("${defaultCurrency}")
-//    private static String currency;
-
     @RequestMapping(value = "/movies", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ResponseEntity<String> getAllMovies(@RequestParam(value = "rating", required = false) String ratingSortType,
                                                @RequestParam(value = "price", required = false) String priceSortType,
                                                @RequestParam(value = "page", defaultValue = "1") String page,
-                                               @RequestParam(value = "currency", required = false) String currencyType) { // @Value("#{${allowedCurrencies.split(',')}}") Set<String> allowedCurrencies
+                                               @RequestParam(value = "currency", required = false) String currencyType) {
         logger.info("Start process of getting all movies with Rating order = {}, Price rating = {}, Page = {}", ratingSortType, priceSortType, page);
         long startTime = System.currentTimeMillis();
         List<Movie> movies;
-        MovieSortAndLimitParam movieSortAndLimitParam = new MovieSortAndLimitParam(ratingSortType, priceSortType, page, currencyType);
+        MovieSortLimitCurrencyParam movieSortLimitCurrencyParam = new MovieSortLimitCurrencyParam(ratingSortType, priceSortType, page, currencyType);
         try {
-            movies = movieService.getAllMovies(movieSortAndLimitParam);
+            movies = movieService.getAllMovies(movieSortLimitCurrencyParam);
         } catch (NoDataFoundException e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -60,7 +56,8 @@ public class MovieController {
 
     @RequestMapping(value = "/movie/{movieId}", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseEntity<String> getMovieById(@PathVariable("movieId") int movieId, HttpServletRequest request) {
+    public ResponseEntity<String> getMovieById(@PathVariable("movieId") int movieId, HttpServletRequest request,
+                                               @RequestParam(value = "currency", required = false) String currency) {
         logger.info("Start process of getting movie with id = {}", movieId);
         long startTime = System.currentTimeMillis();
         MovieDetailedDTO movieDetailedDTO;
@@ -68,6 +65,7 @@ public class MovieController {
             movieDetailedDTO = movieService.getMovieById(movieId);
             String token = request.getHeader("token");
             movieService.setUserRatingForMovie(movieDetailedDTO, token, movieId);
+            movieService.setCurrency(movieDetailedDTO, currency);
         } catch (NoDataFoundException e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

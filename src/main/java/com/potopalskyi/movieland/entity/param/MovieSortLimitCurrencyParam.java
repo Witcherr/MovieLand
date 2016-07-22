@@ -3,13 +3,13 @@ package com.potopalskyi.movieland.entity.param;
 import com.potopalskyi.movieland.entity.enums.SortType;
 import com.potopalskyi.movieland.util.Util;
 
-public class MovieSortAndLimitParam {
+public class MovieSortLimitCurrencyParam {
     private String ratingSortType;
     private String priceSortType;
     private String page;
     private String currencyType;
 
-    public MovieSortAndLimitParam(String ratingSortType, String priceSortType, String page, String currencyType){
+    public MovieSortLimitCurrencyParam(String ratingSortType, String priceSortType, String page, String currencyType){
         if(Util.checkEnumContainsValue(SortType.class, ratingSortType)){
             this.ratingSortType = ratingSortType;
         }
