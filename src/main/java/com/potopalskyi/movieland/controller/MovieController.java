@@ -1,7 +1,9 @@
 package com.potopalskyi.movieland.controller;
 
+import com.potopalskyi.movieland.entity.business.Genre;
 import com.potopalskyi.movieland.entity.business.Movie;
 import com.potopalskyi.movieland.entity.dto.MovieDetailedDTO;
+import com.potopalskyi.movieland.entity.dto.TestMovieDTO;
 import com.potopalskyi.movieland.entity.param.MovieNewParam;
 import com.potopalskyi.movieland.entity.param.MovieSearchParam;
 import com.potopalskyi.movieland.entity.param.MovieSortLimitCurrencyParam;
@@ -14,6 +16,7 @@ import com.potopalskyi.movieland.util.ConverterToBusinessEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -35,9 +39,13 @@ public class MovieController {
     @Autowired
     private ConverterJson converterJson;
 
-    @RequestMapping(value = "/movies", produces = "application/json;charset=UTF-8")
+    @Autowired
+    private HttpServletRequest request;
+
+    @RequestMapping(value = "/movies", /*produces = {"application/json;charset=UTF-8", "application/xml;charset=UTF-8"}*/
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}) ///*"application/json;charset=UTF-8"*/ {MediaType.APPLICATION_JSON_VALUE+";charset=UTF-8", MediaType.APPLICATION_XML_VALUE+";charset=UTF-8"})
     @ResponseBody
-    public ResponseEntity<String> getAllMovies(@RequestParam(value = "rating", required = false) String ratingSortType,
+    public ResponseEntity<?> getAllMovies(@RequestParam(value = "rating", required = false) String ratingSortType,
                                                @RequestParam(value = "price", required = false) String priceSortType,
                                                @RequestParam(value = "page", defaultValue = "1") String page,
                                                @RequestParam(value = "currency", required = false) String currencyType) {
@@ -45,13 +53,33 @@ public class MovieController {
         long startTime = System.currentTimeMillis();
         List<Movie> movies;
         MovieSortLimitCurrencyParam movieSortLimitCurrencyParam = new MovieSortLimitCurrencyParam(ratingSortType, priceSortType, page, currencyType);
+        request.getPathInfo();
         try {
             movies = movieService.getAllMovies(movieSortLimitCurrencyParam);
         } catch (NoDataFoundException e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+        List<TestMovieDTO> testMovieDTOList = new ArrayList<>();
+        TestMovieDTO testMovieDTO = new TestMovieDTO();
+        testMovieDTO.setId(10);
+        Genre genre = new Genre();
+        Genre genre2 = new Genre();
+        genre.setId(1);
+        genre.setName("Комедия");
+
+        genre2.setId(2);
+        genre2.setName("Детектив");
+        List<Genre> genreList = new ArrayList<>();
+        genreList.add(genre);
+        genreList.add(genre2);
+        testMovieDTO.setGenre(genreList);
+        testMovieDTOList.add(testMovieDTO);
+        testMovieDTOList.add(testMovieDTO);
+        HttpHeaders httpHeaders = new HttpHeaders();
+                httpHeaders.set("Accept", request.getHeader("Accept"));  //request.getHeaders("Accept");
+
         logger.info("End of getting all movies with Rating order = {}, Price rating = {}, Page = {}. It took {} ms", ratingSortType, priceSortType, page, System.currentTimeMillis() - startTime);
-        return new ResponseEntity<>(converterJson.toJson(movies), HttpStatus.OK);
+        return new ResponseEntity<>(/*converterJson.toJson(movies)*/ testMovieDTO, httpHeaders, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/movie/{movieId}", produces = "application/json;charset=UTF-8")

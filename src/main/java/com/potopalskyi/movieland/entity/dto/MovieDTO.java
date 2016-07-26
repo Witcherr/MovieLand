@@ -1,13 +1,20 @@
 package com.potopalskyi.movieland.entity.dto;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
+@XmlRootElement(name = "movie")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class MovieDTO {
     private String titleRussian;
     private String titleEnglish;
     private int year;
     private double rating;
     private double price;
+    @XmlElementWrapper(name = "Genres")
     private List<String> genre;
 
     public String getTitleRussian() {
