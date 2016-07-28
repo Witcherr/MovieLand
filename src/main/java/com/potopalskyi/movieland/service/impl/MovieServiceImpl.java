@@ -90,7 +90,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public void setUserRatingForMovie(MovieDetailedDTO movieDetailedDTO, String token, int movieid) {
         int userId = securityService.getUserIdIfExist(token);
-        if (userId != 0) {
+        if (userId != -1) {
             double userRating = ratingService.getUserRating(userId, movieid);
             if (userRating != -1) {
                 movieDetailedDTO.setUserRating(userRating);

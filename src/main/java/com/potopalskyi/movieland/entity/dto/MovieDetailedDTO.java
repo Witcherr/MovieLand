@@ -1,16 +1,28 @@
 package com.potopalskyi.movieland.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
+@XmlRootElement(name = "movie")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class MovieDetailedDTO {
     private String titleRussian;
     private String titleEnglish;
     private int year;
+    @XmlElementWrapper(name = "Countries")
     private List<String> country;
+    @XmlElementWrapper(name = "Genres")
     private List<String> genre;
     private String description;
+    @XmlElementWrapper(name = "Reviews")
     private List<String> review;
     private double rating;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double userRating;
     private double price;
 

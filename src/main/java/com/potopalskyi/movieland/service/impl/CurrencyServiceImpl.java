@@ -53,7 +53,7 @@ public class CurrencyServiceImpl implements CurrencyService {
             URL url = new URL(NBU_URL);
             URLConnection urlConnection = url.openConnection();
             String jsonObject = "";
-            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));) {
+            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()))) {
                 String line;
                 while ((line = bufferedReader.readLine()) != null)
                     jsonObject += line;

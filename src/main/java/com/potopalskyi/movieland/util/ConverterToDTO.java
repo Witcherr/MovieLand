@@ -6,6 +6,7 @@ import com.potopalskyi.movieland.entity.business.Country;
 import com.potopalskyi.movieland.entity.business.Genre;
 import com.potopalskyi.movieland.entity.business.Movie;
 import com.potopalskyi.movieland.entity.business.Review;
+import com.potopalskyi.movieland.entity.dto.MovieListDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,16 @@ public class ConverterToDTO {
         movieDetailedDTO.setReview(tempList);
         movieDetailedDTO.setPrice(movie.getPrice());
         return movieDetailedDTO;
+    }
+
+    public static MovieListDTO convertToMovieListDTO(List<Movie> movies){
+        MovieListDTO movieListDTO = new MovieListDTO();
+        List<MovieDTO> movieDTOList = new ArrayList<>();
+        for (Movie movie : movies) {
+            movieDTOList.add(convertToMovieDTO(movie));
+        }
+        movieListDTO.setMovieDTOList(movieDTOList);
+        return movieListDTO;
     }
 
 }
